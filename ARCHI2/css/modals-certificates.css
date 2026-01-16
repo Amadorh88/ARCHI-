@@ -1,0 +1,612 @@
+/* Estilos para modales universales */
+.universal-modal {
+    width: 90%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.universal-modal .modal-header {
+    background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+    color: white;
+    padding: 20px;
+    border-radius: 10px 10px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.universal-modal .modal-header h3 {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.universal-modal .form-content {
+    padding: 20px;
+}
+
+.universal-modal .form-group {
+    margin-bottom: 20px;
+}
+
+.universal-modal .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #2c3e50;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.universal-modal .form-group input,
+.universal-modal .form-group select,
+.universal-modal .form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+.universal-modal .form-group input:focus,
+.universal-modal .form-group select:focus,
+.universal-modal .form-group textarea:focus {
+    border-color: #3498db;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+/* Estilos para certificados */
+.certificate-template {
+    padding: 40px;
+    background: white;
+    border: 20px solid #2c3e50;
+    position: relative;
+    min-height: 600px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.certificate-header {
+    text-align: center;
+    margin-bottom: 40px;
+    border-bottom: 3px solid #b8860b;
+    padding-bottom: 20px;
+}
+
+.certificate-header h1 {
+    color: #2c3e50;
+    font-size: 32px;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.certificate-header h2 {
+    color: #b8860b;
+    font-size: 20px;
+    margin: 10px 0;
+}
+
+.certificate-body {
+    padding: 30px;
+    text-align: center;
+    font-size: 18px;
+    line-height: 1.8;
+}
+
+.certificate-body .recipient-name {
+    font-size: 28px;
+    color: #2c3e50;
+    font-weight: bold;
+    margin: 20px 0;
+    text-transform: uppercase;
+}
+
+.certificate-details {
+    margin: 30px 0;
+    text-align: left;
+    padding: 20px;
+    background: #f8f9fa;
+    border-left: 4px solid #3498db;
+}
+
+.certificate-details .detail-row {
+    display: flex;
+    margin-bottom: 10px;
+    padding: 5px 0;
+    border-bottom: 1px dashed #ddd;
+}
+
+.certificate-details .detail-label {
+    font-weight: bold;
+    width: 200px;
+    color: #2c3e50;
+}
+
+.certificate-details .detail-value {
+    flex: 1;
+}
+
+.certificate-footer {
+    margin-top: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 30px;
+    border-top: 2px solid #ddd;
+}
+
+.certificate-signature {
+    text-align: center;
+}
+
+.certificate-signature .signature-line {
+    width: 200px;
+    border-top: 2px solid #2c3e50;
+    margin: 40px auto 10px;
+}
+
+.certificate-signature p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.certificate-stamp {
+    position: absolute;
+    right: 50px;
+    bottom: 50px;
+    opacity: 0.3;
+    font-size: 120px;
+    transform: rotate(-15deg);
+    color: #b8860b;
+}
+
+/* Estilos para listas imprimibles */
+.printable-table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 20px 0;
+}
+
+.printable-table th {
+    background: #2c3e50 !important;
+    color: white !important;
+    font-weight: bold;
+    padding: 12px !important;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.printable-table td {
+    padding: 10px !important;
+    border: 1px solid #ddd;
+}
+
+.printable-table tr:nth-child(even) {
+    background: #f8f9fa;
+}
+/* Estilos para botones de acción */
+.btn-action-group {
+    display: flex;
+    gap: 5px;
+    flex-wrap: nowrap;
+}
+
+.btn-action {
+    width: 35px;
+    height: 35px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.btn-action:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+}
+
+.btn-action:active {
+    transform: translateY(0);
+}
+
+.btn-view {
+    background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+}
+
+.btn-edit {
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+}
+
+.btn-delete {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+}
+
+.btn-print {
+    background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+}
+
+.btn-create {
+    background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+}
+
+.btn-search {
+    background: linear-gradient(135deg, #1abc9c 0%, #16a085 100%);
+}
+
+/* Botones en tablas */
+.table-actions .btn-action-group {
+    justify-content: center;
+}
+
+/* Formularios de búsqueda */
+.search-form-container {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #e9ecef;
+}
+
+.search-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 2fr;
+    gap: 10px;
+    align-items: end;
+}
+
+.search-input, .search-select {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    width: 100%;
+}
+
+.search-input:focus, .search-select:focus {
+    border-color: #3498db;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.search-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.search-buttons button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.btn-search {
+    background: #3498db;
+    color: white;
+    flex: 1;
+}
+
+.btn-search:hover {
+    background: #2980b9;
+    transform: translateY(-1px);
+}
+
+.btn-clear {
+    background: #95a5a6;
+    color: white;
+    flex: 0.5;
+}
+
+.btn-clear:hover {
+    background: #7f8c8d;
+    transform: translateY(-1px);
+}
+
+.btn-advanced {
+    background: #2c3e50;
+    color: white;
+    flex: 1;
+}
+
+.btn-advanced:hover {
+    background: #1a252f;
+    transform: translateY(-1px);
+}
+
+/* Modales de búsqueda */
+.search-content .search-fields {
+    padding: 20px;
+}
+
+.search-content .form-group {
+    margin-bottom: 20px;
+}
+
+.search-content .modal-actions {
+    justify-content: flex-start;
+    gap: 10px;
+}
+
+.search-actions .btn-secondary {
+    background: #95a5a6;
+    color: white;
+}
+
+.search-actions .btn-secondary:hover {
+    background: #7f8c8d;
+}
+
+/* Modales de eliminación */
+.delete-content {
+    padding: 20px;
+}
+
+.delete-warning {
+    text-align: center;
+    padding: 20px;
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.delete-warning i {
+    font-size: 40px;
+    color: #f39c12;
+    margin-bottom: 15px;
+}
+
+.delete-warning h4 {
+    color: #856404;
+    margin-bottom: 10px;
+}
+
+.delete-warning p {
+    color: #856404;
+    font-size: 14px;
+}
+
+.delete-data {
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    border-left: 4px solid #e74c3c;
+}
+
+.delete-actions .btn-danger {
+    background: #e74c3c;
+    color: white;
+    border: none;
+}
+
+.delete-actions .btn-danger:hover {
+    background: #c0392b;
+}
+
+/* Modales de vista */
+.view-content {
+    padding: 20px;
+}
+
+.view-data {
+    min-height: 200px;
+}
+
+.data-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+.data-row {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 5px;
+    border-left: 4px solid #3498db;
+}
+
+.data-label {
+    font-weight: bold;
+    color: #2c3e50;
+    font-size: 12px;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+.data-value {
+    color: #34495e;
+    font-size: 14px;
+}
+
+.badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.badge-success {
+    background: #d4edda;
+    color: #155724;
+}
+
+.badge-danger {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.loading-view {
+    text-align: center;
+    padding: 40px;
+    color: #7f8c8d;
+}
+
+.loading-view i {
+    font-size: 24px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.view-actions {
+    margin-top: 20px;
+    justify-content: flex-start;
+    gap: 10px;
+}
+
+.view-actions .btn-print {
+    background: #f39c12;
+    color: white;
+    border: none;
+}
+
+.view-actions .btn-print:hover {
+    background: #e67e22;
+}
+
+/* Responsive para formularios de búsqueda */
+@media (max-width: 768px) {
+    .search-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .search-buttons {
+        flex-wrap: wrap;
+    }
+    
+    .btn-action-group {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .btn-action {
+        width: 30px;
+        height: 30px;
+        font-size: 12px;
+    }
+    
+    .data-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-content {
+    animation: fadeIn 0.3s ease;
+}
+
+/* Estados hover mejorados */
+.btn-action:hover::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: 7px;
+    z-index: -1;
+    opacity: 0.3;
+}
+
+.btn-view:hover::after { background: #27ae60; }
+.btn-edit:hover::after { background: #3498db; }
+.btn-delete:hover::after { background: #e74c3c; }
+.btn-print:hover::after { background: #f39c12; }
+
+/* Botones de acción mejorados */
+.btn-action-group {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.btn-action-certificate {
+    background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%) !important;
+    color: white !important;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    transition: transform 0.2s;
+}
+
+.btn-action-certificate:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 3px 10px rgba(39, 174, 96, 0.3);
+}
+
+.btn-action-list {
+    background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%) !important;
+    color: white !important;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    transition: transform 0.2s;
+}
+
+.btn-action-list:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 3px 10px rgba(52, 73, 94, 0.3);
+}
+
+/* Responsive para certificados */
+@media print {
+    .certificate-template {
+        border: none;
+        padding: 0;
+        min-height: auto;
+    }
+    
+    .no-print {
+        display: none !important;
+    }
+    
+    .certificate-stamp {
+        opacity: 0.2;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .certificate-footer {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .certificate-signature {
+        width: 100%;
+    }
+}

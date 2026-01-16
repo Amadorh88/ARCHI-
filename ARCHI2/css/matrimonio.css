@@ -1,0 +1,94 @@
+/* Estilos específicos para módulo de matrimonios */
+.spouse-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.spouse-info strong {
+    color: #2c3e50;
+    font-size: 0.9rem;
+}
+
+.spouse-info small {
+    color: #7f8c8d;
+    font-size: 0.8rem;
+}
+
+.witnesses-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+}
+
+.witnesses-info small {
+    color: #7f8c8d;
+    font-size: 0.8rem;
+}
+
+/* Estilos para formulario de matrimonio */
+.form-section {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #3498db;
+}
+
+.form-section h4 {
+    margin: 0 0 1rem 0;
+    color: #2c3e50;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.couple-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.spouse-detail {
+    background: white;
+    padding: 1rem;
+    border-radius: 6px;
+    border: 1px solid #e9ecef;
+}
+
+.spouse-detail h5 {
+    margin: 0 0 1rem 0;
+    color: #2c3e50;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+}
+
+/* Botón específico para certificado */
+.btn-certificate {
+    background: #f39c12 !important;
+}
+
+.btn-certificate:hover {
+    background: #e67e22 !important;
+}
+
+/* Responsive para módulo de matrimonios */
+@media (max-width: 768px) {
+    .couple-info {
+        grid-template-columns: 1fr;
+    }
+    
+    .spouse-info {
+        text-align: center;
+    }
+    
+    .form-section {
+        padding: 1rem;
+    }
+}

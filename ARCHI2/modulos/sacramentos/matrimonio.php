@@ -194,7 +194,7 @@ $ministrosList = $bd->query("
                 </button>
 
                 <button class="btn-action btn-edit tooltip"
-                        onclick="editItem(<?= $row['id_matrimonio'] ?>,'matrimonio')">
+                        onclick="editarMatrimonio(<?= $row['id_matrimonio'] ?>,'matrimonio')">
                     <i class="fas fa-edit"></i>
                     <span class="tooltiptext">Editar</span>
                 </button>

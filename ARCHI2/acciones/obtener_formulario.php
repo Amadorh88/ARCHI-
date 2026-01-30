@@ -162,7 +162,13 @@ switch ($modulo) {
                     'name'  => 'lugar',
                     'type'  => 'text'
                 ],
-        
+                [
+                    'label'=>'Estado','name'=>'estado','type'=>'select',
+                    'options'=>[
+                        'activo'=>'Activo',
+                        'inactivo'=>'inactivo', 
+                    ]
+                    ],
                 // ========= FELIGRESES =========
                 [
                     'label' => 'Esposo',
@@ -221,6 +227,42 @@ if ($id && in_array($accion, ['editar','ver'])) {
         exit;
     }
 }
+/* =========================================
+   CARGAR FELIGRESES DEL MATRIMONIO
+========================================= */
+if ($modulo === 'matrimonio' && $id) {
+
+    $sql = "
+        SELECT id_feligres, rol
+        FROM matrimonio_feligres
+        WHERE id_matrimonio = ?
+    ";
+    $stmt = $db->prepare($sql);
+    $stmt->execute([$id]);
+
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+        switch ($row['rol']) {
+            case 'esposo':
+                $datos['esposo'] = $row['id_feligres'];
+                break;
+
+            case 'esposa':
+                $datos['esposa'] = $row['id_feligres'];
+                break;
+
+            case 'testigo':
+                // permite 2 testigos
+                if (!isset($datos['testigo1'])) {
+                    $datos['testigo1'] = $row['id_feligres'];
+                } else {
+                    $datos['testigo2'] = $row['id_feligres'];
+                }
+                break;
+        }
+    }
+}
+
 ?>
 
 <div class="modal-header">

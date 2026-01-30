@@ -76,7 +76,7 @@ try {
     <div style="display: flex; gap: 0.5rem;">
         <button 
             style="padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; background-color: #27ae60; color: white; font-weight: bold;"
-            onclick="abrirFormularioAgregar()"
+            onclick="abrirModalMinistro()"
         >
             <i class="fas fa-plus"></i> Agregar
         </button>

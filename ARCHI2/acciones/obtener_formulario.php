@@ -86,6 +86,25 @@ switch ($modulo) {
             ['label'=>'Teléfono', 'name'=>'telefono', 'type'=>'text'],
         ];
         break;
+    case 'ministro':
+        $tabla = 'ministro';
+        $pk = 'id_ministro';
+        $campos = [
+            ['label'=>'Nombre', 'name'=>'nombre_completo', 'type'=>'text', 'required'=>true],
+            ['label'=>'Dirección', 'name'=>'direccion', 'type'=>'text'],
+            ['label'=>'Dip', 'name'=>'dip', 'type'=>'text'],
+            ['label'=>'Teléfono', 'name'=>'telefono', 'type'=>'text'],
+            ['label'=>'Tipo', 'name'=>'tipo', 'type'=>'select',
+            'options'=>[
+               /*  Sacerdote','Diácono','Obispo','Catequista */
+                'sacerdote'=>'Sacerdote',
+                'diácono'=>'Diácono',
+                'obispo'=>'Obispo',
+                'catequista'=>'Catequista'
+            ]
+        ],
+        ];
+        break;
 
     default:
         echo "<div style='color:red;'>Módulo no soportado</div>";

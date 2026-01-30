@@ -1,4 +1,5 @@
 <?php
+ 
 require_once 'config/db.php';
 
 $busqueda = $_GET['busqueda'] ?? '';
@@ -8,24 +9,46 @@ $query = "
         m.id_matrimonio,
         m.registro,
         m.fecha,
-        f.nombre_completo AS feligres_nombre,
-        m.conyugue,
+        esposo.nombre_completo  AS esposo_nombre,
+        esposa.nombre_completo  AS esposa_nombre,
         m.lugar,
-        mi.nombre_completo AS ministro_nombre
-    FROM 
-        matrimonio m
-    JOIN 
-        feligres f ON m.id_feligres = f.id_feligres
-    JOIN 
-        ministros mi ON m.id_ministro = mi.id_ministro
-    WHERE 1=1";
+        mi.nombre_completo      AS ministro_nombre
+    FROM matrimonio m
+
+    -- Esposo
+    LEFT JOIN matrimonio_feligres mf_esposo 
+        ON mf_esposo.id_matrimonio = m.id_matrimonio 
+        AND mf_esposo.rol = 'esposo'
+    LEFT JOIN feligres esposo 
+        ON esposo.id_feligres = mf_esposo.id_feligres
+
+    -- Esposa
+    LEFT JOIN matrimonio_feligres mf_esposa 
+        ON mf_esposa.id_matrimonio = m.id_matrimonio 
+        AND mf_esposa.rol = 'esposa'
+    LEFT JOIN feligres esposa 
+        ON esposa.id_feligres = mf_esposa.id_feligres
+
+    -- Ministro
+    LEFT JOIN ministros mi 
+        ON mi.id_ministro = m.id_ministro
+
+    WHERE 1 = 1
+";
 
 $params = [];
 
 if (!empty($busqueda)) {
-    $query .= " AND (m.registro LIKE ? OR f.nombre_completo LIKE ? OR m.conyugue LIKE ?)";
-    $searchTerm = safeSearch($busqueda);
-    $params = array_merge($params, [$searchTerm, $searchTerm, $searchTerm]);
+    $query .= "
+        AND (
+            m.registro LIKE ?
+            OR esposo.nombre_completo LIKE ?
+            OR esposa.nombre_completo LIKE ?
+        )
+    ";
+
+    $searchTerm = '%' . trim($busqueda) . '%';
+    $params = [$searchTerm, $searchTerm, $searchTerm];
 }
 
 $query .= " ORDER BY m.fecha DESC LIMIT 50";
@@ -36,11 +59,26 @@ try {
     $matrimonioList = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     $matrimonioList = [];
-    echo "<div style='color: red; padding: 10px; border: 1px solid red;'>Error: " . $e->getMessage() . "</div>";
+    echo "<div style='color:red;padding:10px;border:1px solid red'>
+            Error: {$e->getMessage()}
+          </div>";
 }
 
-$feligresesList = $bd->query("SELECT id_feligres, nombre_completo FROM feligres ORDER BY nombre_completo")->fetchAll(PDO::FETCH_ASSOC);
-$ministrosList = $bd->query("SELECT id_ministro, nombre_completo FROM ministros WHERE tipo IN ('Sacerdote', 'Obispo') ORDER BY nombre_completo")->fetchAll(PDO::FETCH_ASSOC);
+/* Listas auxiliares (si las necesitas en filtros o formularios) */
+$feligresesList = $bd->query("
+    SELECT id_feligres, nombre_completo 
+    FROM feligres 
+    ORDER BY nombre_completo
+")->fetchAll(PDO::FETCH_ASSOC);
+
+$ministrosList = $bd->query("
+    SELECT id_ministro, nombre_completo 
+    FROM ministros 
+    WHERE tipo IN ('sacerdote','obispo') 
+    ORDER BY nombre_completo
+")->fetchAll(PDO::FETCH_ASSOC);
+
+
 ?>
 
 <h2><i class="fas fa-heart"></i> Gestión de Matrimonios</h2>
@@ -113,62 +151,86 @@ $ministrosList = $bd->query("SELECT id_ministro, nombre_completo FROM ministros 
 
 <div style="margin-top: 1.5rem; overflow-x: auto;">
     <table id="matrimonio-table" style="width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
-        <thead>
-            <tr>
-                <th style="padding: 0.75rem 1rem; text-align: left; background-color: #2c3e50; color: white; font-weight: 600;">Registro</th>
-                <th style="padding: 0.75rem 1rem; text-align: left; background-color: #2c3e50; color: white; font-weight: 600;">Feligrés</th>
-                <th style="padding: 0.75rem 1rem; text-align: left; background-color: #2c3e50; color: white; font-weight: 600;">Cónyuge</th>
-                <th style="padding: 0.75rem 1rem; text-align: left; background-color: #2c3e50; color: white; font-weight: 600;">Lugar</th>
-                <th style="padding: 0.75rem 1rem; text-align: left; background-color: #2c3e50; color: white; font-weight: 600;">Fecha</th>
-                <th style="padding: 0.75rem 1rem; text-align: left; background-color: #2c3e50; color: white; font-weight: 600;">Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($matrimonioList as $row): ?>
-            <tr style="border-bottom: 1px solid #e0e0e0;">
-                <td style="padding: 0.75rem 1rem;"><?= htmlspecialchars($row['registro']) ?></td>
-                <td style="padding: 0.75rem 1rem;"><?= htmlspecialchars($row['feligres_nombre']) ?></td>
-                <td style="padding: 0.75rem 1rem;"><?= htmlspecialchars($row['conyugue']) ?></td>
-                <td style="padding: 0.75rem 1rem;"><?= htmlspecialchars($row['lugar']) ?></td>
-                <td style="padding: 0.75rem 1rem;"><?= formatDate($row['fecha']) ?></td>
-                <td style="padding: 0.75rem 1rem;">
-                    <div style="display: flex; gap: 0.5rem;">
-                        <button class="btn-action btn-view tooltip" onclick="viewItem(<?= $row['id_matrimonio'] ?>, 'matrimonio')">
-                            <i class="fas fa-eye"></i>
-                            <span class="tooltiptext">Ver detalles</span>
-                        </button>
-                        <button class="btn-action btn-edit tooltip" onclick="editItem(<?= $row['id_matrimonio'] ?>, 'matrimonio')">
-                            <i class="fas fa-edit"></i>
-                            <span class="tooltiptext">Editar</span>
-                        </button>
-                        <button class="btn-action btn-delete tooltip" onclick="deleteItem(<?= $row['id_matrimonio'] ?>, 'matrimonio')">
-                            <i class="fas fa-trash"></i>
-                            <span class="tooltiptext">Eliminar</span>
-                        </button>
-                        <button class="btn-action tooltip" onclick="printRecord('matrimonio', <?= $row['id_matrimonio'] ?>)" style="background-color: #27ae60;">
-                            <i class="fas fa-file-pdf"></i>
-                            <span class="tooltiptext">Imprimir Certificado</span>
-                        </button>
-                    </div>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-            
-            <?php if(empty($matrimonioList)): ?>
-            <tr>
-                <td colspan="6" style="padding: 2rem; text-align: center; color: #7f8c8d;">
-                    <i class="fas fa-search" style="font-size: 2rem; margin-bottom: 1rem;"></i>
-                    <h3>No se encontraron resultados</h3>
-                    <p><?php echo !empty($busqueda) ? "No hay matrimonios que coincidan con \"$busqueda\"" : "No hay registros de matrimonios"; ?></p>
-                    <?php if (!empty($busqueda)): ?>
-                    <button onclick="window.location.href='?section=matrimonio'" class="btn" style="background: #3498db; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer; margin-top: 0.5rem;">
-                        <i class="fas fa-times"></i> Limpiar búsqueda
-                    </button>
-                    <?php endif; ?>
-                </td>
-            </tr>
-            <?php endif; ?>
-        </tbody>
+    <thead>
+    <tr>
+        <th style="padding:0.75rem 1rem;background:#2c3e50;color:white;">Registro</th>
+        <th style="padding:0.75rem 1rem;background:#2c3e50;color:white;">Esposo</th>
+        <th style="padding:0.75rem 1rem;background:#2c3e50;color:white;">Esposa</th>
+        <th style="padding:0.75rem 1rem;background:#2c3e50;color:white;">Lugar</th>
+        <th style="padding:0.75rem 1rem;background:#2c3e50;color:white;">Fecha</th>
+        <th style="padding:0.75rem 1rem;background:#2c3e50;color:white;">Acciones</th>
+    </tr>
+</thead>
+
+<tbody>
+<?php foreach ($matrimonioList as $row): ?>
+    <tr style="border-bottom:1px solid #e0e0e0;">
+        <td style="padding:0.75rem 1rem;">
+            <?= htmlspecialchars($row['registro']) ?>
+        </td>
+
+        <td style="padding:0.75rem 1rem;">
+            <?= htmlspecialchars($row['esposo_nombre'] ?? '—') ?>
+        </td>
+
+        <td style="padding:0.75rem 1rem;">
+            <?= htmlspecialchars($row['esposa_nombre'] ?? '—') ?>
+        </td>
+
+        <td style="padding:0.75rem 1rem;">
+            <?= htmlspecialchars($row['lugar']) ?>
+        </td>
+
+        <td style="padding:0.75rem 1rem;">
+            <?= formatDate($row['fecha']) ?>
+        </td>
+
+        <td style="padding:0.75rem 1rem;">
+            <div style="display:flex;gap:0.5rem;">
+                <button class="btn-action btn-view tooltip"
+                        onclick="viewItem(<?= $row['id_matrimonio'] ?>,'matrimonio')">
+                    <i class="fas fa-eye"></i>
+                    <span class="tooltiptext">Ver detalles</span>
+                </button>
+
+                <button class="btn-action btn-edit tooltip"
+                        onclick="editItem(<?= $row['id_matrimonio'] ?>,'matrimonio')">
+                    <i class="fas fa-edit"></i>
+                    <span class="tooltiptext">Editar</span>
+                </button>
+
+                <button class="btn-action btn-delete tooltip"
+                        onclick="deleteItem(<?= $row['id_matrimonio'] ?>,'matrimonio')">
+                    <i class="fas fa-trash"></i>
+                    <span class="tooltiptext">Eliminar</span>
+                </button>
+
+                <button class="btn-action tooltip"
+                        onclick="printRecord('matrimonio',<?= $row['id_matrimonio'] ?>)"
+                        style="background-color:#27ae60;">
+                    <i class="fas fa-file-pdf"></i>
+                    <span class="tooltiptext">Imprimir Certificado</span>
+                </button>
+            </div>
+        </td>
+    </tr>
+<?php endforeach; ?>
+
+<?php if (empty($matrimonioList)): ?>
+    <tr>
+        <td colspan="6" style="padding:2rem;text-align:center;color:#7f8c8d;">
+            <i class="fas fa-search" style="font-size:2rem;"></i>
+            <h3>No se encontraron resultados</h3>
+            <p>
+                <?= !empty($busqueda)
+                    ? "No hay matrimonios que coincidan con \"$busqueda\""
+                    : "No hay registros de matrimonios"; ?>
+            </p>
+        </td>
+    </tr>
+<?php endif; ?>
+</tbody>
+
     </table>
 </div>
 

@@ -424,6 +424,7 @@ $recentActivities = getRecentActivities($bd, 5);
     <script src="js/feligres.js"></script>
     <script src="js/parroquia.js"></script>
     <script src="js/ministro.js"></script>
+    <script src="js/catequista.js"></script>
     <script>
         // Script adicional para el panel de admin
         document.addEventListener('DOMContentLoaded', function() {

@@ -123,10 +123,10 @@ try {
                     </td>
                     <td style="padding: 0.75rem 1rem;">
                         <div style="display: flex; gap: 0.5rem;">
-                            <button style="padding: 0.25rem 0.5rem; border: none; border-radius: 4px; cursor: pointer; font-size: 0.8rem; background-color: #27ae60; color: white;" onclick="viewItem(<?php echo $ministro['id_ministro']; ?>, 'ministro')">
+                            <button style="padding: 0.25rem 0.5rem; border: none; border-radius: 4px; cursor: pointer; font-size: 0.8rem; background-color: #27ae60; color: white;" onclick="verMinistro(<?php echo $ministro['id_ministro']; ?>, 'ministro')">
                                 <i class="fas fa-eye"></i>
                             </button>
-                            <button style="padding: 0.25rem 0.5rem; border: none; border-radius: 4px; cursor: pointer; font-size: 0.8rem; background-color: #3498db; color: white;" onclick="editItem(<?php echo $ministro['id_ministro']; ?>, 'ministro')">
+                            <button style="padding: 0.25rem 0.5rem; border: none; border-radius: 4px; cursor: pointer; font-size: 0.8rem; background-color: #3498db; color: white;" onclick="editarMinistro(<?php echo $ministro['id_ministro']; ?>, 'ministro')">
                                 <i class="fas fa-edit"></i>
                             </button>
                         </div>

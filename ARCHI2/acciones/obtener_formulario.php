@@ -97,8 +97,8 @@ switch ($modulo) {
         $pk = 'id_ministro';
         $campos = [
             ['label' => 'Nombre', 'name' => 'nombre_completo', 'type' => 'text', 'required' => true],
-            ['label' => 'Dirección', 'name' => 'direccion', 'type' => 'text'],
-            ['label' => 'Dip', 'name' => 'dip', 'type' => 'text'],
+            
+            ['label' => 'Dip', 'name' => 'DIP', 'type' => 'text'],
             ['label' => 'Teléfono', 'name' => 'telefono', 'type' => 'text'],
             [
                 'label' => 'Tipo',

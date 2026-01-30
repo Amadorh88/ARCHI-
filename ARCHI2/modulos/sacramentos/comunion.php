@@ -97,7 +97,7 @@ $parroquiasList = $bd->query("SELECT id_parroquia, nombre FROM parroquia ORDER B
 
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
     <div>
-        <button class="btn tooltip" onclick="openAddModal('comunion')" 
+        <button class="btn tooltip" onclick="agregarComunion()" 
                 style="background: #27ae60; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 5px; cursor: pointer; font-weight: 600; margin-right: 10px;">
             <i class="fas fa-plus"></i> Nuevo Registro
         </button>
@@ -139,7 +139,7 @@ $parroquiasList = $bd->query("SELECT id_parroquia, nombre FROM parroquia ORDER B
                             <i class="fas fa-eye"></i>
                             <span class="tooltiptext">Ver detalles</span>
                         </button>
-                        <button class="btn-action btn-edit tooltip" onclick="editItem(<?= $row['id_comunion'] ?>, 'comunion')">
+                        <button class="btn-action btn-edit tooltip" onclick="editComunion(<?= $row['id_comunion'] ?>, 'comunion')">
                             <i class="fas fa-edit"></i>
                             <span class="tooltiptext">Editar</span>
                         </button>

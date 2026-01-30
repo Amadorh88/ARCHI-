@@ -135,11 +135,11 @@ $parroquiasList = $bd->query("SELECT id_parroquia, nombre FROM parroquia ORDER B
                 <td style="padding: 0.75rem 1rem;"><?= formatDate($row['fecha']) ?></td>
                 <td style="padding: 0.75rem 1rem;">
                     <div style="display: flex; gap: 0.5rem;">
-                        <button class="btn-action btn-view tooltip" onclick="viewItem(<?= $row['id_bautismo'] ?>, 'bautismo')">
+                        <button class="btn-action btn-view tooltip" onclick="verBautismo(<?= $row['id_bautismo'] ?>, 'bautismo')">
                             <i class="fas fa-eye"></i>
                             <span class="tooltiptext">Ver detalles</span>
                         </button>
-                        <button class="btn-action btn-edit tooltip" onclick="editItem(<?= $row['id_bautismo'] ?>, 'bautismo')">
+                        <button class="btn-action btn-edit tooltip" onclick="editarBautismo(<?= $row['id_bautismo'] ?>, 'bautismo')">
                             <i class="fas fa-edit"></i>
                             <span class="tooltiptext">Editar</span>
                         </button>

@@ -14,18 +14,15 @@ $sacramento_id = $_GET['id'] ?? 0;
 // Obtener datos del bautismo con información completa del feligrés
 $query = "SELECT 
             s.*, 
-            f.id as feligres_id,
-            f.cedula, 
+            f.id_feligres, 
             f.telefono, 
             f.direccion,
             f.fecha_nacimiento,
-            f.nombres,
+            f.nombre_completo,
             f.nombre_padre,
-            f.nombre_madre,
-            f.estado_civil,
-            f.sexo
+            f.nombre_madre,  
           FROM sacramento s 
-          INNER JOIN feligres f ON s.feligres_id = f.id 
+          INNER JOIN feligres f ON s.id_feligres = f.id_feligres 
           WHERE s.id = :id AND s.tipo = 'bautismo'";
 $stmt = $db->prepare($query);
 $stmt->bindParam(':id', $sacramento_id);

@@ -73,9 +73,9 @@ try {
                 <th style="padding: 0.75rem 1rem; text-align: left; background-color: #2c3e50; color: white; font-weight: 600;">ID </th>
                 <th style="padding: 0.75rem 1rem; text-align: left; background-color: #2c3e50; color: white; font-weight: 600;">Feligrés</th>
                 <th style="padding: 0.75rem 1rem; text-align: left; background-color: #2c3e50; color: white; font-weight: 600;">Concepto</th>
-                <th style="padding: 0.75rem 1rem; text-align: left; background-color: #2c3e50; color: white; font-weight: 600;">Cantidad Debida</th>
+                <th style="padding: 0.75rem 1rem; text-align: left; background-color: #2c3e50; color: white; font-weight: 600;">Cantidad Debida</th><!-- 
                 <th style="padding: 0.75rem 1rem; text-align: left; background-color: #2c3e50; color: white; font-weight: 600;">Recibido</th>
-                <th style="padding: 0.75rem 1rem; text-align: left; background-color: #2c3e50; color: white; font-weight: 600;">Cambio</th>
+                <th style="padding: 0.75rem 1rem; text-align: left; background-color: #2c3e50; color: white; font-weight: 600;">Cambio</th> -->
                 <th style="padding: 0.75rem 1rem; text-align: left; background-color: #2c3e50; color: white; font-weight: 600;">Acciones</th>
             </tr>
         </thead>
@@ -91,16 +91,16 @@ try {
                     <td style="padding: 0.75rem 1rem;"><?php echo htmlspecialchars($pago['feligres_nombre'] ?? 'N/A'); ?></td>
                     <td style="padding: 0.75rem 1rem;"><?php echo htmlspecialchars($pago['concepto']); ?></td>
                     <td style="padding: 0.75rem 1rem;"> <?php echo number_format($pago['cantidad'] ?? 0, 2); ?> Fcfa</td>
-                    <td style="padding: 0.75rem 1rem;"> <?php echo number_format($pago['recibido'] ?? 0, 2); ?> Fcfa</td>
+                    <!-- <td style="padding: 0.75rem 1rem;"> <?php echo number_format($pago['recibido'] ?? 0, 2); ?> Fcfa</td>
                     <td style="padding: 0.75rem 1rem;"> <?php echo number_format($pago['cambio'] ?? 0, 2); ?> Fcfa</td>
-                    <td style="padding: 0.75rem 1rem;">
+                     --><td style="padding: 0.75rem 1rem;">
                         <div style="display: flex; gap: 0.5rem;">
                             <button style="padding: 0.25rem 0.5rem; border: none; border-radius: 4px; cursor: pointer; font-size: 0.8rem; background-color: #27ae60; color: white;" 
-                                    onclick="viewItem(<?php echo $pago['id_pago']; ?>, 'pago')">
+                                    onclick="verPago(<?php echo $pago['id_pago']; ?>, 'pago')">
                                 <i class="fas fa-eye"></i>
                             </button>
                             <button style="padding: 0.25rem 0.5rem; border: none; border-radius: 4px; cursor: pointer; font-size: 0.8rem; background-color: #3498db; color: white;" 
-                                    onclick="editItem(<?php echo $pago['id_pago']; ?>, 'pago')">
+                                    onclick="editarPago(<?php echo $pago['id_pago']; ?>, 'pago')">
                                 <i class="fas fa-edit"></i>
                             </button>
                             <button style="padding: 0.25rem 0.5rem; border: none; border-radius: 4px; cursor: pointer; font-size: 0.8rem; background-color: #e74c3c; color: white;" 

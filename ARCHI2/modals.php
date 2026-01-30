@@ -1,5 +1,7 @@
 <!-- [file name]: modals.php -->
+
 <div class="modals-container">
+
     <!-- Modal Perfil de Usuario -->
     <div id="profileModal" class="modal">
         <div class="modal-content profile-modal-content">
@@ -117,13 +119,14 @@
         </div>
     </div>
 
-    <!-- Modal para CRUD General -->
-   <div class="modals-container">
+    <!-- Modal CRUD Dinámico para Todos los Módulos -->
     <div id="crudModal" class="modal">
         <div class="modal-content" id="crudModalContent">
-            </div>
+            <!-- El contenido del formulario se cargará dinámicamente con PHP o AJAX según $modulo y $accion -->
+        </div>
     </div>
 
+    <!-- Modal Confirmación Genérico -->
     <div id="confirmModal" class="modal">
         <div class="modal-content logout-modal-content">
             <div class="modal-header">
@@ -136,38 +139,14 @@
                 <p id="confirmDetails" style="color: #7f8c8d;"></p>
             </div>
             <div class="modal-buttons">
-                <button class="btn-cancel" onclick="closeConfirmModal()">Cancelar</button>
-                <button id="confirmActionBtn" class="btn-confirm" style="background: #e74c3c;">
-                    <i class="fas fa-check"></i> Confirmar Eliminación
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-    <!-- Modal Confirmación -->
-    <div id="confirmModal" class="modal">
-        <div class="modal-content logout-modal-content">
-            <div class="modal-header">
-                <h3 id="confirmModalTitle"><i class="fas fa-exclamation-triangle"></i> Confirmar</h3>
-                <button class="modal-close-btn" onclick="closeConfirmModal()">&times;</button>
-            </div>
-            <div style="text-align: center; padding: 2rem 0;">
-                <span class="tooltip">
-                    <i class="fas fa-question-circle" style="font-size: 3rem; color: #f39c12;"></i>
-                    <span class="tooltiptext">Confirmación de acción</span>
-                </span>
-                <h3 id="confirmMessage" style="margin: 1rem 0;"></h3>
-                <p id="confirmDetails" style="color: #7f8c8d;"></p>
-            </div>
-            <div class="modal-buttons">
                 <button class="btn-cancel" onclick="closeConfirmModal()">
                     <i class="fas fa-times"></i> Cancelar
                 </button>
-                <button id="confirmActionBtn" class="btn-confirm" onclick="executeConfirmedAction()">
+                <button id="confirmActionBtn" class="btn-confirm" style="background: #e74c3c;">
                     <i class="fas fa-check"></i> Confirmar
                 </button>
             </div>
         </div>
     </div>
+
 </div>

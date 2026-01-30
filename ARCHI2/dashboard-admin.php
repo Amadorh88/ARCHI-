@@ -417,9 +417,11 @@ $recentActivities = getRecentActivities($bd, 5);
         </div>
     </div>
 
+    <!-- ===== MODALES DEL SISTEMA  -->
     <?php include 'modals.php'; ?>
 
     <script src="js/dashboard.js"></script>
+    <script src="js/feligres.js"></script>
     <script>
         // Script adicional para el panel de admin
         document.addEventListener('DOMContentLoaded', function() {

@@ -168,50 +168,7 @@ try {
             </table>
         </div>
 
-        <div id="modalFeligres" class="modal" style="display:none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
-            <div class="modal-content" style="background-color: #fefefe; margin: 10% auto; padding: 20px; border: 1px solid #888; width: 80%; max-width: 600px; border-radius: 8px;">
-                <span class="close" onclick="cerrarModalFeligres()" style="color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer;">&times;</span>
-                <h3 id="modalTitle"></h3>
-                <form id="formFeligres">
-                    <input type="hidden" name="action" id="formAction">
-                    <input type="hidden" name="id_feligres" id="id_feligres">
+       
+        
 
-                    <div style="margin-bottom: 1rem;">
-                        <label for="nombre_completo">Nombre Completo:</label>
-                        <input type="text" id="nombre_completo" name="nombre_completo" required style="width: 100%; padding: 0.5rem; margin-top: 0.25rem;">
-                    </div>
-                    <div style="margin-bottom: 1rem;">
-                        <label for="nombre_padre">Nombre del Padre:</label>
-                        <input type="text" id="nombre_padre" name="nombre_padre" style="width: 100%; padding: 0.5rem; margin-top: 0.25rem;">
-                    </div>
-                    <div style="margin-bottom: 1rem;">
-                        <label for="nombre_madre">Nombre de la Madre:</label>
-                        <input type="text" id="nombre_madre" name="nombre_madre" style="width: 100%; padding: 0.5rem; margin-top: 0.25rem;">
-                    </div>
-                    <div style="margin-bottom: 1rem;">
-                        <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
-                        <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" style="width: 100%; padding: 0.5rem; margin-top: 0.25rem;">
-                    </div>
-                    <div style="margin-bottom: 1rem;">
-                        <label for="lugar_nacimiento">Lugar de Nacimiento:</label>
-                        <input type="text" id="lugar_nacimiento" name="lugar_nacimiento" style="width: 100%; padding: 0.5rem; margin-top: 0.25rem;">
-                    </div>
-                    
-                    <button type="submit" id="submitButton" class="btn" style="background: #27ae60; color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 5px; cursor: pointer; float: right;">Guardar</button>
-                    <button type="button" class="btn" onclick="cerrarModalFeligres()" style="background: #95a5a6; color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 5px; cursor: pointer; margin-right: 10px; float: right;">Cancelar</button>
-                    <div style="clear: both;"></div>
-                </form>
-            </div>
-        </div>
-
-        <div id="modalVerFeligres" class="modal" style="display:none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
-            <div class="modal-content" style="background-color: #fefefe; margin: 10% auto; padding: 20px; border: 1px solid #888; width: 80%; max-width: 600px; border-radius: 8px;">
-                <span class="close" onclick="cerrarModalVerFeligres()" style="color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer;">&times;</span>
-                <h3 style="color: #3498db;">Detalles del Feligrés</h3>
-                <div id="detalleFeligres" style="line-height: 1.8;">
-                    </div>
-                <div style="clear: both;"></div>
-            </div>
-        </div>
-
-        <script src="js/feligres.js"></script>
+ 

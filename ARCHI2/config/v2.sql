@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 28-11-2025 a las 09:39:51
--- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.2.12
+-- Host: 127.0.0.1
+-- Generation Time: Jan 30, 2026 at 12:30 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `v2`
+-- Database: `v2`
 --
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `actividades`
+-- Table structure for table `actividades`
 --
 
 CREATE TABLE `actividades` (
@@ -37,7 +37,7 @@ CREATE TABLE `actividades` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `actividades`
+-- Dumping data for table `actividades`
 --
 
 INSERT INTO `actividades` (`id_actividad`, `id_usuario`, `accion`, `modulo`, `fecha`, `ip`) VALUES
@@ -73,12 +73,13 @@ INSERT INTO `actividades` (`id_actividad`, `id_usuario`, `accion`, `modulo`, `fe
 (30, 1, 'Inició sesión en el sistema', 'Login', '2025-11-21 06:31:49', '::1'),
 (31, 1, 'Inició sesión en el sistema', 'Login', '2025-11-21 11:20:29', '::1'),
 (32, 1, 'Inició sesión en el sistema', 'Login', '2025-11-27 06:38:52', '::1'),
-(33, 1, 'Inició sesión en el sistema', 'Login', '2025-11-28 06:29:28', '::1');
+(33, 1, 'Inició sesión en el sistema', 'Login', '2025-11-28 06:29:28', '::1'),
+(34, 1, 'Inició sesión en el sistema', 'Login', '2026-01-30 12:27:51', '::1');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `bautismo`
+-- Table structure for table `bautismo`
 --
 
 CREATE TABLE `bautismo` (
@@ -93,7 +94,7 @@ CREATE TABLE `bautismo` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `bautismo`
+-- Dumping data for table `bautismo`
 --
 
 INSERT INTO `bautismo` (`id_bautismo`, `registro`, `id_feligres`, `fecha`, `padrino`, `madrina`, `id_ministro`, `id_parroquia`) VALUES
@@ -102,7 +103,7 @@ INSERT INTO `bautismo` (`id_bautismo`, `registro`, `id_feligres`, `fecha`, `padr
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `catequesis`
+-- Table structure for table `catequesis`
 --
 
 CREATE TABLE `catequesis` (
@@ -115,7 +116,7 @@ CREATE TABLE `catequesis` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `catequesis`
+-- Dumping data for table `catequesis`
 --
 
 INSERT INTO `catequesis` (`id_catequesis`, `id_feligres`, `nombre_catequesis`, `id_curso`, `id_parroquia`, `tipo`) VALUES
@@ -125,7 +126,7 @@ INSERT INTO `catequesis` (`id_catequesis`, `id_feligres`, `nombre_catequesis`, `
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `catequista`
+-- Table structure for table `catequista`
 --
 
 CREATE TABLE `catequista` (
@@ -136,7 +137,7 @@ CREATE TABLE `catequista` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `catequista`
+-- Dumping data for table `catequista`
 --
 
 INSERT INTO `catequista` (`id_catequista`, `nombre`, `telefono`, `especialidad`) VALUES
@@ -146,7 +147,7 @@ INSERT INTO `catequista` (`id_catequista`, `nombre`, `telefono`, `especialidad`)
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `comunion`
+-- Table structure for table `comunion`
 --
 
 CREATE TABLE `comunion` (
@@ -159,7 +160,7 @@ CREATE TABLE `comunion` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `comunion`
+-- Dumping data for table `comunion`
 --
 
 INSERT INTO `comunion` (`id_comunion`, `registro`, `id_feligres`, `fecha`, `id_ministro`, `id_parroquia`) VALUES
@@ -168,7 +169,7 @@ INSERT INTO `comunion` (`id_comunion`, `registro`, `id_feligres`, `fecha`, `id_m
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `confirmacion`
+-- Table structure for table `confirmacion`
 --
 
 CREATE TABLE `confirmacion` (
@@ -181,7 +182,7 @@ CREATE TABLE `confirmacion` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `confirmacion`
+-- Dumping data for table `confirmacion`
 --
 
 INSERT INTO `confirmacion` (`id_confirmacion`, `registro`, `id_feligres`, `fecha`, `id_ministro`, `id_parroquia`) VALUES
@@ -190,7 +191,7 @@ INSERT INTO `confirmacion` (`id_confirmacion`, `registro`, `id_feligres`, `fecha
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `curso`
+-- Table structure for table `curso`
 --
 
 CREATE TABLE `curso` (
@@ -202,7 +203,7 @@ CREATE TABLE `curso` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `curso`
+-- Dumping data for table `curso`
 --
 
 INSERT INTO `curso` (`id_curso`, `nombre`, `duracion`, `id_catequista`, `observaciones`) VALUES
@@ -212,7 +213,7 @@ INSERT INTO `curso` (`id_curso`, `nombre`, `duracion`, `id_catequista`, `observa
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `feligres`
+-- Table structure for table `feligres`
 --
 
 CREATE TABLE `feligres` (
@@ -225,7 +226,7 @@ CREATE TABLE `feligres` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `feligres`
+-- Dumping data for table `feligres`
 --
 
 INSERT INTO `feligres` (`id_feligres`, `nombre_completo`, `nombre_padre`, `nombre_madre`, `fecha_nacimiento`, `lugar_nacimiento`) VALUES
@@ -235,31 +236,44 @@ INSERT INTO `feligres` (`id_feligres`, `nombre_completo`, `nombre_padre`, `nombr
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `matrimonio`
+-- Table structure for table `matrimonio`
 --
 
 CREATE TABLE `matrimonio` (
   `id_matrimonio` int(11) NOT NULL,
   `registro` varchar(50) DEFAULT NULL,
-  `id_feligres` int(11) DEFAULT NULL,
   `conyugue` varchar(150) DEFAULT NULL,
   `fecha` date DEFAULT NULL,
   `id_ministro` int(11) DEFAULT NULL,
   `testigos` varchar(255) DEFAULT NULL,
-  `lugar` varchar(150) DEFAULT NULL
+  `lugar` varchar(150) DEFAULT NULL,
+  `estado` enum('activo','inactivo') NOT NULL DEFAULT 'activo'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `matrimonio`
+-- Dumping data for table `matrimonio`
 --
 
-INSERT INTO `matrimonio` (`id_matrimonio`, `registro`, `id_feligres`, `conyugue`, `fecha`, `id_ministro`, `testigos`, `lugar`) VALUES
-(1, 'M001', 2, 'Carlos Pérez López', '2022-08-15', 1, 'José Díaz, Marta Ramos', 'Parroquia Santa María');
+INSERT INTO `matrimonio` (`id_matrimonio`, `registro`, `conyugue`, `fecha`, `id_ministro`, `testigos`, `lugar`, `estado`) VALUES
+(1, 'M001', 'Carlos Pérez López', '2022-08-15', 1, 'José Díaz, Marta Ramos', 'Parroquia Santa María', 'activo');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `ministros`
+-- Table structure for table `matrimonio_feligres`
+--
+
+CREATE TABLE `matrimonio_feligres` (
+  `id_matrimonio_feligres` int(11) NOT NULL,
+  `id_matrimonio` int(11) NOT NULL,
+  `id_feligres` int(11) NOT NULL,
+  `rol` enum('esposo','esposa','testigo') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ministros`
 --
 
 CREATE TABLE `ministros` (
@@ -271,7 +285,7 @@ CREATE TABLE `ministros` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `ministros`
+-- Dumping data for table `ministros`
 --
 
 INSERT INTO `ministros` (`id_ministro`, `nombre_completo`, `DIP`, `telefono`, `tipo`) VALUES
@@ -281,7 +295,7 @@ INSERT INTO `ministros` (`id_ministro`, `nombre_completo`, `DIP`, `telefono`, `t
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `pago`
+-- Table structure for table `pago`
 --
 
 CREATE TABLE `pago` (
@@ -294,7 +308,7 @@ CREATE TABLE `pago` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `pago`
+-- Dumping data for table `pago`
 --
 
 INSERT INTO `pago` (`id_pago`, `concepto`, `cantidad`, `recibido`, `cambio`, `id_feligres`) VALUES
@@ -304,7 +318,7 @@ INSERT INTO `pago` (`id_pago`, `concepto`, `cantidad`, `recibido`, `cambio`, `id
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `parroquia`
+-- Table structure for table `parroquia`
 --
 
 CREATE TABLE `parroquia` (
@@ -315,7 +329,7 @@ CREATE TABLE `parroquia` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `parroquia`
+-- Dumping data for table `parroquia`
 --
 
 INSERT INTO `parroquia` (`id_parroquia`, `nombre`, `direccion`, `telefono`) VALUES
@@ -325,7 +339,7 @@ INSERT INTO `parroquia` (`id_parroquia`, `nombre`, `direccion`, `telefono`) VALU
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `sacramento`
+-- Table structure for table `sacramento`
 --
 
 CREATE TABLE `sacramento` (
@@ -336,7 +350,7 @@ CREATE TABLE `sacramento` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `usuarios`
+-- Table structure for table `usuarios`
 --
 
 CREATE TABLE `usuarios` (
@@ -351,25 +365,25 @@ CREATE TABLE `usuarios` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `usuarios`
+-- Dumping data for table `usuarios`
 --
 
 INSERT INTO `usuarios` (`id`, `nombre`, `dni`, `usuario`, `contraseña`, `rol`, `estado`, `fecha_registro`) VALUES
 (1, 'Amador Batapa', '0001457896', 'admin', '$2y$10$rOEIJPa2eBlWq.ztzpCzweP5KFoHD5V3wXqGtv1o0p8Jg6EEShzwu', 'admin', 1, '2025-06-07 08:37:10');
 
 --
--- Índices para tablas volcadas
+-- Indexes for dumped tables
 --
 
 --
--- Indices de la tabla `actividades`
+-- Indexes for table `actividades`
 --
 ALTER TABLE `actividades`
   ADD PRIMARY KEY (`id_actividad`),
   ADD KEY `id_usuario` (`id_usuario`);
 
 --
--- Indices de la tabla `bautismo`
+-- Indexes for table `bautismo`
 --
 ALTER TABLE `bautismo`
   ADD PRIMARY KEY (`id_bautismo`),
@@ -378,7 +392,7 @@ ALTER TABLE `bautismo`
   ADD KEY `id_parroquia` (`id_parroquia`);
 
 --
--- Indices de la tabla `catequesis`
+-- Indexes for table `catequesis`
 --
 ALTER TABLE `catequesis`
   ADD PRIMARY KEY (`id_catequesis`),
@@ -387,13 +401,13 @@ ALTER TABLE `catequesis`
   ADD KEY `id_parroquia` (`id_parroquia`);
 
 --
--- Indices de la tabla `catequista`
+-- Indexes for table `catequista`
 --
 ALTER TABLE `catequista`
   ADD PRIMARY KEY (`id_catequista`);
 
 --
--- Indices de la tabla `comunion`
+-- Indexes for table `comunion`
 --
 ALTER TABLE `comunion`
   ADD PRIMARY KEY (`id_comunion`),
@@ -402,7 +416,7 @@ ALTER TABLE `comunion`
   ADD KEY `id_parroquia` (`id_parroquia`);
 
 --
--- Indices de la tabla `confirmacion`
+-- Indexes for table `confirmacion`
 --
 ALTER TABLE `confirmacion`
   ADD PRIMARY KEY (`id_confirmacion`),
@@ -411,54 +425,61 @@ ALTER TABLE `confirmacion`
   ADD KEY `id_parroquia` (`id_parroquia`);
 
 --
--- Indices de la tabla `curso`
+-- Indexes for table `curso`
 --
 ALTER TABLE `curso`
   ADD PRIMARY KEY (`id_curso`),
   ADD KEY `id_catequista` (`id_catequista`);
 
 --
--- Indices de la tabla `feligres`
+-- Indexes for table `feligres`
 --
 ALTER TABLE `feligres`
   ADD PRIMARY KEY (`id_feligres`);
 
 --
--- Indices de la tabla `matrimonio`
+-- Indexes for table `matrimonio`
 --
 ALTER TABLE `matrimonio`
   ADD PRIMARY KEY (`id_matrimonio`),
-  ADD KEY `id_feligres` (`id_feligres`),
   ADD KEY `id_ministro` (`id_ministro`);
 
 --
--- Indices de la tabla `ministros`
+-- Indexes for table `matrimonio_feligres`
+--
+ALTER TABLE `matrimonio_feligres`
+  ADD PRIMARY KEY (`id_matrimonio_feligres`),
+  ADD UNIQUE KEY `uk_matrimonio_persona` (`id_matrimonio`,`id_feligres`),
+  ADD KEY `fk_mf_feligres` (`id_feligres`);
+
+--
+-- Indexes for table `ministros`
 --
 ALTER TABLE `ministros`
   ADD PRIMARY KEY (`id_ministro`),
   ADD UNIQUE KEY `DIP` (`DIP`);
 
 --
--- Indices de la tabla `pago`
+-- Indexes for table `pago`
 --
 ALTER TABLE `pago`
   ADD PRIMARY KEY (`id_pago`),
   ADD KEY `id_feligres` (`id_feligres`);
 
 --
--- Indices de la tabla `parroquia`
+-- Indexes for table `parroquia`
 --
 ALTER TABLE `parroquia`
   ADD PRIMARY KEY (`id_parroquia`);
 
 --
--- Indices de la tabla `sacramento`
+-- Indexes for table `sacramento`
 --
 ALTER TABLE `sacramento`
   ADD PRIMARY KEY (`id_sacramento`);
 
 --
--- Indices de la tabla `usuarios`
+-- Indexes for table `usuarios`
 --
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`id`),
@@ -466,105 +487,111 @@ ALTER TABLE `usuarios`
   ADD UNIQUE KEY `usuario` (`usuario`);
 
 --
--- AUTO_INCREMENT de las tablas volcadas
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT de la tabla `actividades`
+-- AUTO_INCREMENT for table `actividades`
 --
 ALTER TABLE `actividades`
-  MODIFY `id_actividad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id_actividad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
--- AUTO_INCREMENT de la tabla `bautismo`
+-- AUTO_INCREMENT for table `bautismo`
 --
 ALTER TABLE `bautismo`
   MODIFY `id_bautismo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT de la tabla `catequesis`
+-- AUTO_INCREMENT for table `catequesis`
 --
 ALTER TABLE `catequesis`
   MODIFY `id_catequesis` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT de la tabla `catequista`
+-- AUTO_INCREMENT for table `catequista`
 --
 ALTER TABLE `catequista`
   MODIFY `id_catequista` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT de la tabla `comunion`
+-- AUTO_INCREMENT for table `comunion`
 --
 ALTER TABLE `comunion`
   MODIFY `id_comunion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT de la tabla `confirmacion`
+-- AUTO_INCREMENT for table `confirmacion`
 --
 ALTER TABLE `confirmacion`
   MODIFY `id_confirmacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT de la tabla `curso`
+-- AUTO_INCREMENT for table `curso`
 --
 ALTER TABLE `curso`
   MODIFY `id_curso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT de la tabla `feligres`
+-- AUTO_INCREMENT for table `feligres`
 --
 ALTER TABLE `feligres`
   MODIFY `id_feligres` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT de la tabla `matrimonio`
+-- AUTO_INCREMENT for table `matrimonio`
 --
 ALTER TABLE `matrimonio`
   MODIFY `id_matrimonio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT de la tabla `ministros`
+-- AUTO_INCREMENT for table `matrimonio_feligres`
+--
+ALTER TABLE `matrimonio_feligres`
+  MODIFY `id_matrimonio_feligres` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `ministros`
 --
 ALTER TABLE `ministros`
   MODIFY `id_ministro` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT de la tabla `pago`
+-- AUTO_INCREMENT for table `pago`
 --
 ALTER TABLE `pago`
   MODIFY `id_pago` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT de la tabla `parroquia`
+-- AUTO_INCREMENT for table `parroquia`
 --
 ALTER TABLE `parroquia`
   MODIFY `id_parroquia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT de la tabla `sacramento`
+-- AUTO_INCREMENT for table `sacramento`
 --
 ALTER TABLE `sacramento`
   MODIFY `id_sacramento` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `usuarios`
+-- AUTO_INCREMENT for table `usuarios`
 --
 ALTER TABLE `usuarios`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- Restricciones para tablas volcadas
+-- Constraints for dumped tables
 --
 
 --
--- Filtros para la tabla `actividades`
+-- Constraints for table `actividades`
 --
 ALTER TABLE `actividades`
   ADD CONSTRAINT `actividades_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`);
 
 --
--- Filtros para la tabla `bautismo`
+-- Constraints for table `bautismo`
 --
 ALTER TABLE `bautismo`
   ADD CONSTRAINT `bautismo_ibfk_1` FOREIGN KEY (`id_feligres`) REFERENCES `feligres` (`id_feligres`),
@@ -572,7 +599,7 @@ ALTER TABLE `bautismo`
   ADD CONSTRAINT `bautismo_ibfk_3` FOREIGN KEY (`id_parroquia`) REFERENCES `parroquia` (`id_parroquia`);
 
 --
--- Filtros para la tabla `catequesis`
+-- Constraints for table `catequesis`
 --
 ALTER TABLE `catequesis`
   ADD CONSTRAINT `catequesis_ibfk_1` FOREIGN KEY (`id_feligres`) REFERENCES `feligres` (`id_feligres`),
@@ -580,7 +607,7 @@ ALTER TABLE `catequesis`
   ADD CONSTRAINT `catequesis_ibfk_3` FOREIGN KEY (`id_parroquia`) REFERENCES `parroquia` (`id_parroquia`);
 
 --
--- Filtros para la tabla `comunion`
+-- Constraints for table `comunion`
 --
 ALTER TABLE `comunion`
   ADD CONSTRAINT `comunion_ibfk_1` FOREIGN KEY (`id_feligres`) REFERENCES `feligres` (`id_feligres`),
@@ -588,7 +615,7 @@ ALTER TABLE `comunion`
   ADD CONSTRAINT `comunion_ibfk_3` FOREIGN KEY (`id_parroquia`) REFERENCES `parroquia` (`id_parroquia`);
 
 --
--- Filtros para la tabla `confirmacion`
+-- Constraints for table `confirmacion`
 --
 ALTER TABLE `confirmacion`
   ADD CONSTRAINT `confirmacion_ibfk_1` FOREIGN KEY (`id_feligres`) REFERENCES `feligres` (`id_feligres`),
@@ -596,20 +623,26 @@ ALTER TABLE `confirmacion`
   ADD CONSTRAINT `confirmacion_ibfk_3` FOREIGN KEY (`id_parroquia`) REFERENCES `parroquia` (`id_parroquia`);
 
 --
--- Filtros para la tabla `curso`
+-- Constraints for table `curso`
 --
 ALTER TABLE `curso`
   ADD CONSTRAINT `curso_ibfk_1` FOREIGN KEY (`id_catequista`) REFERENCES `catequista` (`id_catequista`);
 
 --
--- Filtros para la tabla `matrimonio`
+-- Constraints for table `matrimonio`
 --
 ALTER TABLE `matrimonio`
-  ADD CONSTRAINT `matrimonio_ibfk_1` FOREIGN KEY (`id_feligres`) REFERENCES `feligres` (`id_feligres`),
   ADD CONSTRAINT `matrimonio_ibfk_2` FOREIGN KEY (`id_ministro`) REFERENCES `ministros` (`id_ministro`);
 
 --
--- Filtros para la tabla `pago`
+-- Constraints for table `matrimonio_feligres`
+--
+ALTER TABLE `matrimonio_feligres`
+  ADD CONSTRAINT `fk_mf_feligres` FOREIGN KEY (`id_feligres`) REFERENCES `feligres` (`id_feligres`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_mf_matrimonio` FOREIGN KEY (`id_matrimonio`) REFERENCES `matrimonio` (`id_matrimonio`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `pago`
 --
 ALTER TABLE `pago`
   ADD CONSTRAINT `pago_ibfk_1` FOREIGN KEY (`id_feligres`) REFERENCES `feligres` (`id_feligres`);

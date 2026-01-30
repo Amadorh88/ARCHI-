@@ -3,7 +3,7 @@
 ================================ */
 function abrirModalComunion(accion, id = null) {
 
-    let url = `acciones/obtener_formulario.php?modulo=Comunion&accion=${accion}`;
+    let url = `acciones/obtener_formulario.php?modulo=comunion&accion=${accion}`;
     if (id) url += `&id=${id}`;
 
     fetch(url)

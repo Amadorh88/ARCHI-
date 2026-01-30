@@ -56,7 +56,7 @@ try {
     
     <div style="display: flex; gap: 0.75rem;">
         <button style="padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9rem; background-color: #2ecc71; color: white;" 
-                onclick="addItem('pago')">
+                onclick="agregarPago()">
             <i class="fas fa-plus"></i> Agregar 
         </button>
         <button style="padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9rem; background-color: #f39c12; color: white;" 

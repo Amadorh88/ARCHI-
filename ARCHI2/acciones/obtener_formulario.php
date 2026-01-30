@@ -114,6 +114,41 @@ switch ($modulo) {
             ],
         ];
         break;
+        case 'pago':
+            $tabla = 'pago';
+            $pk = 'id_pago';
+            $campos = [
+                [
+                    'label' => 'Concepto',
+                    'name'  => 'concepto',
+                    'type'  => 'text',
+                    'required' => true
+                ],
+                [
+                    'label' => 'Cantidad',
+                    'name'  => 'cantidad',
+                    'type'  => 'number',
+                ],
+                [
+                    'label' => 'Monto Recibido',
+                    'name'  => 'recibido',
+                    'type'  => 'number',
+                ],
+                [
+                    'label' => 'Cambio',
+                    'name'  => 'cambio',
+                    'type'  => 'number',
+                ],
+                [
+                    'label'   => 'Feligres',
+                    'name'    => 'id_feligres',
+                    'type'    => 'select',
+                    'table'   => 'feligres',
+                    'display' => 'nombre_completo'
+                ],
+            ];
+            break;
+        
 
     default:
         echo "<div style='color:red;'>Módulo no soportado</div>";

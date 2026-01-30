@@ -5,7 +5,7 @@ if (!isset($_SESSION['usuario_id'])) {
     exit();
 }
 
-include_once 'db.php';
+include_once 'config/db.php';
 $database = new Database();
 $db = $database->getConnection();
 

@@ -36,7 +36,7 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <p class="subtitle">Administra los usuarios del sistema</p>
                 </div>
             </div>
-            <button class="btn-primary tooltip" onclick="abrirModalCRUD('usuario', 'crear')">
+            <button class="btn-primary tooltip" onclick="agregarUsuario()">
                 <i class="fas fa-plus"></i> Nuevo Usuario
                 <span class="tooltiptext">Crear nuevo usuario</span>
             </button>

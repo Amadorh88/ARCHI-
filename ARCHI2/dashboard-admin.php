@@ -432,6 +432,7 @@ $recentActivities = getRecentActivities($bd, 5);
     <script src="js/comunion.js"></script>
     <script src="js/confirmacion.js"></script>
     <script src="js/matrimonio.js"></script>
+    <script src="js/usuarios.js"></script>
     <script>
         // Script adicional para el panel de admin
         document.addEventListener('DOMContentLoaded', function() {

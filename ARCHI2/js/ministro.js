@@ -3,7 +3,7 @@
 ================================ */
 function abrirModalMinistro(accion, id = null) {
 
-    let url = `acciones/obtener_formulario.php?modulo=Ministro&accion=${accion}`;
+    let url = `acciones/obtener_formulario.php?modulo=ministros&accion=${accion}`;
     if (id) url += `&id=${id}`;
 
     fetch(url)
@@ -55,18 +55,18 @@ function guardarCambios(e) {
         method: 'POST',
         body: data
     })
-    .then(res => res.json())
-    .then(resp => {
-        if (resp.success) {
-            location.reload();
-        } else {
-            alert(resp.message);
-        }
-    })
-    .catch(err => {
-        console.error('[Ministro]', err);
-        alert('Error interno del servidor');
-    });
+        .then(res => res.json())
+        .then(resp => {
+            if (resp.success) {
+                location.reload();
+            } else {
+                alert(resp.message);
+            }
+        })
+        .catch(err => {
+            console.error('[Ministro]', err);
+            alert('Error interno del servidor');
+        });
 }
 
 /* ===============================
@@ -88,19 +88,19 @@ function eliminarMinistro(id) {
 
         fetch('api/liminar.php', {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id })
         })
-        .then(res => res.json())
-        .then(resp => {
-            if (resp.success) {
-                closeConfirmModal();
-                location.reload();
-            } else {
-                alert(resp.message);
-            }
-        })
-        .catch(() => alert('Error al eliminar'));
+            .then(res => res.json())
+            .then(resp => {
+                if (resp.success) {
+                    closeConfirmModal();
+                    location.reload();
+                } else {
+                    alert(resp.message);
+                }
+            })
+            .catch(() => alert('Error al eliminar'));
     };
 
     document.getElementById('confirmModal').style.display = 'block';

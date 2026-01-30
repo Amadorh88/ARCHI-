@@ -76,7 +76,7 @@ try {
     <div style="display: flex; gap: 0.5rem;">
         <button 
             style="padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; background-color: #27ae60; color: white; font-weight: bold;"
-            onclick="abrirModalMinistro()"
+            onclick="agregarMinistro()"
         >
             <i class="fas fa-plus"></i> Agregar
         </button>
@@ -138,11 +138,3 @@ try {
     </table>
 </div>
 
-<script>
-    // Función de ejemplo para el botón Agregar
-    function abrirFormularioAgregar() {
-        alert('Abrir formulario para agregar nuevo ministro.');
-        // Aquí se llamaría a la función real para abrir un modal o redirigir
-        // window.location.href = 'agregar_ministro.php'; 
-    }
-</script>

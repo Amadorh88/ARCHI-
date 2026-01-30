@@ -131,7 +131,78 @@ switch ($modulo) {
             ]
         ];
         break;
-
+        case 'matrimonio':
+            $tabla = 'matrimonio';
+            $pk = 'id_matrimonio';
+        
+            $campos = [
+                [
+                    'label' => 'Registro',
+                    'name'  => 'registro',
+                    'type'  => 'text',
+                    'required' => true
+                ],
+                [
+                    'label' => 'Fecha',
+                    'name'  => 'fecha',
+                    'type'  => 'date',
+                    'required' => true
+                ],
+                [
+                    'label' => 'Ministro',
+                    'name'  => 'id_ministro',
+                    'type'  => 'select',
+                    'table' => 'ministros',
+                    'pk'    => 'id_ministro',
+                    'display' => 'nombre_completo',
+                    'required' => true
+                ],
+                [
+                    'label' => 'Lugar',
+                    'name'  => 'lugar',
+                    'type'  => 'text'
+                ],
+        
+                // ========= FELIGRESES =========
+                [
+                    'label' => 'Esposo',
+                    'name'  => 'esposo',
+                    'type'  => 'select',
+                    'table' => 'feligres',
+                    'pk'    => 'id_feligres',
+                    'display' => 'nombre_completo',
+                    'required' => true
+                ],
+                [
+                    'label' => 'Esposa',
+                    'name'  => 'esposa',
+                    'type'  => 'select',
+                    'table' => 'feligres',
+                    'pk'    => 'id_feligres',
+                    'display' => 'nombre_completo',
+                    'required' => true
+                ],
+                [
+                    'label' => 'Testigo 1',
+                    'name'  => 'testigo1',
+                    'type'  => 'select',
+                    'table' => 'feligres',
+                    'pk'    => 'id_feligres',
+                    'display' => 'nombre_completo',
+                    'required' => true
+                ],
+                [
+                    'label' => 'Testigo 2',
+                    'name'  => 'testigo2',
+                    'type'  => 'select',
+                    'table' => 'feligres',
+                    'pk'    => 'id_feligres',
+                    'display' => 'nombre_completo',
+                    'required' => true
+                ]
+            ];
+            break;
+        
     default:
         echo "<div style='color:red;'>Módulo no soportado</div>";
         exit;

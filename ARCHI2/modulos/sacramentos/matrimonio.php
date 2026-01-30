@@ -95,7 +95,7 @@ $ministrosList = $bd->query("SELECT id_ministro, nombre_completo FROM ministros 
 
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
     <div>
-        <button class="btn tooltip" onclick="openAddModal('matrimonio')" 
+        <button class="btn tooltip" onclick="agregarMatrimonio()" 
                 style="background: #27ae60; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 5px; cursor: pointer; font-weight: 600; margin-right: 10px;">
             <i class="fas fa-plus"></i> Nuevo Registro
         </button>

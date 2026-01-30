@@ -86,7 +86,7 @@ switch ($modulo) {
             ['label'=>'Teléfono', 'name'=>'telefono', 'type'=>'text'],
         ];
         break;
-    case 'ministro':
+    case 'ministros':
         $tabla = 'ministro';
         $pk = 'id_ministro';
         $campos = [

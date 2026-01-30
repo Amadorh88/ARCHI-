@@ -241,11 +241,9 @@ INSERT INTO `feligres` (`id_feligres`, `nombre_completo`, `nombre_padre`, `nombr
 
 CREATE TABLE `matrimonio` (
   `id_matrimonio` int(11) NOT NULL,
-  `registro` varchar(50) DEFAULT NULL,
-  `conyugue` varchar(150) DEFAULT NULL,
+  `registro` varchar(50) DEFAULT NULL, 
   `fecha` date DEFAULT NULL,
-  `id_ministro` int(11) DEFAULT NULL,
-  `testigos` varchar(255) DEFAULT NULL,
+  `id_ministro` int(11) DEFAULT NULL, 
   `lugar` varchar(150) DEFAULT NULL,
   `estado` enum('activo','inactivo') NOT NULL DEFAULT 'activo'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

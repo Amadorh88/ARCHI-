@@ -99,6 +99,7 @@ $recentActivities = getRecentActivities($bd, 5);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/dashboard.css">
     <link rel="stylesheet" href="css/modals-certificates.css">
+    
     <script src="js/modals-system.js"></script>
     <style>
         /* Estilos adicionales para el panel de admin */

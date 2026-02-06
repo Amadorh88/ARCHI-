@@ -1,0 +1,115 @@
+/* Estilos para el panel de requisitos */
+.requisitos-panel {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-left: 4px solid #3498db;
+}
+
+.requisitos-panel h4 {
+    margin: 0 0 1rem 0;
+    color: #2c3e50;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.requisitos-content {
+    font-size: 0.9rem;
+}
+
+.requisitos-valid {
+    background: #d4edda;
+    border: 1px solid #c3e6cb;
+    border-radius: 6px;
+    padding: 1rem;
+    color: #155724;
+}
+
+.requisitos-valid i {
+    color: #28a745;
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
+}
+
+.requisitos-invalid {
+    background: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 6px;
+    padding: 1rem;
+    color: #721c24;
+}
+
+.requisitos-invalid i {
+    color: #dc3545;
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
+}
+
+.requisitos-invalid ul {
+    margin: 0.5rem 0;
+    padding-left: 1.5rem;
+}
+
+.requisitos-invalid li {
+    margin-bottom: 0.25rem;
+}
+
+.requisitos-bloqueo {
+    background: #ffeaa7;
+    border: 1px solid #fdcb6e;
+    border-radius: 4px;
+    padding: 0.75rem;
+    margin-top: 1rem;
+    color: #856404;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.requisitos-advertencia {
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    border-radius: 4px;
+    padding: 0.75rem;
+    margin-top: 1rem;
+    color: #856404;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.requisitos-error {
+    background: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+    padding: 1rem;
+    color: #721c24;
+    text-align: center;
+}
+
+.loading {
+    text-align: center;
+    color: #6c757d;
+    padding: 1rem;
+}
+
+/* Estados para los mensajes de requisitos */
+.requisitos-valid .fas.fa-check-circle {
+    color: #28a745;
+}
+
+.requisitos-invalid .fas.fa-exclamation-triangle {
+    color: #ffc107;
+}
+
+.requisitos-bloqueo .fas.fa-ban {
+    color: #dc3545;
+}
+
+.requisitos-advertencia .fas.fa-info-circle {
+    color: #17a2b8;
+}

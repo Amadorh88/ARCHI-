@@ -1,0 +1,282 @@
+/* [file name]: crud-styles.css */
+.crud-form {
+    max-height: 80vh;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.form-section {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #3498db;
+}
+
+.form-section h4 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: #2c3e50;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #2c3e50;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.password-input-container {
+    position: relative;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #7f8c8d;
+    padding: 0.5rem;
+}
+
+.password-strength {
+    margin-top: 0.25rem;
+    font-size: 0.8rem;
+    min-height: 1em;
+}
+
+.strength-weak { color: #e74c3c; font-weight: 600; }
+.strength-medium { color: #f39c12; font-weight: 600; }
+.strength-strong { color: #27ae60; font-weight: 600; }
+
+.view-form .view-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+@media (max-width: 768px) {
+    .view-form .view-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.view-form .view-section {
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #3498db;
+}
+
+.view-form .view-section h4 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: #2c3e50;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.view-form .view-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.view-form .view-row:last-child {
+    border-bottom: none;
+}
+
+.view-form .view-label {
+    font-weight: 600;
+    color: #2c3e50;
+    flex: 1;
+}
+
+.view-form .view-value {
+    color: #7f8c8d;
+    flex: 1;
+    text-align: right;
+}
+
+.view-form .status-active {
+    color: #27ae60;
+    font-weight: 600;
+}
+
+.view-form .status-inactive {
+    color: #e74c3c;
+    font-weight: 600;
+}
+
+.role-badge-small {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.role-badge-small.admin { background: #e74c3c; color: white; }
+.role-badge-small.secretaria { background: #3498db; color: white; }
+.role-badge-small.archivista { background: #27ae60; color: white; }
+.role-badge-small.parroco { background: #f39c12; color: white; }
+
+.no-permission {
+    text-align: center;
+    padding: 3rem;
+    color: #7f8c8d;
+}
+
+.no-permission h3 {
+    color: #e74c3c;
+    margin-bottom: 1rem;
+}
+
+.password-result {
+    text-align: center;
+    padding: 1rem;
+}
+
+.password-display {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 2px dashed #3498db;
+}
+
+.password-box {
+    background: white;
+    padding: 1rem;
+    border-radius: 5px;
+    margin: 1rem 0;
+    border: 1px solid #ddd;
+}
+
+.warning {
+    color: #e74c3c;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.btn-action {
+    width: 35px;
+    height: 35px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    transition: all 0.3s;
+}
+
+.btn-action:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.btn-action:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+.btn-view { background: #27ae60; }
+.btn-edit { background: #3498db; }
+.btn-delete { background: #e74c3c; }
+.btn-print { background: #9b59b6; }
+
+.form-actions,
+.view-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #eee;
+}
+
+/* Botones condicionales basados en permisos */
+[data-permission]:not([data-permission*=","]) {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+/* Para múltiples permisos: data-permission="crear,editar" */
+[data-permission*="crear"]:not(.has-permission),
+[data-permission*="editar"]:not(.has-permission),
+[data-permission*="eliminar"]:not(.has-permission),
+[data-permission*="ver"]:not(.has-permission),
+[data-permission*="imprimir"]:not(.has-permission) {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+/* Clase que se añade dinámicamente cuando el usuario tiene el permiso */
+.has-permission {
+    opacity: 1;
+    pointer-events: all;
+}

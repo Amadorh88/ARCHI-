@@ -44,7 +44,7 @@ $parroquiasList = $bd->query("SELECT id_parroquia, nombre FROM parroquia ORDER B
 ?>
 
 <h2><i class="fas fa-graduation-cap"></i> Catequesis de Confirmación</h2>
-
+<!-- 
 <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
     <h4 style="margin-top: 0; color: #2c3e50;">
         <i class="fas fa-search"></i> Buscar Catequesis
@@ -92,7 +92,7 @@ $parroquiasList = $bd->query("SELECT id_parroquia, nombre FROM parroquia ORDER B
     </div>
     <?php endif; ?>
 </div>
-
+ -->
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
     <div>
         <button class="btn tooltip" onclick="openAddModal('confirmacion-catequesis')" 
@@ -100,11 +100,11 @@ $parroquiasList = $bd->query("SELECT id_parroquia, nombre FROM parroquia ORDER B
             <i class="fas fa-plus"></i> Nuevo Registro
         </button>
         
-        <button class="btn tooltip" onclick="printTable('confirmacionCatequesis-table', 'Lista de Catequesis de Confirmación')"
+      <!--   <button class="btn tooltip" onclick="printTable('confirmacionCatequesis-table', 'Lista de Catequesis de Confirmación')"
                 style="background: #34495e; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 5px; cursor: pointer; font-weight: 600;">
             <i class="fas fa-print"></i> Imprimir Lista
         </button>
-    </div>
+    --> </div>
     
     <div style="color: #7f8c8d; font-size: 0.9rem;">
         <i class="fas fa-info-circle"></i> Total: <?php echo count($catequesisList); ?> catequesis

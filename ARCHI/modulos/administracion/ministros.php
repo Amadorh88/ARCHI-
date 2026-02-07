@@ -43,7 +43,7 @@ try {
 
 <div style="margin-bottom: 2rem; display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between;">
     
-    <form method="GET" action="modulo.php" style="display: flex; gap: 0.5rem; flex-grow: 1; max-width: 600px;">
+  <!--   <form method="GET" action="modulo.php" style="display: flex; gap: 0.5rem; flex-grow: 1; max-width: 600px;">
         <input type="hidden" name="modulo" value="ministros"> 
         
         <input 
@@ -72,7 +72,7 @@ try {
             <i class="fas fa-search"></i> Buscar
         </button>
     </form>
-    
+     -->
     <div style="display: flex; gap: 0.5rem;">
         <button 
             style="padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; background-color: #27ae60; color: white; font-weight: bold;"
@@ -81,13 +81,13 @@ try {
             <i class="fas fa-plus"></i> Agregar
         </button>
 
-        <button 
+      <!--   <button 
             style="padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; background-color: #f39c12; color: white; font-weight: bold;"
             onclick="window.print()"
         >
             <i class="fas fa-print"></i> Imprimir Lista
         </button>
-    </div>
+    --> </div>
 </div>
 
 <div style="margin-top: 1.5rem; overflow-x: auto;">

@@ -40,6 +40,7 @@ $menu = [
             ["id" => "catequistas", "name" => "Catequistas"],
             ["id" => "ministros", "name" => "Ministros"],
             ["id" => "parroquias", "name" => "Parroquias"],
+            ["id" => "curso", "name" => "Parroquias"],
             ["id" => "pagos", "name" => "Pagos"]
         ]
     ],
@@ -49,6 +50,7 @@ $menu = [
         "icon" => "fas fa-user-cog",
         "submenu" => [
             ["id" => "usuarios", "name" => "Usuarios"],
+            ["id" => "curso", "name" => "Cursos"],
             ["id" => "actividades", "name" => "actividades"]
         ]
     ]

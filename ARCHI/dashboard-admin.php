@@ -100,15 +100,7 @@ $recentActivities = getRecentActivities($bd, 5);
     <link rel="stylesheet" href="css/dashboard.css">
     <link rel="stylesheet" href="css/modals-certificates.css">
     <link rel="stylesheet" href="css/jquery.dataTables.min.css">
-    <!-- jQuery -->
-<!-- <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script> -->
-
-<!-- DataTables -->
-<!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css"> -->
-<script src="css/jquery.dataTables.min.js"></script>
-
-<!-- DataTables idioma español -->
-<script src="css/es-ES.json"></script>
+ 
 
     <script src="js/modals-system.js"></script>
     <style>

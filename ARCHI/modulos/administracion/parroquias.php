@@ -41,13 +41,13 @@ function formatTelefono($telefono) {
 <h2>Gestión de Parroquias</h2>
 
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-    <form method="GET" action="parroquias.php" style="flex-grow: 1; max-width: 50%; display: flex; gap: 0.5rem;">
+    <!-- <form method="GET" action="parroquias.php" style="flex-grow: 1; max-width: 50%; display: flex; gap: 0.5rem;">
         <input type="text" name="busqueda" value="<?php echo htmlspecialchars($busqueda); ?>" placeholder="Buscar por Nombre, Dirección o Teléfono" 
                style="padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px; flex-grow: 1;">
         <button type="submit" style="padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9rem; background-color: #3498db; color: white;">
             <i class="fas fa-search"></i> Buscar
         </button>
-    </form>
+    </form> -->
     
     <div style="display: flex; gap: 0.75rem;">
         <button style="padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9rem; background-color: #2ecc71; color: white;" 
@@ -55,11 +55,11 @@ function formatTelefono($telefono) {
         >
             <i class="fas fa-plus"></i> Agregar Parroquia
         </button>
-        <button style="padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9rem; background-color: #f39c12; color: white;" 
+        <!-- <button style="padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9rem; background-color: #f39c12; color: white;" 
                 onclick="window.print()">
             <i class="fas fa-print"></i> Imprimir Lista
         </button>
-    </div>
+    --> </div>
 </div>
 
 <div style="overflow-x: auto;">

@@ -34,45 +34,102 @@ $config = [
     'feligres' => [
         'tabla' => 'feligres',
         'pk' => 'id_feligres',
-        'campos' => ['nombre_completo','nombre_padre','nombre_madre','fecha_nacimiento','lugar_nacimiento']
+        'campos' => [
+            'nombre_completo',
+            'nombre_padre',
+            'nombre_madre',
+            'fecha_nacimiento',
+            'lugar_nacimiento'
+        ]
     ],
 
     'bautismo' => [
         'tabla' => 'bautismo',
         'pk' => 'id_bautismo',
-        'campos' => ['registro','id_feligres','fecha','padrino','madrina','id_ministro','id_parroquia']
+        'campos' => [
+            'registro',
+            'id_feligres',
+            'fecha',
+            'padrino',
+            'madrina',
+            'id_ministro',
+            'id_parroquia'
+        ]
     ],
 
     'comunion' => [
         'tabla' => 'comunion',
         'pk' => 'id_comunion',
-        'campos' => ['registro','id_feligres','fecha','id_ministro','id_parroquia']
+        'campos' => [
+            'registro',
+            'id_feligres',
+            'fecha',
+            'id_ministro',
+            'id_parroquia'
+        ]
     ],
 
     'confirmacion' => [
         'tabla' => 'confirmacion',
         'pk' => 'id_confirmacion',
-        'campos' => ['registro','id_feligres','fecha','id_ministro','id_parroquia']
+        'campos' => [
+            'registro',
+            'id_feligres',
+            'fecha',
+            'id_ministro',
+            'id_parroquia'
+        ]
     ],
 
     'matrimonio' => [
         'tabla' => 'matrimonio',
         'pk' => 'id_matrimonio',
-        'campos' => ['registro','fecha','id_ministro','lugar','estado']
+        'campos' => [
+            'registro',
+            'fecha',
+            'id_ministro',
+            'lugar',
+            'estado'
+        ]
     ],
 
     'ministros' => [
         'tabla' => 'ministros',
         'pk' => 'id_ministro',
-        'campos' => ['nombre_completo','DIP','telefono','tipo']
+        'campos' => [
+            'nombre_completo',
+            'DIP',
+            'telefono',
+            'tipo'
+        ]
     ],
 
     'parroquia' => [
         'tabla' => 'parroquia',
         'pk' => 'id_parroquia',
-        'campos' => ['nombre','direccion','telefono']
+        'campos' => [
+            'nombre',
+            'direccion',
+            'telefono'
+        ]
+    ],
+
+    // 🔐 NUEVO MÓDULO: USUARIOS
+    'usuarios' => [
+        'tabla' => 'usuarios',
+        'pk' => 'id',
+        'campos' => [
+            'nombre',
+            'dni',
+            'usuario',
+            'contraseña',
+            'rol',
+            'estado'
+            // fecha_registro NO se incluye porque es automática
+        ]
     ]
 ];
+
 
 if (!isset($config[$modulo])) {
     die('Módulo no válido');

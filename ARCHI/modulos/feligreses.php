@@ -35,7 +35,7 @@ try {
 
         <h2>Gestión de Feligreses</h2>
         
-        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
+     <!--    <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
             <h4 style="margin-top: 0; color: #2c3e50;">
                 <i class="fas fa-search"></i> Buscar Feligreses
             </h4>
@@ -81,7 +81,7 @@ try {
                 </span>
             </div>
             <?php endif; ?>
-        </div>
+        </div> -->
 
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
             <div>
@@ -91,11 +91,11 @@ try {
                     <span class="tooltiptext">Registrar nuevo feligrés</span>
                 </button>
                 
-                <button class="btn tooltip" onclick="imprimirListaFeligreses()" 
+                <!-- <button class="btn tooltip" onclick="imprimirListaFeligreses()" 
                         style="width: auto; background: #34495e; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 5px; cursor: pointer; font-weight: 600;">
                     <i class="fas fa-print"></i> Imprimir Lista
                     <span class="tooltiptext">Imprimir la lista actual de feligreses</span>
-                </button>
+                </button> -->
             </div>
             
             <div style="color: #7f8c8d; font-size: 0.9rem;">
@@ -129,6 +129,7 @@ try {
                                     <i class="fas fa-eye"></i>
                                     <span class="tooltiptext">Ver detalles</span>
                                 </button>
+                                
                                 <button class="btn-action btn-edit tooltip" onclick="abrirModalFeligres('editar', <?php echo $feligres['id_feligres']; ?>)">
                                     <i class="fas fa-edit"></i>
                                     <span class="tooltiptext">Editar</span>
@@ -137,14 +138,14 @@ try {
                                     <i class="fas fa-trash"></i>
                                     <span class="tooltiptext">Eliminar</span>
                                 </button>
-                                <button class="btn-action tooltip" onclick="imprimirFeligres(<?php echo $feligres['id_feligres']; ?>)" style="background-color: #34495e;">
+                               <!--  <button class="btn-action tooltip" onclick="imprimirFeligres(<?php echo $feligres['id_feligres']; ?>)" style="background-color: #34495e;">
                                     <i class="fas fa-print"></i>
                                     <span class="tooltiptext">Imprimir Registro</span>
-                                </button>
-                                <button class="btn-action tooltip" onclick="imprimirBautismoFeligres(<?php echo $feligres['id_feligres']; ?>)" style="background-color: #f39c12;">
+                                </button> -->
+                               <!--  <button class="btn-action tooltip" onclick="imprimirBautismoFeligres(<?php echo $feligres['id_feligres']; ?>)" style="background-color: #f39c12;">
                                     <i class="fas fa-certificate"></i>
                                     <span class="tooltiptext">Certificado Bautismo</span>
-                                </button>
+                                </button> -->
                             </div>
                         </td>
                     </tr>
@@ -170,5 +171,23 @@ try {
 
        
         
+<!-- =========================== Modal para ver Feligres ================ -->
+<div id="modalVerFeligres" class="modal-overlay">
+    <div class="modal-card">
+        <div class="modal-header">
+            <h3   ><i class="fas fa-user-shield "></i> Detalle del Feligres</h3>
+            <button onclick="cerrarModalFeligres()">×</button>
+        </div>
 
+        <div class="modal-body" id="contenidoFeligres">
+            <!-- Contenido dinámico -->
+        </div>
+
+        <div class="modal-footer">
+            <button onclick="cerrarModalFeligres()" class="btn-cerrar">
+                Cerrar
+            </button>
+        </div>
+    </div>
+</div>
  

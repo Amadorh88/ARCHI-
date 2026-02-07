@@ -99,7 +99,17 @@ $recentActivities = getRecentActivities($bd, 5);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/dashboard.css">
     <link rel="stylesheet" href="css/modals-certificates.css">
-    
+    <link rel="stylesheet" href="css/jquery.dataTables.min.css">
+    <!-- jQuery -->
+<!-- <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script> -->
+
+<!-- DataTables -->
+<!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css"> -->
+<script src="css/jquery.dataTables.min.js"></script>
+
+<!-- DataTables idioma español -->
+<script src="css/es-ES.json"></script>
+
     <script src="js/modals-system.js"></script>
     <style>
         /* Estilos adicionales para el panel de admin */
@@ -260,7 +270,110 @@ $recentActivities = getRecentActivities($bd, 5);
             max-width: 600px;
             margin: 0 auto;
         }
+
+        /* ============== MODAL ========== */
+        /* Overlay */
+.modal-overlay {
+    position: fixed;
+    inset: 0; /* top:0 right:0 bottom:0 left:0 */
+    background: rgba(0, 0, 0, 0.6); 
+    display: none;               /* oculto por defecto */
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;               /* MUY IMPORTANTE */
+}
+
+.modal-header h3 {
+    color: white !important; /* !important asegura que no sea sobrescrito */
+}
+/* Tarjeta del modal */
+.modal-card {
+    background: #fff;
+    width: 100%;
+    max-width: 500px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 15px 40px rgba(0,0,0,.3);
+    animation: modalFade .25s ease;
+}
+
+/* Header */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: #2c3e50;
+    color: white;
+}
+
+.modal-header button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* Body */
+.modal-body {
+    padding: 1.2rem;
+}
+
+.modal-body p {
+    margin: .4rem 0;
+}
+
+.modal-body span {
+    font-weight: bold;
+}
+
+/* Footer */
+.modal-footer {
+    padding: 1rem;
+    text-align: right;
+    background: #f4f4f4;
+}
+
+.btn-cerrar {
+    background: #c0392b;
+    color: white;
+    border: none;
+    padding: .5rem 1.2rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.modal-body h4 {
+    margin-top: 1rem;
+    margin-bottom: .5rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.modal-body p {
+    margin: .25rem 0;
+}
+
+.modal-body span {
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+/* Animación */
+@keyframes modalFade {
+    from {
+        transform: translateY(-15px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
     </style>
+    <!--  -->
+      
 </head>
 <body>
     <div class="alert-container" id="alertContainer"></div>
@@ -433,6 +546,7 @@ $recentActivities = getRecentActivities($bd, 5);
     <script src="js/confirmacion.js"></script>
     <script src="js/matrimonio.js"></script>
     <script src="js/usuarios.js"></script>
+<!--     <script src="js/usuarios.js"></script> -->
     <script>
         // Script adicional para el panel de admin
         document.addEventListener('DOMContentLoaded', function() {

@@ -24,9 +24,65 @@ function abrirModalFeligres(accion, id = null) {
 /* ===============================
    VER FELIGRES
 ================================ */
-function verFeligres(id) {
+/* function verFeligres(id) {
     abrirModalFeligres('ver', id);
 }
+ */
+function verFeligres(id) {
+    fetch(`acciones/feligres_ver.php?id=${id}`)
+        .then(r => r.json())
+        .then(f => {
+
+            document.getElementById('contenidoFeligres').innerHTML = `
+                <h4 style="color:#2c3e50;">Datos Personales</h4>
+                <p><span>Nombre completo:</span> ${f.nombre_completo}</p>
+                <p><span>Padre:</span> ${f.nombre_padre ?? '—'}</p>
+                <p><span>Madre:</span> ${f.nombre_madre ?? '—'}</p>
+                <p><span>Fecha de nacimiento:</span> ${f.fecha_nacimiento ?? '—'}</p>
+                <p><span>Lugar de nacimiento:</span> ${f.lugar_nacimiento ?? '—'}</p>
+
+                <hr>
+
+                <h4 style="color:#2980b9;">Bautismo</h4>
+                <p><span>Registro:</span> ${f.bautismo_registro ?? '—'}</p>
+                <p><span>Fecha:</span> ${f.bautismo_fecha ?? '—'}</p>
+
+                <hr>
+
+                <h4 style="color:#27ae60;">Catequesis</h4>
+                <p><span>Tipo:</span> ${f.catequesis_tipo ?? '—'}</p>
+                <p><span>Curso:</span> ${f.nombre_catequesis ?? '—'}</p>
+
+                <hr>
+
+                <h4 style="color:#f39c12;">Comunión</h4>
+                <p><span>Fecha:</span> ${f.com_fecha ?? '—'}</p>
+
+                <hr>
+
+                <h4 style="color:#8e44ad;">Confirmación</h4>
+                <p><span>Fecha:</span> ${f.conf_fecha ?? '—'}</p>
+
+                <hr>
+
+                <h4 style="color:#c0392b;">Matrimonio</h4>
+                <p><span>Fecha:</span> ${f.mat_fecha ?? '—'}</p>
+                <p><span>Lugar:</span> ${f.mat_lugar ?? '—'}</p>
+            `;
+
+            document.getElementById('modalVerFeligres').style.display = 'flex';
+        })
+        .catch(err => {
+            console.error('[FELIGRES]', err);
+            alert('No se pudo cargar la información del feligrés');
+        });
+}
+
+function cerrarModalFeligres() {
+    document.getElementById('modalVerFeligres').style.display = 'none';
+}
+
+
 
 /* ===============================
    GUARDAR / EDITAR

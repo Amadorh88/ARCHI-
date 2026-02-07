@@ -26,9 +26,33 @@ function abrirModalUsuario(accion, id = null) {
 }
 
 // Abrir Modal según acción
+
 function verUsuario(id) {
-    abrirModalUsuario('ver', id);
+    fetch(`acciones/usuario_ver.php?id=${id}`)
+        .then(r => r.json())
+        .then(u => {
+            document.getElementById('contenidoUsuario').innerHTML = `
+                    <p><span>Nombre:</span> ${u.nombre}</p>
+                    <p><span>DNI:</span> ${u.dni}</p>
+                    <p><span>Usuario:</span> ${u.usuario}</p>
+                    <p><span>Rol:</span> ${u.rol}</p>
+                    <p><span>Estado:</span> 
+                        <strong style="color:${u.estado == 1 ? '#27ae60' : '#c0392b'}">
+                            ${u.estado == 1 ? 'Activo' : 'Inactivo'}
+                        </strong>
+                    </p>
+                    <p><span>Registrado:</span> ${u.fecha_registro}</p>
+                `;
+            document.getElementById('modalVerUsuario').style.display = 'flex';
+        });
 }
+
+function cerrarModalUsuario() {
+    document.getElementById('modalVerUsuario').style.display = 'none';
+}
+
+
+
 
 function agregarUsuario() {
     abrirModalUsuario('crear');
@@ -51,47 +75,54 @@ function guardarUsuario(e) {
         method: 'POST',
         body: data
     })
-    .then(res => res.json())
-    .then(resp => {
-        if (resp.success) {
-            location.reload();
-        } else {
-            alert(resp.message || 'Error al guardar usuario');
-        }
-    })
-    .catch(err => {
-        console.error('[USUARIOS]', err);
-        alert('Error interno del servidor');
-    });
+        .then(res => res.json())
+        .then(resp => {
+            if (resp.success) {
+                location.reload();
+            } else {
+                alert(resp.message || 'Error al guardar usuario');
+            }
+        })
+        .catch(err => {
+            console.error('[USUARIOS]', err);
+            alert('Error interno del servidor');
+        });
 }
 
 /* =========================================
-   Cambiar Estado Usuario
+   Cambiar Estado Usuario (CORREGIDO)
 ========================================= */
-function cambiarEstadoUsuario(id, nuevoEstado) {
+function toggleEstadoUsuario(id, estadoActual) {
+
+    // 🔁 invertir estado (1 → 0, 0 → 1)
+    const nuevoEstado = estadoActual == 1 ? 0 : 1;
+
+    const accion = nuevoEstado === 1 ? 'activar' : 'desactivar';
+    if (!confirm(`¿Deseas ${accion} este usuario?`)) return;
+
     const formData = new FormData();
     formData.append('id', id);
-    formData.append('modulo', 'usuarios'); // importante para el backend
-    formData.append('accion', 'cambiar_estado'); // backend puede diferenciar
-
-    formData.append('estado', nuevoEstado);
+    formData.append('estado', nuevoEstado); // 👈 AQUÍ ESTÁ LA CLAVE
 
     fetch('acciones/cambiar_estado_usuario.php', {
         method: 'POST',
         body: formData
     })
-    .then(res => res.json())
-    .then(data => {
-        if (!data.success) {
-            alert('Error al cambiar estado');
-            location.reload(); // revertir visualmente
-        }
-    })
-    .catch(err => {
-        console.error('[USUARIOS]', err);
-        alert('Error interno al cambiar estado');
-        location.reload();
-    });
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                // ✔ actualización visual simple y segura
+                location.reload();
+            } else {
+                alert(data.message || 'Error al cambiar estado');
+                location.reload();
+            }
+        })
+        .catch(err => {
+            console.error('[USUARIOS]', err);
+            alert('Error interno al cambiar estado');
+            location.reload();
+        });
 }
 
 /* =========================================
@@ -113,76 +144,101 @@ function executeConfirmedUsuario() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(tempDeleteUsuario)
     })
-    .then(res => res.json())
-    .then(data => {
-        if (data.success) location.reload();
-        else alert(data.message || 'Error al eliminar usuario');
-    })
-    .catch(err => {
-        console.error('[USUARIOS]', err);
-        alert('Error al eliminar');
-    });
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) location.reload();
+            else alert(data.message || 'Error al eliminar usuario');
+        })
+        .catch(err => {
+            console.error('[USUARIOS]', err);
+            alert('Error al eliminar');
+        });
 }
 
 function closeConfirmUsuarioModal() {
     document.getElementById('confirmModal').style.display = 'none';
 }
 
+/* ====================== */
+// BUSQUEDA
+/* ====================== */
 
-/* // Abrir Modales de CRUD
-function abrirModalCRUD(modulo, accion, id = null) {
-    const modal = document.getElementById('crudModal');
-    const container = document.getElementById('crudModalContent');
-    
-    fetch(`acciones/obtener_formulario.php?modulo=usuarios&accion=${accion}&id=${id}`)
-        .then(res => res.text())
-        .then(html => {
-            container.innerHTML = html;
-            modal.style.display = 'block';
-        });
-}
 
-// Cambiar Estado con el Interruptor
-function cambiarEstadoUsuario(id, nuevoEstado) {
-    const formData = new FormData();
-    formData.append('id', id);
-    formData.append('estado', nuevoEstado);
+document.getElementById('formBuscarUsuarios').addEventListener('submit', function (e) {
+    e.preventDefault();
+    buscarUsuarios();
+});
 
-    fetch('acciones/cambiar_estado_usuario.php', {
+function buscarUsuarios() {
+
+    const form = document.getElementById('formBuscarUsuarios');
+    const formData = new FormData(form);
+    console.log("estoy buscando")
+    fetch('acciones/buscar_usuarios.php', {
         method: 'POST',
         body: formData
     })
-    .then(res => res.json())
-    .then(data => {
-        if (!data.success) {
-            alert("Error al cambiar estado");
-            location.reload(); // Revertir visualmente si falla
-        }
+        .then(res => res.json())
+        .then(data => {
+            renderTablaUsuarios(data);
+        })
+        .catch(err => {
+            console.error('[BUSQUEDA USUARIOS]', err);
+            alert('Error al buscar usuarios');
+        });
+}
+
+function renderTablaUsuarios(usuarios) {
+
+    const tbody = document.getElementById('tablaUsuariosBody');
+    tbody.innerHTML = '';
+
+    if (usuarios.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="8" style="text-align:center;padding:2rem;">
+                    No se encontraron usuarios
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
+    usuarios.forEach(u => {
+        tbody.innerHTML += `
+            <tr>
+                <td>${u.id}</td>
+                <td>${escapeHtml(u.nombre)}</td>
+                <td>${escapeHtml(u.dni)}</td>
+                <td>${escapeHtml(u.usuario)}</td>
+                <td>${u.rol}</td>
+                <td>
+                    <button onclick="toggleEstadoUsuario(${u.id}, ${u.estado})"
+                        style="color:${u.estado == 1 ? '#c0392b' : '#27ae60'}"
+                        title="${u.estado == 1 ? 'Desactivar' : 'Activar'}">
+                        <i class="fas ${u.estado == 1 ? 'fa-user-slash' : 'fa-user-check'}"></i>
+                    </button>
+                </td>
+                <td>${u.fecha_registro}</td>
+                <td>
+                    <button onclick="verUsuario(${u.id})">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <button onclick="abrirModalUsuario('editar', ${u.id})">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                </td>
+            </tr>
+        `;
     });
 }
-
-// Confirmar Eliminación
-let tempDeleteData = null;
-function confirmarEliminar(modulo, id, nombre) {
-    tempDeleteData = { modulo, id };
-    document.getElementById('confirmMessage').innerText = `¿Eliminar a ${nombre}?`;
-    document.getElementById('confirmModal').style.display = 'block';
+renderTablaUsuarios()
+// 🔐 evitar XSS
+function escapeHtml(text) {
+    return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
 }
 
-function executeConfirmedAction() {
-    if (!tempDeleteData) return;
-    fetch('acciones/eliminar_registro.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(tempDeleteData)
-    })
-    .then(res => res.json())
-    .then(data => {
-        if (data.success) location.reload();
-        else alert(data.message);
-    });
-}
 
-function closeConfirmModal() {
-    document.getElementById('confirmModal').style.display = 'none';
-} */

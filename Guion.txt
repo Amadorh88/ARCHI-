@@ -8,7 +8,7 @@ PROYECTO SISTEMA PARROQUIAL
 3. Implementación  validaciones robustas tanto en el frontend como en el backend
 4. sistema de roles implementado al 80%
 
-		admin:  gestiona todo
+		admin:  gestiona todo -> Esta completado
 		archivista:  gestiona todo epcepto usuarios
 		secretaria:  puede ver y editar todo epcepto usuarios y no puede registrar o crear ningun modulo
 		parroco:  solo ve sacramentos, no puede registrar ni editar solo ver

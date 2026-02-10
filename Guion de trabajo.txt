@@ -1,0 +1,9 @@
+
+PROYECTO SISTEMA PARROQUIAL
+
+1. Revision completa de los botones
+2. Modulo de feligres imprima las partidas dispuestas n:
+	A. la primera cara disponemos del bautismo
+	B. la segunda cara el resto de sacramentos
+3. Implementación  validaciones robustas tanto en el frontend como en el backend
+4. 

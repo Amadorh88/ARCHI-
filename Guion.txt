@@ -13,3 +13,44 @@ PROYECTO SISTEMA PARROQUIAL
 		secretaria:  puede ver y editar todo epcepto usuarios y no puede registrar o crear ningun modulo
 		parroco:  solo ve sacramentos, no puede registrar ni editar solo ver
 
+DOCUMENTACION DEL PROYECTO SISTEMA GESTION DE UNA PARRROQUIA
+
+1. PRESENTACION
+	El sistema de gestion de parroquia esta creaco bajo una arquitectura MVC 
+	el stack utilizado en tecnologias de desarrollo es:
+		a. HTML5
+		b. Bootstrap 5+
+		c. CSS nativo
+		d. vanilla Javascript (uso de fetch) -> para la interractividad con el backend
+		e. PHP 8+ -> para la logica del modelo de negocio
+		f. Mysql -> lenguaje de consulta
+		g. Fpdf -> como libreria de generacion de pdf
+
+	El dispone de una carpeta llamada APP en el cual se aloja todo el PROYECTO
+	en esta carpeta dispone de los archivos y capetas como:
+		A. api -> se encarga de alojar los archivos del modelo los cuales se 
+				empaquetan en carpetas por modulo
+					1. catequesis
+					2. catequistas
+					3. cursos
+					4. feligres
+					5. ministros
+					6. ofrendas o pagos
+					7. parroquias
+					8. periodos
+					9. sacramentos 
+					10. usuarios 
+					11. dashboard
+				estas carpetas encieran archivos tipicos para el CRUD:
+					ver, guardar/editar, toggle, listar, obtener, etc 
+			B. la carpeta config -> encargada de alojar:
+				1. v2.sql -> el archivo de nuestro modelo de base de datos
+				2. db.php -> archivo de conexion de la base de datos 
+			C. la carpeta private -> es la carpeta de las vistas del sistema
+			D. Report -> esta carpeta es la que se encarga de alojar la libreria fpdf y los archivos generados 
+			E. por ultimo encontramos:
+				1.  auth.php -> archivo que valida la sacion de los usuarios por via post y redirige a la ruta private/dashboard.php
+						si todo fue exitoso, si no rederige a intex.html 
+				2. index.html -> este archivo, lleva la vista del login frontend 
+				3. index.php -> este archivo es la vista publica o portar del sistema, no requiere de permisos para acceder a él
+				

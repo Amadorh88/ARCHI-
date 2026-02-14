@@ -6,11 +6,11 @@ require_once "../config/db.php";
 // CONTROL DE SEGURIDAD (HILL)
 // =============================
 // Disciplina: Sin sesión no hay acceso.
-/* if (!isset($_SESSION['usuario'])) {
-    header('Location: login.php');
+if (!isset($_SESSION['usuario'])) {
+    header('Location: index.html');
     exit();
 }
- */
+
 $database = new Database();
 $db = $database->getConnection();
 

@@ -7,7 +7,7 @@ require_once "../config/db.php";
 // =============================
 // Disciplina: Sin sesión no hay acceso.
 if (!isset($_SESSION['usuario'])) {
-    header('Location: index.html');
+    header('Location: ../index.html');
     exit();
 }
 
@@ -15,14 +15,14 @@ $database = new Database();
 $db = $database->getConnection();
 
 $nombreUsuario = $_SESSION['nombre'] ?? "Usuario";
-$rolUsuario = $_SESSION['rol'] ?? "secretaria"; // admin, secretario, archivista, parroco
+$rolUsuario = $_SESSION['rol'] ?? "secretario"; // admin, secretario, archivista, parroco
 
 // Definición de permisos según el Sistema de Roles (Principio de Autoridad - Cialdini)
 // admin, archivista, secretario, parroco
-$rol = $_SESSION['rol'] ?? 'secretaria';
+$rol = $_SESSION['rol'] ?? 'secretario';
 
-$puede_crear = in_array($rolUsuario, ['admin', 'archivista']);
-$puede_editar = in_array($rolUsuario, ['admin', 'archivista', 'secretaria']);
+$puede_crear = in_array($rolUsuario, ['admin', 'secretario']);
+$puede_editar = in_array($rolUsuario, ['admin', 'archivista', 'secretario']);
 $es_solo_lector = ($rol === 'parroco');
 ?>
 

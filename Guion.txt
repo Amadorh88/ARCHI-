@@ -13,6 +13,10 @@ PROYECTO SISTEMA PARROQUIAL
 		secretaria:  puede ver y editar todo epcepto usuarios y no puede registrar o crear ningun modulo
 		parroco:  solo ve sacramentos, no puede registrar ni editar solo ver
 
+validaciones: 
+	1. catequistas
+	2. 
+
 DOCUMENTACION DEL PROYECTO SISTEMA GESTION DE UNA PARRROQUIA
 
 1. PRESENTACION

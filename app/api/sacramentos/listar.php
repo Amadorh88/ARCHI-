@@ -1,4 +1,6 @@
 <?php
+session_start();
+$rol = $_SESSION['rol'];
 require '../../config/db.php';
 header('Content-Type: application/json');
 

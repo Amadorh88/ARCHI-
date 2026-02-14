@@ -95,6 +95,16 @@
     </div>
 </div>
 
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="toastLive" class="toast align-items-center border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body" id="toastMensaje"></div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+    </div>
+</div>
+
+<!-- ============ VER DETALLES ============ -->
 <div class="modal fade" id="modalVerSacramento" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content border-0 shadow-lg overflow-hidden">
@@ -105,7 +115,10 @@
                 </div>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body p-0 bg-light" id="detalleContenido"></div>
+            
+            <div class="modal-body p-0 bg-light" id="detalleContenido">
+                </div>
+            
             <div class="modal-footer bg-white border-0">
                 <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cerrar Archivo</button>
                 <button type="button" class="btn btn-primary" onclick="window.print()">
@@ -116,14 +129,6 @@
     </div>
 </div>
 
-<div class="toast-container position-fixed bottom-0 end-0 p-3">
-    <div id="toastLive" class="toast align-items-center border-0" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="d-flex">
-            <div class="toast-body" id="toastMensaje"></div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-        </div>
-    </div>
-</div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -154,7 +159,7 @@ function mostrarToast(mensaje, tipo = "success") {
 }
 
 /* ==========================================
-   LISTADO Y RENDERIZADO (Kiyosaki & Hill Style)
+   LISTADO Y TABLA
    ========================================== */
 function listarSacramentos() {
     fetch('../api/sacramentos/listar.php')
@@ -169,21 +174,9 @@ function listarSacramentos() {
 function renderTabla(lista) {
     let html = '';
     lista.forEach(s => {
-        const esMatrimonio = s.tipo.toLowerCase() === 'matrimonio';
-        const esActivo = s.estado === 'activo';
-        
-        // Badge de Estado
-        const badge = esMatrimonio 
-            ? `<span class="badge ${esActivo ? 'bg-success' : 'bg-secondary'}">${s.estado}</span>`
+        const badge = s.tipo.toLowerCase() === 'matrimonio' 
+            ? `<span class="badge ${s.estado === 'activo' ? 'bg-success' : 'bg-secondary'} cursor-pointer" onclick="toggleMatrimonio(${s.id})">${s.estado}</span>`
             : `<span class="badge bg-info">Registrado</span>`;
-
-        // Botón Toggle dinámico (Solo para matrimonio)
-        const botonToggle = esMatrimonio ? `
-            <button class="btn btn-sm ${esActivo ? 'btn-outline-warning' : 'btn-outline-success'}" 
-                    title="${esActivo ? 'Anular/Desactivar' : 'Reactivar'}" 
-                    onclick="toggleMatrimonio(${s.id})">
-                <i class="bi ${esActivo ? 'bi-lock-fill' : 'bi-unlock-fill'}"></i>
-            </button>` : '';
 
         html += `
         <tr>
@@ -194,29 +187,24 @@ function renderTabla(lista) {
             <td><code>${s.registro}</code></td>
             <td>${badge}</td>
             <td class="text-end">
-                <div class="btn-group shadow-sm">
-                    <button class="btn btn-sm btn-outline-info" title="Ver Detalle" 
-                            onclick="verSacramento('${s.tipo.toLowerCase()}', ${s.id})">
-                        <i class="bi bi-eye-fill"></i>
-                    </button>
-                    ${botonToggle}
-                    <button class="btn btn-sm btn-outline-primary" title="Editar"
-                            onclick="editarSacramento(${s.id}, '${s.tipo}')">
-                        <i class="bi bi-pencil"></i>
-                    </button>
-                </div>
-            </td>
+            <button class="btn btn-sm btn-outline-info shadow-sm" 
+                    title="Ver Expediente Completo" 
+                    onclick="verSacramento('${s.tipo.toLowerCase()}', ${s.id})">
+                <i class="bi bi-eye-fill me-1"></i> Ver
+            </button>
+            <button class="btn btn-sm btn-outline-primary" onclick="editarSacramento(${s.id}, '${s.tipo}')"><i class="bi bi-pencil"></i></button>
+            
+                </td>
         </tr>`;
     });
     tabla.innerHTML = html || '<tr><td colspan="7" class="text-center">No hay datos</td></tr>';
 }
 
 /* ==========================================
-   LÓGICA DE NEGOCIO (Validaciones Hill)
+   ACCIONES MODAL
    ========================================== */
 function abrirModalNuevo() {
     form.reset();
-    selectorSacramento.disabled = false;
     document.getElementById('id_editar').value = '';
     document.getElementById('modalTitulo').innerHTML = '<i class="bi bi-plus-circle"></i> Nuevo Registro';
     limpiarFormularioIntermedio();
@@ -226,26 +214,22 @@ function abrirModalNuevo() {
 selectorSacramento.addEventListener('change', async function() {
     const tipo = this.value;
     limpiarFormularioIntermedio();
-    mostrarToast("Verificando aptitud y duplicados...", "info");
+    mostrarToast("Verificando aptitud...", "info");
 
-    try {
-        const res = await fetch(`../api/sacramentos/obtener_aptos.php?tipo=${mapaCatequesis[tipo]}`);
-        feligresesAptosCargados = await res.json();
-        
-        if (feligresesAptosCargados.length === 0) {
-            mostrarToast("No hay feligreses aptos o ya poseen este sacramento", "warning");
-            return;
-        }
-
-        renderizarCamposDinamicos(tipo, feligresesAptosCargados);
-        document.querySelectorAll('.campos-ocultos').forEach(el => el.style.display = 'block');
-        document.getElementById('fecha').disabled = false;
-        contenedor.style.display = 'flex';
-        if(!document.getElementById('checkManual').checked) generarCodigoAuto(tipo);
-        cargarAuxiliares();
-    } catch (e) {
-        mostrarToast("Error al validar feligreses", "error");
+    const res = await fetch(`../api/sacramentos/obtener_aptos.php?tipo=${mapaCatequesis[tipo]}`);
+    feligresesAptosCargados = await res.json();
+    
+    if (feligresesAptosCargados.length === 0) {
+        mostrarToast("Sin feligreses aptos para este sacramento", "warning");
+        return;
     }
+
+    renderizarCamposDinamicos(tipo, feligresesAptosCargados);
+    document.querySelectorAll('.campos-ocultos').forEach(el => el.style.display = 'block');
+    document.getElementById('fecha').disabled = false;
+    contenedor.style.display = 'flex';
+    if(!document.getElementById('checkManual').checked) generarCodigoAuto(tipo);
+    cargarAuxiliares();
 });
 
 function renderizarCamposDinamicos(tipo, lista) {
@@ -263,66 +247,12 @@ function renderizarCamposDinamicos(tipo, lista) {
             </div>`;
     } else {
         html = `<div class="col-md-12"><label class="form-label">Feligrés</label><select name="id_feligres" class="form-select">${opciones}</select></div>`;
-        if(tipo === 'bautismo') {
-            html += `<div class="col-md-6"><label class="form-label">Padrino</label><input name="padrino" class="form-control"></div>
-                     <div class="col-md-6"><label class="form-label">Madrina</label><input name="madrina" class="form-control"></div>`;
-        }
+        if(tipo === 'bautismo') html += `<div class="col-md-6"><label>Padrino</label><input name="padrino" class="form-control"></div><div class="col-md-6"><label>Madrina</label><input name="madrina" class="form-control"></div>`;
     }
     contenedor.innerHTML = html;
     document.getElementById('btnGuardar').disabled = false;
 }
 
-/* ==========================================
-   CRUD ACTIONS (Cialdini Authority)
-   ========================================== */
-function toggleMatrimonio(id) {
-    if(!confirm("¿Está seguro de cambiar el estado de este matrimonio? Esto afectará la aptitud de los feligreses.")) return;
-    
-    fetch(`../api/matrimonio/toggle.php?id=${id}`)
-        .then(res => res.json())
-        .then(data => {
-            mostrarToast("Estado actualizado correctamente", "success");
-            listarSacramentos();
-        })
-        .catch(() => mostrarToast("Error al procesar cambio", "error"));
-}
-
-async function verSacramento(tipo, id) {
-    try {
-        const res = await fetch(`../api/sacramentos/ver_detalle.php?id=${id}&tipo=${tipo}`);
-        const d = await res.json();
-        const container = document.getElementById('detalleContenido');
-
-        let html = `
-            <div class="p-4 bg-white border-bottom d-flex justify-content-between align-items-center">
-                <div><h5 class="text-primary fw-bold mb-1">${tipo.toUpperCase()}</h5><span class="badge bg-dark">REGISTRO: ${d.registro}</span></div>
-                <div class="text-end"><p class="mb-0 text-muted small">Fecha</p><h6 class="fw-bold">${d.fecha}</h6></div>
-            </div>
-            <div class="p-4"><div class="row g-4">
-                <div class="col-md-6">
-                    <h6 class="text-muted small fw-bold mb-3 border-bottom pb-1">DATOS DEL SUJETO</h6>
-                    <p class="mb-1"><strong>Nombre:</strong> ${d.feligres_nombre || 'Pareja'}</p>
-                    <p class="mb-1 text-secondary small">Padres: ${d.nombre_padre || 'N/A'} & ${d.nombre_madre || 'N/A'}</p>
-                </div>
-                <div class="col-md-6">
-                    <h6 class="text-muted small fw-bold mb-3 border-bottom pb-1">AUTORIDAD</h6>
-                    <p class="mb-1"><strong>Ministro:</strong> ${d.ministro_nombre}</p>
-                    <p class="mb-0 small"><strong>Parroquia:</strong> ${d.parroquia_nombre || 'Sede Central'}</p>
-                </div>`;
-
-        if (tipo === 'matrimonio' && d.participantes) {
-            html += `<div class="col-12 mt-3"><h6 class="fw-bold small">PARTICIPANTES:</h6><div class="d-flex flex-wrap gap-2">`;
-            d.participantes.split('|').forEach(p => html += `<span class="badge border text-dark bg-white">${p}</span>`);
-            html += `</div></div>`;
-        }
-
-        html += `</div></div>`;
-        container.innerHTML = html;
-        new bootstrap.Modal(document.getElementById('modalVerSacramento')).show();
-    } catch (e) { mostrarToast("Error al cargar detalles", "error"); }
-}
-
-// Resto de funciones auxiliares (agregarTestigo, cargarAuxiliares, etc. se mantienen)
 function agregarTestigo() {
     const opciones = feligresesAptosCargados.map(f => `<option value="${f.id_feligres}">${f.nombre_completo}</option>`).join('');
     const div = document.createElement('div');
@@ -333,11 +263,47 @@ function agregarTestigo() {
 }
 
 async function cargarAuxiliares() {
-    const [rMin, rPar] = await Promise.all([fetch('../api/ministros/listar.php'), fetch('../api/parroquias/listar.php')]);
-    document.getElementById('id_ministro').innerHTML = (await rMin.json()).map(m => `<option value="${m.id_ministro}">${m.nombre_completo}</option>`).join('');
-    document.getElementById('id_parroquia').innerHTML = (await rPar.json()).map(p => `<option value="${p.id_parroquia}">${p.nombre}</option>`).join('');
+    try {
+        // CAMBIO AQUÍ: Usar listar.php en lugar de ver.php
+        const [rMin, rPar] = await Promise.all([
+            fetch('../api/ministros/listar.php'), 
+            fetch('../api/parroquias/listar.php')
+        ]);
+        const ministros = await rMin.json();
+        const parroquias = await rPar.json();
+
+        const selectMin = document.getElementById('id_ministro');
+        const selectPar = document.getElementById('id_parroquia');
+
+        selectMin.innerHTML = ministros.map(m => `<option value="${m.id_ministro}">${m.nombre_completo}</option>`).join('');
+        selectPar.innerHTML = parroquias.map(p => `<option value="${p.id_parroquia}">${p.nombre}</option>`).join('');
+    } catch (e) { console.error(e); }
 }
 
+/* ==========================================
+   CRUD: GUARDAR Y OTROS
+   ========================================== */
+form.onsubmit = function(e) {
+    e.preventDefault();
+    fetch('../api/sacramentos/guardar.php', { method: 'POST', body: new FormData(this) })
+    .then(res => res.json())
+    .then(data => {
+        if(data.success) {
+            mostrarToast("¡Guardado!");
+            modalBS.hide();
+            listarSacramentos();
+        } else mostrarToast(data.error, "error");
+    });
+};
+
+function toggleMatrimonio(id) {
+    fetch(`../api/matrimonio/toggle.php?id=${id}`).then(() => listarSacramentos());
+}
+
+/* function editarSacramento(id, tipo) {
+    mostrarToast("Función de edición en desarrollo para tipo: " + tipo, "info");
+}
+ */
 function generarCodigoAuto(tipo) {
     document.getElementById('registro').value = `${tipo.substring(0,3).toUpperCase()}-${Math.floor(1000+Math.random()*9000)}`;
 }
@@ -348,18 +314,178 @@ function limpiarFormularioIntermedio() {
     document.querySelectorAll('.campos-ocultos').forEach(el => el.style.display = 'none');
 }
 
-form.onsubmit = function(e) {
-    e.preventDefault();
-    fetch('../api/sacramentos/guardar.php', { method: 'POST', body: new FormData(this) })
-    .then(res => res.json())
-    .then(data => {
-        if(data.success) { mostrarToast("¡Operación Exitosa!"); modalBS.hide(); listarSacramentos(); }
-        else mostrarToast(data.error, "error");
-    });
-};
+/* ==========================================
+   FUNCIÓN EDITAR (ACTUALIZADA)
+   ========================================== */
+   async function editarSacramento(id, tipoDisplay) {
+    const tipo = tipoDisplay.toLowerCase().replace("primera comunión", "comunion").replace("confirmación", "confirmacion");
+    
+    mostrarToast("Cargando datos del registro...", "info");
 
-// Iniciar sistema
+    try {
+        // 1. Obtener los datos actuales del registro
+        const res = await fetch(`../api/sacramentos/obtener.php?id=${id}&tipo=${tipo}`);
+        const datos = await res.json();
+
+        if (!datos) throw new Error("No se encontraron datos");
+
+        // 2. Preparar el modal
+        form.reset();
+        document.getElementById('id_editar').value = id;
+        document.getElementById('modalTitulo').innerHTML = `<i class="bi bi-pencil-square"></i> Editar ${tipoDisplay}`;
+        
+        // Bloquear el cambio de tipo de sacramento en edición para evitar inconsistencias
+        selectorSacramento.value = tipo;
+        selectorSacramento.disabled = true;
+
+        // 3. Cargar feligreses aptos para ese tipo (para llenar los selects)
+        const resAptos = await fetch(`../api/sacramentos/obtener_aptos.php?tipo=${mapaCatequesis[tipo]}`);
+        feligresesAptosCargados = await resAptos.json();
+
+        // 4. Renderizar los campos dinámicos
+        renderizarCamposDinamicos(tipo, feligresesAptosCargados);
+        
+        // 5. Rellenar campos comunes
+        document.getElementById('registro').value = datos.registro;
+        document.getElementById('fecha').value = datos.fecha;
+        document.getElementById('fecha').disabled = false;
+        document.querySelectorAll('.campos-ocultos').forEach(el => el.style.display = 'block');
+        contenedor.style.display = 'flex';
+
+        // 6. Rellenar campos específicos
+        await cargarAuxiliares(); // Asegurar que ministros y parroquias estén cargados
+        document.getElementById('id_ministro').value = datos.id_ministro;
+        document.getElementById('id_parroquia').value = datos.id_parroquia || "";
+
+        if (tipo === 'matrimonio') {
+            // Lógica para Matrimonio (tabla relacional)
+            const esposo = datos.participantes.find(p => p.rol === 'esposo');
+            const esposa = datos.participantes.find(p => p.rol === 'esposa');
+            const testigos = datos.participantes.filter(p => p.rol === 'testigo');
+
+            if(esposo) form.id_esposo.value = esposo.id_feligres;
+            if(esposa) form.id_esposa.value = esposa.id_feligres;
+
+            // Limpiar testigos por defecto y agregar los reales
+            document.getElementById('listaTestigos').innerHTML = '';
+            testigos.forEach((t, index) => {
+                if (index === 0) {
+                    // El primero va en el contenedor base
+                    const div = document.createElement('div');
+                    div.className = 'col-md-10';
+                    div.innerHTML = generarSelectTestigo(t.id_feligres);
+                    const btnAdd = document.createElement('div');
+                    btnAdd.className = 'col-md-2';
+                    btnAdd.innerHTML = `<button type="button" class="btn btn-primary w-100" onclick="agregarTestigo()"><i class="bi bi-plus"></i></button>`;
+                    document.getElementById('listaTestigos').appendChild(div);
+                    document.getElementById('listaTestigos').appendChild(btnAdd);
+                } else {
+                    agregarTestigo(t.id_feligres);
+                }
+            });
+        } else {
+            // Lógica para Bautismo, Comunion, Confirmación
+            form.id_feligres.value = datos.id_feligres;
+            if (tipo === 'bautismo') {
+                form.padrino.value = datos.padrino || "";
+                form.madrina.value = datos.madrina || "";
+            }
+        }
+
+        modalBS.show();
+
+    } catch (error) {
+        console.error(error);
+        mostrarToast("Error al cargar la edición", "error");
+    }
+}
+
+// Función auxiliar para generar el HTML del select de testigo
+function generarSelectTestigo(idSeleccionado = "") {
+    const opciones = feligresesAptosCargados.map(f => 
+        `<option value="${f.id_feligres}" ${f.id_feligres == idSeleccionado ? 'selected' : ''}>${f.nombre_completo}</option>`
+    ).join('');
+    return `<select name="testigos[]" class="form-select">${opciones}</select>`;
+}
+
+// Actualizar la función agregarTestigo para que acepte un ID preseleccionado
+function agregarTestigo(idPreseleccionado = "") {
+    const div = document.createElement('div');
+    div.className = 'col-md-10 mt-2 d-flex gap-2';
+    div.innerHTML = `
+        ${generarSelectTestigo(idPreseleccionado)}
+        <button type="button" class="btn btn-outline-danger" onclick="this.parentElement.remove()"><i class="bi bi-trash"></i></button>
+    `;
+    document.getElementById('listaTestigos').appendChild(div);
+}
+
+/* ======= VER DETALLES =========== */
+async function verSacramento(tipo, id) {
+    try {
+        const res = await fetch(`../api/sacramentos/ver_detalle.php?id=${id}&tipo=${tipo}`);
+        const d = await res.json();
+        
+        const modal = new bootstrap.Modal(document.getElementById('modalVerSacramento'));
+        const container = document.getElementById('detalleContenido');
+
+        // Diseño Elegante (Kiyosaki: La información es el activo más valioso)
+        let html = `
+            <div class="p-4 bg-white border-bottom d-flex justify-content-between align-items-center">
+                <div>
+                    <h5 class="text-primary fw-bold mb-1">${tipo.toUpperCase()}</h5>
+                    <span class="badge bg-dark">REGISTRO: ${d.registro}</span>
+                </div>
+                <div class="text-end">
+                    <p class="mb-0 text-muted small">Fecha de Celebración</p>
+                    <h6 class="fw-bold">${new Date(d.fecha).toLocaleDateString('es-ES', { dateStyle: 'long' })}</h6>
+                </div>
+            </div>
+            
+            <div class="p-4">
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <h6 class="text-muted text-uppercase small fw-bold mb-3 border-bottom pb-1">Datos del Feligres</h6>
+                        <p class="mb-1"><strong>Nombre:</strong> ${d.feligres_nombre || 'Ver Participantes'}</p>
+                        ${d.nombre_padre ? `<p class="mb-1 text-secondary">Padre: ${d.nombre_padre}</p>` : ''}
+                        ${d.nombre_madre ? `<p class="mb-1 text-secondary">Madre: ${d.nombre_madre}</p>` : ''}
+                        <p class="mb-1 text-secondary">Origen: ${d.lugar_nacimiento || 'N/A'}</p>
+                    </div>
+
+                    <div class="col-md-6">
+                        <h6 class="text-muted text-uppercase small fw-bold mb-3 border-bottom pb-1">Autoridad Eclesiástica</h6>
+                        <p class="mb-1"><strong>Ministro:</strong> ${d.ministro_nombre}</p>
+                        <p class="mb-1 badge bg-info text-dark">${d.ministro_rango}</p>
+                        <p class="mt-2 mb-0"><strong>Sede:</strong> ${d.parroquia_nombre || d.lugar || 'Sede Central'}</p>
+                        <small class="text-muted italic">${d.parroquia_dir || ''}</small>
+                    </div>
+
+                    <div class="col-12 mt-4 bg-light p-3 rounded border">
+                        <h6 class="fw-bold mb-3"><i class="bi bi-info-circle me-2"></i>Detalles de Fe y Testimonio</h6>
+                        <div class="row">
+        `;
+
+        if (tipo === 'matrimonio') {
+            const participantes = d.participantes.split('|');
+            participantes.forEach(p => {
+                html += `<div class="col-md-4 mb-2"><span class="badge bg-white text-dark border w-100 p-2">${p}</span></div>`;
+            });
+        } else if (tipo === 'bautismo') {
+            html += `
+                <div class="col-md-6"><strong>Padrino:</strong> ${d.padrino || 'N/A'}</div>
+                <div class="col-md-6"><strong>Madrina:</strong> ${d.madrina || 'N/A'}</div>
+            `;
+        } else {
+            html += `<div class="col-12 text-muted italic">Registro sacramental validado bajo actas parroquiales.</div>`;
+        }
+
+        html += `</div></div></div></div>`;
+        
+        container.innerHTML = html;
+        modal.show();
+    } catch (error) {
+        mostrarToast("No se pudo auditar el registro seleccionado", "error");
+    }
+}
+// Iniciar
 listarSacramentos();
 </script>
-<?php include 'footer.php'; ?>
- 

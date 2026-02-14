@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 12, 2026 at 04:44 PM
+-- Generation Time: Feb 14, 2026 at 02:38 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -100,7 +100,9 @@ CREATE TABLE `bautismo` (
 
 INSERT INTO `bautismo` (`id_bautismo`, `registro`, `id_feligres`, `fecha`, `padrino`, `madrina`, `id_ministro`, `id_parroquia`) VALUES
 (1, 'B001', 1, '1997-06-15', 'Miguel Torres', 'Laura Díaz', 1, 1),
-(2, 'Mtg-145', 4, '2026-01-30', NULL, NULL, 4, 1);
+(2, 'Mtg-145', 4, '2026-01-30', NULL, NULL, 4, 1),
+(3, 'BAU-2541', 7, '2026-02-10', 'Justo sima', 'melani costa', 3, 1),
+(4, 'BAU-8175', 8, '2007-12-08', 'Duga', 'Isabel', 2, 4);
 
 -- --------------------------------------------------------
 
@@ -111,7 +113,7 @@ INSERT INTO `bautismo` (`id_bautismo`, `registro`, `id_feligres`, `fecha`, `padr
 CREATE TABLE `catequesis` (
   `id_catequesis` int(11) NOT NULL,
   `id_feligres` int(11) DEFAULT NULL,
-  `nombre_catequesis` varchar(150) DEFAULT NULL,
+  `estado` tinyint(1) NOT NULL DEFAULT 1,
   `id_curso` int(11) DEFAULT NULL,
   `id_parroquia` int(11) DEFAULT NULL,
   `id_periodo` int(11) DEFAULT NULL,
@@ -122,9 +124,14 @@ CREATE TABLE `catequesis` (
 -- Dumping data for table `catequesis`
 --
 
-INSERT INTO `catequesis` (`id_catequesis`, `id_feligres`, `nombre_catequesis`, `id_curso`, `id_parroquia`, `id_periodo`, `tipo`) VALUES
-(1, 1, 'Catequesis de Primera Comunión', 1, 1, NULL, 'Primera comunión'),
-(2, 2, 'Catequesis Pre-matrimonial', 2, 2, NULL, 'Matrimonial');
+INSERT INTO `catequesis` (`id_catequesis`, `id_feligres`, `estado`, `id_curso`, `id_parroquia`, `id_periodo`, `tipo`) VALUES
+(1, 1, 0, 1, 1, NULL, 'Primera comunión'),
+(2, 2, 0, 2, 2, NULL, 'Matrimonial'),
+(3, 2, 1, 2, NULL, 13, 'Matrimonial'),
+(4, 4, 1, 1, NULL, 13, 'Pre-bautismal'),
+(5, 7, 1, 3, 3, 16, 'Pre-bautismal'),
+(6, 8, 1, 3, 4, 16, 'Pre-bautismal'),
+(7, 8, 0, 3, 4, 16, 'Pre-bautismal');
 
 -- --------------------------------------------------------
 
@@ -146,7 +153,8 @@ CREATE TABLE `catequista` (
 INSERT INTO `catequista` (`id_catequista`, `nombre`, `telefono`, `especialidad`) VALUES
 (1, 'María Fernández', '600-555-666', 'Catequesis infantil'),
 (2, 'Roberto García', '600-777-888', 'Catequesis matrimonial'),
-(3, 'pedro tantambar', '55120456', 'In. Informática');
+(3, 'pedro tantambar', '55120456', 'In. Informática'),
+(4, 'Luciano Belono', '222000000', 'In. Sistemas');
 
 -- --------------------------------------------------------
 
@@ -214,7 +222,8 @@ CREATE TABLE `curso` (
 
 INSERT INTO `curso` (`id_curso`, `nombre`, `duracion`, `id_catequista`, `observaciones`) VALUES
 (1, 'Curso de Primera Comunión', '6 meses', 1, 'Niños entre 8 y 12 años'),
-(2, 'Curso Pre-matrimonial', '3 meses', 2, 'Parejas que van a contraer matrimonio');
+(2, 'Curso Pre-matrimonial', '3 meses', 2, 'Parejas que van a contraer matrimonio'),
+(3, 'pre-bautizmal', '3 semanas', 2, NULL);
 
 -- --------------------------------------------------------
 
@@ -240,7 +249,10 @@ INSERT INTO `feligres` (`id_feligres`, `nombre_completo`, `nombre_padre`, `nombr
 (2, 'Ana Gómez Ruiz', 'Pedro Gómez', 'Lucía Ruiz', '1998-03-22', 'Ciudad B'),
 (3, 'Melania Sima', 'mariano kastro', 'Marta Losa', '2024-02-15', 'Malabo'),
 (4, 'Melania kastro', 'mariano kastro', 'Marta Losa', '2025-12-31', 'Malabo'),
-(5, 'Petra Cataña', 'Nestor Castaña ', 'Lilia Beña', '2021-06-09', 'Pale');
+(5, 'Petra Cataña', 'Nestor Castaña ', 'Lilia Beña', '2021-06-09', 'Pale'),
+(6, 'Jaime Esapa eko', 'Martin Esapa Elo', 'Claudia eko lopelo', '2027-06-09', 'Malabo'),
+(7, 'PEPE PEGASO MOSTO', 'MARTIN METE', 'MARTA LOSA', '2026-01-26', 'Malabo'),
+(8, 'RUFINA BECHIRO BATAPA', 'FELIX BECHIRO BUELE', 'SECUNDINA BATAPA FAMBOY', '2004-12-31', 'Malabo');
 
 -- --------------------------------------------------------
 
@@ -323,17 +335,19 @@ CREATE TABLE `pago` (
   `cantidad` decimal(10,2) DEFAULT NULL,
   `recibido` decimal(10,2) DEFAULT NULL,
   `cambio` decimal(10,2) DEFAULT NULL,
-  `id_feligres` int(11) DEFAULT NULL
+  `id_feligres` int(11) DEFAULT NULL,
+  `fecha` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `pago`
 --
 
-INSERT INTO `pago` (`id_pago`, `concepto`, `cantidad`, `recibido`, `cambio`, `id_feligres`) VALUES
-(1, 'Matrícula catequesis', 50.00, 50.00, 0.00, 1),
-(2, 'Donación sacramento', 100.00, 100.00, 0.00, 2),
-(3, 'bautismo', 12000.00, 12000.00, 0.00, 2);
+INSERT INTO `pago` (`id_pago`, `concepto`, `cantidad`, `recibido`, `cambio`, `id_feligres`, `fecha`) VALUES
+(1, 'Matrícula catequesis', 50.00, 50.00, 0.00, 1, '2026-02-10 11:09:10'),
+(2, 'Donación sacramento', 100.00, 100.00, 0.00, 2, '2026-02-10 11:09:10'),
+(3, 'bautismo', 12000.00, 12000.00, 0.00, 2, '2026-02-10 11:09:10'),
+(4, 'diezmo', 1000.00, 1000.00, 0.00, 7, '2026-02-10 11:15:50');
 
 -- --------------------------------------------------------
 
@@ -355,7 +369,8 @@ CREATE TABLE `parroquia` (
 INSERT INTO `parroquia` (`id_parroquia`, `nombre`, `direccion`, `telefono`) VALUES
 (1, 'Inmaculado Corazón de María', 'Avda de la Independencia', '222-111-333'),
 (2, 'Parroquia Santa María', 'Av. Central 456', '222-222-444'),
-(3, 'Santander', 'Malabo', '222001122');
+(3, 'Santander', 'Malabo', '222001122'),
+(4, 'Catedral', 'Malabo', '222000000');
 
 -- --------------------------------------------------------
 
@@ -365,11 +380,25 @@ INSERT INTO `parroquia` (`id_parroquia`, `nombre`, `direccion`, `telefono`) VALU
 
 CREATE TABLE `periodo` (
   `id_periodo` int(11) NOT NULL,
-  `nombre` varchar(150) NOT NULL,
-  `fecha_inicio` date DEFAULT NULL,
-  `fecha_fin` date DEFAULT NULL,
+  `nombre` varchar(150) DEFAULT NULL,
+  `fecha_inicio` year(4) NOT NULL,
+  `fecha_fin` year(4) NOT NULL,
   `estado` enum('activo','finalizado') DEFAULT 'activo'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Dumping data for table `periodo`
+--
+
+INSERT INTO `periodo` (`id_periodo`, `nombre`, `fecha_inicio`, `fecha_fin`, `estado`) VALUES
+(13, NULL, '2021', '2022', 'finalizado'),
+(14, NULL, '2025', '2026', 'finalizado'),
+(16, NULL, '2026', '2027', 'finalizado'),
+(17, NULL, '2024', '2025', 'finalizado'),
+(19, NULL, '2023', '2024', 'finalizado'),
+(20, NULL, '2022', '2023', 'finalizado'),
+(22, NULL, '2006', '2007', 'finalizado'),
+(24, NULL, '2016', '2017', 'activo');
 
 -- --------------------------------------------------------
 
@@ -405,7 +434,9 @@ CREATE TABLE `usuarios` (
 
 INSERT INTO `usuarios` (`id`, `nombre`, `dni`, `usuario`, `contraseña`, `rol`, `estado`, `fecha_registro`) VALUES
 (1, 'Amador Batapa', '0001457896', 'admin', '$2y$10$rOEIJPa2eBlWq.ztzpCzweP5KFoHD5V3wXqGtv1o0p8Jg6EEShzwu', 'admin', 1, '2025-06-07 08:37:10'),
-(5, 'marcos Aurelia', '000000000', 'archivista', '123456', 'archivista', 0, '2026-02-06 22:57:23');
+(5, 'marcos Aurelia', '000000000', 'parroco', '$2y$10$P93gjShcoOipQ1okC8a4LeCwwZ7kA3GMH2uwucuaUNZNruWxHjO/6', 'parroco', 1, '2026-02-06 22:57:23'),
+(6, 'pedro yamba', '0001457899', 'archi', '$2y$10$kfTVGuHHl8vWlJew.YwdjO97xAJnyD379kYQBppOuW2TvSPG3MO2y', 'archivista', 1, '2026-02-10 14:43:26'),
+(7, 'monica faustina', '0001457895', 'secretaria', '$2y$10$fovk4HspGqAidglA.FDtH.Yci.T29uOKC5y/UoJ/98staOtEcL1Xu', 'secretario', 1, '2026-02-10 14:47:39');
 
 --
 -- Indexes for dumped tables
@@ -513,7 +544,8 @@ ALTER TABLE `parroquia`
 -- Indexes for table `periodo`
 --
 ALTER TABLE `periodo`
-  ADD PRIMARY KEY (`id_periodo`);
+  ADD PRIMARY KEY (`id_periodo`),
+  ADD UNIQUE KEY `unique_periodo` (`fecha_inicio`,`fecha_fin`);
 
 --
 -- Indexes for table `sacramento`
@@ -543,19 +575,19 @@ ALTER TABLE `actividades`
 -- AUTO_INCREMENT for table `bautismo`
 --
 ALTER TABLE `bautismo`
-  MODIFY `id_bautismo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_bautismo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `catequesis`
 --
 ALTER TABLE `catequesis`
-  MODIFY `id_catequesis` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_catequesis` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `catequista`
 --
 ALTER TABLE `catequista`
-  MODIFY `id_catequista` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_catequista` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `comunion`
@@ -573,13 +605,13 @@ ALTER TABLE `confirmacion`
 -- AUTO_INCREMENT for table `curso`
 --
 ALTER TABLE `curso`
-  MODIFY `id_curso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_curso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `feligres`
 --
 ALTER TABLE `feligres`
-  MODIFY `id_feligres` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_feligres` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `matrimonio`
@@ -603,19 +635,19 @@ ALTER TABLE `ministros`
 -- AUTO_INCREMENT for table `pago`
 --
 ALTER TABLE `pago`
-  MODIFY `id_pago` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_pago` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `parroquia`
 --
 ALTER TABLE `parroquia`
-  MODIFY `id_parroquia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_parroquia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `periodo`
 --
 ALTER TABLE `periodo`
-  MODIFY `id_periodo` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_periodo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `sacramento`
@@ -627,7 +659,7 @@ ALTER TABLE `sacramento`
 -- AUTO_INCREMENT for table `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Constraints for dumped tables

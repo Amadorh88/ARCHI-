@@ -155,8 +155,7 @@
                 <td class="small text-muted">${o.fecha || 'N/A'}</td>
                 <td class="text-end text-nowrap">
                     <button class="btn btn-sm btn-outline-primary me-1" onclick="editar(${o.id_pago})"><i class="bi bi-pencil"></i></button>
-                    <button class="btn btn-sm btn-outline-danger" onclick="eliminar(${o.id_pago})"><i class="bi bi-trash"></i></button>
-                </td>
+                      </td>
             </tr>`;
         });
         tabla.innerHTML = html || '<tr><td colspan="6" class="text-center py-4">Sin registros</td></tr>';

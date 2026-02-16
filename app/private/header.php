@@ -33,7 +33,7 @@ $es_solo_lector = ($rol === 'parroco');
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Panel Administrativo | Archidiócesis de Malabo</title>
+    <title>Panel Administrativo | Catedral de Malabo</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
@@ -126,7 +126,7 @@ $es_solo_lector = ($rol === 'parroco');
 
             <ul class="nav nav-pills flex-column small">
                 <li class="nav-item">
-                    <a class="nav-link active" href="dashboard.php"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a>
+                    <a class="nav-link active" href="dashboard.php"><i class="bi bi-speedometer2 me-2"></i>IInicio</a>
                 </li>
 
                 <?php if ($rolUsuario !== 'parroco'): ?>

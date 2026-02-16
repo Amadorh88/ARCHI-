@@ -3,7 +3,7 @@
 <div class="container-fluid py-4">
     <div class="mb-4">
         <h3 class="fw-bold text-dark">Bienvenido, <?php echo htmlspecialchars($nombreUsuario); ?></h3>
-        <p class="text-muted small">Estado actual del inventario sacramental de la Archidiócesis.</p>
+        <p class="text-muted small">Estado actual del inventario sacramental de la Catedral.</p>
     </div>
 
     <div class="row g-4 mb-5">
@@ -77,6 +77,13 @@
                                         <i class="bi bi-cash-stack d-block h4"></i> Ofrendas
                                     </a>
                                 </div>
+                                <?php endif; ?>
+                            <?php if ($rolUsuario === 'admin' ): ?>
+                                <div class="col-6 col-md-4">
+                                    <a href="actividades.php" class="btn btn-outline-success w-100 py-3">
+                                        <i class="bi bi-cash-stack d-block h4"></i> Eventos de usuarios
+                                    </a>
+                                </div>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -100,7 +107,7 @@
                     <i class="bi bi-info-circle me-1"></i>
                     <?php
                     if ($rolUsuario === 'parroco') {
-                        echo "Modo consulta: Solo visualización de sacramentos.";
+                        echo "Modo consulta: Solo visualización y confirmación de sacramentos.";
                     } else if ($rolUsuario === 'archivista') {
                         echo "Modo edición: Puede actualizar registros existentes, no registrar nuevos.";
                     } else if ($rolUsuario === 'secretario') {
@@ -145,5 +152,7 @@
         el.innerText = valor;
     }
 </script>
+
+<?php include 'footer.php'; ?>
 
 <?php include 'footer.php'; ?>

@@ -42,7 +42,7 @@
                     <thead class="table-light">
                         <tr>
                             <th>feligres</th>
-                            <th>Sacramento</th>
+                            <th>Catequesis</th>
                             <th>Curso / Mentor</th>
                             <th>Periodo</th>
                             <th class="text-end">Acciones</th>

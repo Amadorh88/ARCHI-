@@ -31,9 +31,11 @@
             <div class="d-flex gap-2">
                 <input type="text" id="busCatequesis" class="form-control" placeholder="Buscar feligres o curso..."
                     onkeyup="filtrarTabla('tablaCatequesis', this.value)">
+                    <?php if (($rolUsuario !== 'archivista')): ?>
                 <button class="btn btn-primary" onclick="nuevaCatequesis()">
                     <i class="bi bi-plus-circle"></i> Nueva Inscripción
                 </button>
+                 <?php endif; ?>
             </div>
         </div>
         <div class="card shadow-sm border-0">
@@ -60,9 +62,11 @@
             <div class="d-flex gap-2">
                 <input type="text" id="busCursos" class="form-control" placeholder="Buscar curso..."
                     onkeyup="filtrarTabla('tablaCursos', this.value)">
+                    <?php if (($rolUsuario !== 'archivista')): ?>
                 <button class="btn btn-success" onclick="nuevoCurso()">
                     <i class="bi bi-plus-circle"></i> Crear Curso
                 </button>
+                 <?php endif; ?>
             </div>
         </div>
         <div class="card shadow-sm border-0">
@@ -88,9 +92,11 @@
             <div class="d-flex gap-2">
                 <input type="text" id="busCatequistas" class="form-control" placeholder="Buscar mentor..."
                     onkeyup="filtrarTabla('tablaCatequistas', this.value)">
+                    <?php if (($rolUsuario !== 'archivista')): ?>
                 <button class="btn btn-dark" onclick="nuevoCatequista()">
                     <i class="bi bi-person-plus"></i> Nuevo Mentor
                 </button>
+                 <?php endif; ?>
             </div>
         </div>
         <div class="card shadow-sm border-0">
@@ -116,9 +122,11 @@
             <div class="d-flex gap-2">
                 <input type="text" id="busPeriodos" class="form-control" placeholder="Buscar año..."
                     onkeyup="filtrarTabla('tablaPeriodos', this.value)">
-                <button class="btn btn-info text-white" onclick="nuevoPeriodo()">
-                    <i class="bi bi-plus-circle"></i> Nuevo Periodo
-                </button>
+                <?php if (($rolUsuario !== 'archivista')): ?>
+                    <button class="btn btn-info text-white" onclick="nuevoPeriodo()">
+                        <i class="bi bi-plus-circle"></i> Nuevo Periodo
+                    </button>
+                <?php endif; ?>
             </div>
         </div>
         <div class="card shadow-sm border-0">
@@ -817,72 +825,72 @@
 
 
     // GUARDAR Catequistas
-   // GUARDAR Catequistas (con trazas)
-function guardarCatequista() {
-    console.group('🟦 guardarCatequista');
+    // GUARDAR Catequistas (con trazas)
+    function guardarCatequista() {
+        console.group('🟦 guardarCatequista');
 
-    const form = document.getElementById('formCatequista');
-    if (!form) {
-        console.error('❌ No se encontró el formulario #formCatequista');
-        alert('Error interno: formulario no encontrado');
-        console.groupEnd();
-        return;
-    }
-
-    const formData = new FormData(form);
-
-    // Mostrar datos enviados
-    console.log('📤 Datos enviados:');
-    for (let [key, value] of formData.entries()) {
-        console.log(`   ${key}:`, value);
-    }
-
-    fetch('../api/catequistas/guardar.php', {
-        method: 'POST',
-        body: formData
-    })
-        .then(res => {
-            console.log('📡 HTTP status:', res.status);
-            return res.text(); // ⬅️ primero texto crudo
-        })
-        .then(text => {
-            console.log('📥 Respuesta cruda:', text);
-
-            let data;
-            try {
-                data = JSON.parse(text);
-            } catch (e) {
-                throw new Error('La respuesta no es JSON válido');
-            }
-
-            if (data.success) {
-                console.log('✅ Operación exitosa');
-                MODALES.catequista?.hide();
-                listarCatequistas();
-                alert(data.message || 'Guardado correctamente');
-            } else {
-                console.warn('⚠️ Error controlado:', data.error || data.message);
-                alert(data.error || data.message || 'No se pudo guardar');
-            }
-        })
-        .catch(err => {
-            console.error('🔥 Error en guardarCatequista:', err);
-            alert('Error de conexión o respuesta inválida del servidor');
-        })
-        .finally(() => {
+        const form = document.getElementById('formCatequista');
+        if (!form) {
+            console.error('❌ No se encontró el formulario #formCatequista');
+            alert('Error interno: formulario no encontrado');
             console.groupEnd();
-        });
-}
+            return;
+        }
 
-document.addEventListener('DOMContentLoaded', () => {
-    const formCatequista = document.getElementById('formCatequista');
-    if (formCatequista) {
-        formCatequista.addEventListener('submit', e => {
-            e.preventDefault();
-            guardarCatequista(); // 👈 AHORA SÍ
-        });
+        const formData = new FormData(form);
+
+        // Mostrar datos enviados
+        console.log('📤 Datos enviados:');
+        for (let [key, value] of formData.entries()) {
+            console.log(`   ${key}:`, value);
+        }
+
+        fetch('../api/catequistas/guardar.php', {
+            method: 'POST',
+            body: formData
+        })
+            .then(res => {
+                console.log('📡 HTTP status:', res.status);
+                return res.text(); // ⬅️ primero texto crudo
+            })
+            .then(text => {
+                console.log('📥 Respuesta cruda:', text);
+
+                let data;
+                try {
+                    data = JSON.parse(text);
+                } catch (e) {
+                    throw new Error('La respuesta no es JSON válido');
+                }
+
+                if (data.success) {
+                    console.log('✅ Operación exitosa');
+                    MODALES.catequista?.hide();
+                    listarCatequistas();
+                    alert(data.message || 'Guardado correctamente');
+                } else {
+                    console.warn('⚠️ Error controlado:', data.error || data.message);
+                    alert(data.error || data.message || 'No se pudo guardar');
+                }
+            })
+            .catch(err => {
+                console.error('🔥 Error en guardarCatequista:', err);
+                alert('Error de conexión o respuesta inválida del servidor');
+            })
+            .finally(() => {
+                console.groupEnd();
+            });
     }
-});
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const formCatequista = document.getElementById('formCatequista');
+        if (formCatequista) {
+            formCatequista.addEventListener('submit', e => {
+                e.preventDefault();
+                guardarCatequista(); // 👈 AHORA SÍ
+            });
+        }
+    });
 
     // --- INICIALIZACIÓN ÚNICA ---
     document.addEventListener('DOMContentLoaded', () => {

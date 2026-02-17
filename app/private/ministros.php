@@ -8,9 +8,13 @@
 
         <div class="d-flex gap-2">
             <input type="text" id="buscador" class="form-control" placeholder="Buscar ministro...">
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalMinistro">
+           
+           <?php if (($rolUsuario !== 'archivista')): ?>
+             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalMinistro">
                 <i class="bi bi-plus-circle"></i> Nuevo
             </button>
+             <?php endif; ?>
+
         </div>
     </div>
 

@@ -1,21 +1,57 @@
 <?php
 session_start();
-$rol = $_SESSION['rol'];
 require '../../config/db.php';
 header('Content-Type: application/json');
+
+// Validar sesión
+if (!isset($_SESSION['rol'])) {
+    http_response_code(401);
+    echo json_encode(['error' => 'No autorizado']);
+    exit;
+}
 
 $db = (new Database())->getConnection();
 
 $query = "
-    SELECT id_bautismo as id, 'Bautismo' as tipo, f.nombre_completo as feligres, fecha, registro, 'N/A' as estado 
-    FROM bautismo b JOIN feligres f ON b.id_feligres = f.id_feligres
-    UNION
-    SELECT id_comunion, 'Comunión', f.nombre_completo, fecha, registro, 'N/A'
-    FROM comunion c JOIN feligres f ON c.id_feligres = f.id_feligres
-    UNION
-    SELECT id_matrimonio, 'Matrimonio', 'Pareja' as feligres, fecha, registro, estado
-    FROM matrimonio
+    SELECT 
+        b.id_bautismo AS id,
+        'Bautismo' AS tipo,
+        f.nombre_completo AS feligres,
+        b.fecha,
+        b.registro,
+        'N/A' AS estado
+    FROM bautismo b
+    INNER JOIN feligres f ON b.id_feligres = f.id_feligres
+
+    UNION ALL
+
+    SELECT 
+        c.id_comunion AS id,
+        'Comunión' AS tipo,
+        f.nombre_completo AS feligres,
+        c.fecha,
+        c.registro,
+        'N/A' AS estado
+    FROM comunion c
+    INNER JOIN feligres f ON c.id_feligres = f.id_feligres
+
+    UNION ALL
+
+    SELECT 
+        m.id_matrimonio AS id,
+        'Matrimonio' AS tipo,
+        'Pareja' AS feligres,
+        m.fecha,
+        m.registro,
+        m.estado
+    FROM matrimonio m
 ";
 
 $stmt = $db->query($query);
-echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+
+$response = [
+    'data' => $stmt->fetchAll(PDO::FETCH_ASSOC),
+    'rol'  => $_SESSION['rol']
+];
+
+echo json_encode($response);

@@ -358,7 +358,7 @@
                         if (MODALES[modalKey]) MODALES[modalKey].hide();
                         location.reload();
                     } else {
-                        alert("Error: " + (data.message || "No se pudo guardar"));
+                        alert("Error: " + (data.message || "No se pudo guardar "));
                     }
                 }).catch(err => console.error("Error al guardar:", err));
         });
@@ -433,7 +433,7 @@
                 form.querySelector('[name="id_periodo"]').value = data.data.id_periodo || '';
                 form.querySelector('[name="id_curso"]').value = data.data.id_curso || '';
                 form.querySelector('[name="id_parroquia"]').value = data.data.id_parroquia || '';
-               /*  form.querySelector('[name="nombre_catequesis"]').value = data.data.nombre_catequesis || ''; */
+                /*  form.querySelector('[name="nombre_catequesis"]').value = data.data.nombre_catequesis || ''; */
 
                 MODALES.catequesis?.show();
             })
@@ -441,12 +441,13 @@
     }
 
     // Guardar o editar catequesis
+
     function guardarCatequesis() {
         const form = document.getElementById('formCatequesis');
         if (!form) return;
 
         const formData = new FormData(form);
-
+        console.log("Mazda")
         fetch('../api/catequesis/guardar.php', {
             method: 'POST',
             body: formData
@@ -458,11 +459,13 @@
                     listarCatequesis(); // recarga la tabla
                     alert(data.message);
                 } else {
-                    alert("Error: " + (data.message || "No se pudo guardar"));
+                    alert("Error: " + (data.message || "No se pudo guardar cates"));
                 }
             })
             .catch(err => console.error("Error guardarCatequesis:", err));
     }
+
+
 
     // Asociar al submit del form
     document.addEventListener('DOMContentLoaded', () => {
@@ -808,6 +811,7 @@
 
 
     // GUARDAR Catequistas
+
     function guardarCatequista() {
         const form = document.getElementById('formCatequista');
         if (!form) return;
@@ -830,6 +834,7 @@
             })
             .catch(err => console.error("Error guardarCatequista:", err));
     }
+
 
 
     // --- INICIALIZACIÓN ÚNICA ---
@@ -861,5 +866,4 @@
         configForm('formPeriodo', 'periodos', 'periodo');
     });
 </script>
-   <?php include 'footer.php'; ?>
- 
+<?php include 'footer.php'; ?>

@@ -129,13 +129,13 @@ $es_solo_lector = ($rol === 'parroco');
                     <a class="nav-link active" href="dashboard.php"><i class="bi bi-speedometer2 me-2"></i>IInicio</a>
                 </li>
 
+
+
                 <?php if ($rolUsuario !== 'parroco'): ?>
                     <li class="nav-item">
                         <a class="nav-link" href="feligres.php"><i class="bi bi-people me-2"></i>Feligreses</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="ministros.php"><i class="bi bi-person-badge me-2"></i>Ministros</a>
-                    </li>
+                   
                 <?php endif; ?>
 
                 <li class="nav-item">
@@ -146,22 +146,33 @@ $es_solo_lector = ($rol === 'parroco');
                     <li class="nav-item">
                         <a class="nav-link" href="catequesis.php"><i class="bi bi-journal-bookmark me-2"></i>Catequesis</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="parroquias.php"><i class="bi bi-house-door me-2"></i>Parroquias</a>
-                    </li>
+                     
+                <?php endif; ?>
+                <?php if ($rolUsuario !== 'secretario' || $rolUsuario !== 'parroco'): ?>
+                    
                 <?php endif; ?>
 
                 <?php if ($rolUsuario === 'admin' || $rolUsuario === 'archivista'): ?>
                     <li class="nav-item">
                         <a class="nav-link" href="pagos.php"><i class="bi bi-cash-coin me-2"></i>Pagos / Ofrendas</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="ministros.php"><i class="bi bi-person-badge me-2"></i>Ministros</a>
+                    </li>
                 <?php endif; ?>
 
                 <?php if ($rolUsuario === 'admin'): ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="parroquias.php"><i class="bi bi-house-door me-2"></i>Parroquias</a>
+                    </li>
+
                     <li class="nav-item mt-4 pt-3 border-top border-secondary">
                         <span class="text-muted x-small text-uppercase ps-3" style="font-size: 0.7rem;">Configuración</span>
                         <a class="nav-link text-warning" href="usuarios.php">
                             <i class="bi bi-person-gear me-2"></i>Gestión Usuarios
+                        </a>
+                        <a class="nav-link text-warning" href="actividades.php">
+                            <i class="bi bi-person-gear me-2"></i>Gestión Actividades
                         </a>
                     </li>
                 <?php endif; ?>

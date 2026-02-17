@@ -441,13 +441,12 @@
     }
 
     // Guardar o editar catequesis
-
     function guardarCatequesis() {
         const form = document.getElementById('formCatequesis');
         if (!form) return;
 
         const formData = new FormData(form);
-        console.log("Mazda")
+
         fetch('../api/catequesis/guardar.php', {
             method: 'POST',
             body: formData
@@ -456,27 +455,30 @@
             .then(data => {
                 if (data.success) {
                     MODALES.catequesis?.hide();
-                    listarCatequesis(); // recarga la tabla
+                    listarCatequesis();
                     alert(data.message);
                 } else {
-                    alert("Error: " + (data.message || "No se pudo guardar cates"));
+                    alert("Error: " + (data.message || "No se pudo guardar"));
                 }
             })
-            .catch(err => console.error("Error guardarCatequesis:", err));
+            .catch(err => {
+                console.error("Error guardarCatequesis:", err);
+                alert("Error de conexión");
+            });
     }
 
-
-
     // Asociar al submit del form
-    document.addEventListener('DOMContentLoaded', () => {
-        const form = document.getElementById('formCatequesis');
-        if (form) {
-            form.addEventListener('submit', e => {
-                e.preventDefault();
-                guardarCatequesis();
-            });
-        }
-    });
+    /*  document.addEventListener('DOMContentLoaded', () => {
+         const form = document.getElementById('formCatequesis');
+         const form = document.getElementById('formCatequista');
+         if (form) {
+             form.addEventListener('submit', e => {
+                 e.preventDefault();
+                 guardarCatequesis();
+                 guardarCatequista();
+             });
+         }
+     }); */
 
 
     // --- FUNCIONES PERIODO ---
@@ -811,31 +813,72 @@
 
 
     // GUARDAR Catequistas
+   // GUARDAR Catequistas (con trazas)
+function guardarCatequista() {
+    console.group('🟦 guardarCatequista');
 
-    function guardarCatequista() {
-        const form = document.getElementById('formCatequista');
-        if (!form) return;
-
-        const formData = new FormData(form);
-
-        fetch('../api/catequistas/guardar.php', {
-            method: 'POST',
-            body: formData
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    MODALES.catequista?.hide();
-                    listarCatequistas();
-                    alert(data.message);
-                } else {
-                    alert("Error: " + (data.message || "No se pudo guardar"));
-                }
-            })
-            .catch(err => console.error("Error guardarCatequista:", err));
+    const form = document.getElementById('formCatequista');
+    if (!form) {
+        console.error('❌ No se encontró el formulario #formCatequista');
+        alert('Error interno: formulario no encontrado');
+        console.groupEnd();
+        return;
     }
 
+    const formData = new FormData(form);
 
+    // Mostrar datos enviados
+    console.log('📤 Datos enviados:');
+    for (let [key, value] of formData.entries()) {
+        console.log(`   ${key}:`, value);
+    }
+
+    fetch('../api/catequistas/guardar.php', {
+        method: 'POST',
+        body: formData
+    })
+        .then(res => {
+            console.log('📡 HTTP status:', res.status);
+            return res.text(); // ⬅️ primero texto crudo
+        })
+        .then(text => {
+            console.log('📥 Respuesta cruda:', text);
+
+            let data;
+            try {
+                data = JSON.parse(text);
+            } catch (e) {
+                throw new Error('La respuesta no es JSON válido');
+            }
+
+            if (data.success) {
+                console.log('✅ Operación exitosa');
+                MODALES.catequista?.hide();
+                listarCatequistas();
+                alert(data.message || 'Guardado correctamente');
+            } else {
+                console.warn('⚠️ Error controlado:', data.error || data.message);
+                alert(data.error || data.message || 'No se pudo guardar');
+            }
+        })
+        .catch(err => {
+            console.error('🔥 Error en guardarCatequista:', err);
+            alert('Error de conexión o respuesta inválida del servidor');
+        })
+        .finally(() => {
+            console.groupEnd();
+        });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const formCatequista = document.getElementById('formCatequista');
+    if (formCatequista) {
+        formCatequista.addEventListener('submit', e => {
+            e.preventDefault();
+            guardarCatequista(); // 👈 AHORA SÍ
+        });
+    }
+});
 
     // --- INICIALIZACIÓN ÚNICA ---
     document.addEventListener('DOMContentLoaded', () => {
@@ -862,7 +905,7 @@
         // Configurar formularios
         configForm('formCatequesis', 'catequesis', 'catequesis');
         configForm('formCurso', 'cursos', 'curso');
-        configForm('formCatequista', 'catequistas', 'catequista');
+        /*   configForm('formCatequista', 'catequistas', 'catequista'); */
         configForm('formPeriodo', 'periodos', 'periodo');
     });
 </script>

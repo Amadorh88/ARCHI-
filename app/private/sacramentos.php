@@ -149,11 +149,12 @@
     let feligresesAptosCargados = [];
 
     const mapaCatequesis = {
-        'bautismo': 'Pre-bautismal',
-        'comunion': 'Primera comunión',
-        'confirmacion': 'Confirmación',
-        'matrimonio': 'Matrimonial'
-    };
+    'bautismo': 'Bautismo',
+    'comunion': 'Comunión',
+    'confirmacion': 'Confirmación',
+    'matrimonio': 'Matrimonio'
+};
+
 
     function mostrarToast(mensaje, tipo = "success") {
         const el = document.getElementById('toastLive');
@@ -559,6 +560,20 @@ function toggleMatrimonio(id) {
             mostrarToast("No se pudo auditar el registro seleccionado", "error");
         }
     }
+    const buscador = document.getElementById('buscador');
+
+buscador.addEventListener('input', function() {
+    const texto = this.value.toLowerCase();
+
+    const filtrados = registrosGlobal.filter(r => {
+        const feligres = (r.feligres || '').toLowerCase();
+        const sacramento = (r.tipo || '').toLowerCase();
+        return feligres.includes(texto) || sacramento.includes(texto);
+    });
+
+    renderTabla(filtrados);
+});
+
     // Iniciar
     listarSacramentos();
 </script>

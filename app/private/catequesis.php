@@ -220,30 +220,34 @@
                             </span>
                         </td>
 
-                        <td class="text-end">
+                       <td class="text-end">
 
-                            <!-- Toggle Estado -->
-                            <div class="form-check form-switch d-inline-block me-2">
-                                <input 
-                                    class="form-check-input"
-                                    type="checkbox"
-                                    ${cat.estado == 1 ? 'checked' : ''}
-                                    onchange="toggleEstadoCatequesis(${cat.id_catequesis}, this)">
-                            </div>
+    <!-- Toggle Estado (oculto si ya hay sacramento) -->
+    ${cat.ya_tiene_sacramento ? '' : `
+    <div class="form-check form-switch d-inline-block me-2">
+        <input 
+            class="form-check-input"
+            type="checkbox"
+            ${cat.estado == 1 ? 'checked' : ''}
+            onchange="toggleEstadoCatequesis(${cat.id_catequesis}, this)">
+    </div>
+    `}
 
-                            <button 
-                                class="btn btn-sm btn-outline-primary"
-                                onclick="editarCatequesis(${cat.id_catequesis})">
-                                <i class="bi bi-pencil"></i>
-                            </button>
+    <button 
+        class="btn btn-sm btn-outline-primary"
+        onclick="editarCatequesis(${cat.id_catequesis})">
+        <i class="bi bi-pencil"></i>
+    </button>
 
-                        </td>
+</td>
+
                     </tr>
                 `).join('');
 
             })
             .catch(err => console.error("Error listarCatequesis:", err));
     }
+
     function listarCursos() {
         fetch('../api/cursos/listar.php').then(res => res.json()).then(data => {
             const tabla = document.getElementById("tablaCursos");

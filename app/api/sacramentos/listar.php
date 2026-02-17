@@ -38,6 +38,18 @@ $query = "
     UNION ALL
 
     SELECT 
+        co.id_confirmacion AS id,
+        'Confirmación' AS tipo,
+        f.nombre_completo AS feligres,
+        co.fecha,
+        co.registro,
+        'N/A' AS estado
+    FROM confirmacion co
+    INNER JOIN feligres f ON co.id_feligres = f.id_feligres
+
+    UNION ALL
+
+    SELECT 
         m.id_matrimonio AS id,
         'Matrimonio' AS tipo,
         'Pareja' AS feligres,

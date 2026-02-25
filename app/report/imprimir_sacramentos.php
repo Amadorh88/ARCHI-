@@ -65,12 +65,12 @@ function formatFechaCorta($fecha) {
 $feligres_id = $bautismo['id_feligres'];
 
 // Generar número de libro, número y folio basados en el registro
-$libro = '1'; // Por defecto, puedes ajustar según necesites
+$libro = '1';
 $numero = $bautismo['registro'] ?? str_pad($id_bautismo, 3, '0', STR_PAD_LEFT);
 $folio = str_pad($id_bautismo, 3, '0', STR_PAD_LEFT);
 
 // Ruta del logo
-$logo_path = 'img/logo_parroquia.png';
+$logo_path = 'imagenes/catedral.jpg';
 
 // Obtener datos de Comunión
 $query_comunion = "SELECT 
@@ -111,11 +111,9 @@ $query_matrimonio = "SELECT
                     INNER JOIN matrimonio mat ON mf.id_matrimonio = mat.id_matrimonio
                     LEFT JOIN ministros m ON mat.id_ministro = m.id_ministro
                     LEFT JOIN parroquia p ON mat.lugar = p.nombre
-                    -- Obtener esposo
                     LEFT JOIN matrimonio_feligres mf_esposo ON mat.id_matrimonio = mf_esposo.id_matrimonio 
                       AND mf_esposo.rol = 'esposo'
                     LEFT JOIN feligres f_esposo ON mf_esposo.id_feligres = f_esposo.id_feligres
-                    -- Obtener esposa
                     LEFT JOIN matrimonio_feligres mf_esposa ON mat.id_matrimonio = mf_esposa.id_matrimonio 
                       AND mf_esposa.rol = 'esposa'
                     LEFT JOIN feligres f_esposa ON mf_esposa.id_feligres = f_esposa.id_feligres
@@ -152,11 +150,9 @@ function formatFechaSimple($fecha) {
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Certificado de Bautismo</title>
+<title>Cédula de Bautismo - Registro Sacramental</title>
 
 <style>
-/* [Todo el CSS se mantiene igual] */
-
 :root{
     --gold: #8b7355;
     --brown: #5d4037;
@@ -202,14 +198,15 @@ body{
     cursor:pointer;
     font-size:12px;
     margin: 3px;
-        }
+}
 
+/* Estilos base del certificado */
 .certificate{
     width: 400px;
     height: 280px;
     margin: 60px auto 20px;
     background: var(--paper);
-    padding: 15px 25px;
+    padding: 12px 20px;
     border: 1px solid var(--gold);
     position: relative;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
@@ -225,62 +222,55 @@ body{
 /* Logo de la parroquia */
 .parish-logo {
     position: absolute;
-    top: 12px;
-    left: 20px;
+    top: 8px;
+    left: 15px;
     z-index: 10;
     text-align: center;
 }
 
 .parish-logo img {
-    max-width: 35px;
+    max-width: 30px;
     height: auto;
     margin-bottom: 1px;
 }
 
 .parish-logo .logo-text {
-    font-size: 7px;
+    font-size: 6px;
     color: var(--gray);
     font-style: italic;
     line-height: 1;
 }
 
-/* Información de la parroquia al lado del logo */
+/* Información de la parroquia */
 .parish-info {
     position: absolute;
-    top: 10px;
-    left: 65px;
+    top: 6px;
+    left: 50px;
     text-align: left;
     max-width: 160px;
 }
 
 .parish-info h2 {
-    font-size: 11px;
+    font-size: 9px;
     color: var(--brown);
-    margin: 0 0 1px 0;
+    margin: 0 0 0px 0;
     font-weight: bold;
     line-height: 1.1;
 }
 
 .parish-info .address {
-    font-size: 8px;
+    font-size: 7px;
     color: var(--gray);
     margin: 0;
     line-height: 1;
 }
 
-.parish-info .phone {
-    font-size: 7px;
-    color: var(--gray);
-    margin: 0;
-    font-style: italic;
-}
-
 /* Número de registro */
 .record-number {
     position: absolute;
-    top: 12px;
-    right: 20px;
-    font-size: 10px;
+    top: 6px;
+    right: 15px;
+    font-size: 8px;
     color: var(--brown);
     font-weight: bold;
     text-align: right;
@@ -290,14 +280,14 @@ body{
 /* Título del certificado */
 .book-header {
     text-align: center;
-    margin-bottom: 12px;
-    padding-bottom: 5px;
+    margin-bottom: 6px;
+    padding-bottom: 3px;
     border-bottom: 1px solid var(--gold);
-    margin-top: 40px;
+    margin-top: 32px;
 }
 
 .book-header h1 {
-    font-size: 14px;
+    font-size: 10px;
     color: var(--brown);
     margin: 0;
     font-weight: normal;
@@ -305,27 +295,27 @@ body{
 }
 
 .book-header .subtitle {
-    font-size: 9px;
+    font-size: 7px;
     color: var(--gray);
     margin-top: 1px;
     font-style: italic;
 }
 
-/* Contenido principal */
+/* Contenido principal - Primera cara */
 .main-content {
-    font-size: 11px;
+    font-size: 9px;
     line-height: 1.3;
 }
 
 .highlight-name {
-    font-size: 12px;
+    font-size: 9px;
     font-weight: bold;
     text-align: center;
-    margin: 6px 0;
+    margin: 4px 0;
     color: var(--brown);
     text-transform: uppercase;
     letter-spacing: 0.3px;
-    padding: 3px;
+    padding: 2px;
     border-top: 1px dashed var(--gold);
     border-bottom: 1px dashed var(--gold);
     line-height: 1.2;
@@ -338,10 +328,10 @@ body{
 }
 
 .parent-label {
-    min-width: 60px;
+    min-width: 45px;
     font-weight: bold;
     color: var(--brown);
-    font-size: 10px;
+    font-size: 8px;
 }
 
 .parent-names {
@@ -349,48 +339,48 @@ body{
     border-bottom: 1px dotted #999;
     padding-bottom: 0;
     margin-left: 3px;
-    font-size: 10px;
+    font-size: 8px;
     min-height: 12px;
 }
 
 .details {
     display: flex;
     justify-content: space-between;
-    margin: 6px 0;
-    font-size: 10px;
-    gap: 5px;
+    margin: 4px 0;
+    font-size: 8px;
+    gap: 3px;
 }
 
 .details div {
     flex: 1;
     padding: 0 2px;
-    min-height: 25px;
+    min-height: 20px;
 }
 
 .details strong {
-    font-size: 9px;
+    font-size: 7px;
     display: block;
     margin-bottom: 1px;
 }
 
-/* Divider lines */
+/* Líneas divisoras */
 .small-divider {
     border-top: 0.5px dashed var(--gold);
-    margin: 5px 0;
+    margin: 3px 0;
 }
 
 .large-divider {
     border-top: 1px solid var(--gold);
-    margin: 8px 0;
+    margin: 5px 0;
 }
 
 /* Firma y sello */
 .signature-section {
-    margin-top: 15px;
+    margin-top: 5px;
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    gap: 10px;
+    gap: 5px;
 }
 
 .signature-box {
@@ -401,14 +391,14 @@ body{
 
 .signature-line {
     border-top: 1px solid #333;
-    margin-top: 20px;
+    margin-top: 10px;
     padding-top: 1px;
-    font-size: 9px;
+    font-size: 7px;
     width: 100%;
 }
 
 .ministro-name {
-    font-size: 9px;
+    font-size: 8px;
     color: var(--brown);
     margin-top: 1px;
     font-weight: bold;
@@ -417,40 +407,235 @@ body{
 
 .parish-stamp {
     text-align: center;
-    font-size: 9px;
+    font-size: 7px;
     color: var(--gray);
     width: 45%;
     flex-shrink: 0;
 }
 
 .parish-name {
-    font-size: 10px;
+    font-size: 8px;
     font-weight: bold;
     color: var(--brown);
     margin-bottom: 1px;
     line-height: 1.1;
 }
 
-/* Pie de página */
-.page-number {
-    position: absolute;
-    bottom: 8px;
-    right: 20px;
-    font-size: 8px;
-    color: var(--gray);
-}
-
-/* Campos con datos */
 .data-field {
     font-weight: bold;
     color: #000;
-    font-size: 10px;
+    font-size: 8px;
     display: block;
     min-height: 12px;
     word-break: break-word;
     line-height: 1.1;
 }
 
+/* ====================================
+   ESTILOS SEGUNDA CARA - SACRAMENTOS
+   ==================================== */
+.certificate:last-child {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 15px;
+    height: 280px;
+    box-sizing: border-box;
+}
+
+.certificate:last-child .parish-logo img {
+    max-width: 25px;
+}
+
+.certificate:last-child .parish-info {
+    top: 5px;
+    left: 45px;
+}
+
+.certificate:last-child .parish-info h2 {
+    font-size: 8px;
+}
+
+.certificate:last-child .parish-info .address {
+    font-size: 6px;
+}
+
+.certificate:last-child .record-number {
+    top: 5px;
+    font-size: 7px;
+}
+
+.certificate:last-child .book-header {
+    margin-top: 25px;
+    margin-bottom: 3px;
+}
+
+.certificate:last-child .book-header h1 {
+    font-size: 9px;
+    letter-spacing: 0.3px;
+}
+
+/* Contenedor principal de sacramentos */
+.sacramentos-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 2px;
+    gap: 2px;
+}
+
+/* Cada sección de sacramento */
+.sacramento-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    font-size: 7.5px;
+    line-height: 1.2;
+    border: 1px solid rgba(139,115,85,0.1);
+    padding: 2px 4px;
+    border-radius: 2px;
+    margin-bottom: 1px;
+    background-color: rgba(139,115,85,0.02);
+}
+
+/* Título de cada sacramento */
+.sacramento-title {
+    font-size: 8px;
+    font-weight: bold;
+    text-align: center;
+    margin: 1px 0;
+    color: var(--brown);
+    text-transform: uppercase;
+    letter-spacing: 0.2px;
+    border-top: 0.5px dashed var(--gold);
+    border-bottom: 0.5px dashed var(--gold);
+    padding: 1px 0;
+    background-color: rgba(139,115,85,0.05);
+}
+
+/* Líneas de información */
+.sacramento-line {
+    display: flex;
+    align-items: center;
+    margin: 1px 0;
+    min-height: 10px;
+}
+
+.line-label {
+    min-width: 45px;
+    font-weight: bold;
+    color: var(--brown);
+    font-size: 7px;
+    background-color: rgba(139,115,85,0.03);
+    padding-left: 2px;
+}
+
+.line-value {
+    flex: 1;
+    border-bottom: 1px dotted #999;
+    margin-left: 2px;
+    padding-left: 2px;
+    font-size: 7px;
+    font-weight: bold;
+    color: #000;
+    min-height: 10px;
+    line-height: 1.1;
+}
+
+/* Estilos específicos para matrimonio */
+.matrimonio-details {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
+.conyuges-line {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    min-height: 10px;
+}
+
+.conyuge-label {
+    min-width: 35px;
+    font-weight: bold;
+    color: var(--brown);
+    font-size: 7px;
+    padding-left: 2px;
+}
+
+.testigos-section {
+    margin: 0;
+    padding-left: 0;
+}
+
+.testigo-line {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    min-height: 10px;
+}
+
+.testigo-label {
+    min-width: 40px;
+    font-weight: bold;
+    color: var(--brown);
+    font-size: 7px;
+    padding-left: 2px;
+}
+
+/* Línea vacía para datos faltantes */
+.empty-line {
+    flex: 1;
+    border-bottom: 1px dotted #999;
+    margin-left: 2px;
+    min-height: 8px;
+}
+
+/* Firma y fecha - segunda cara */
+.signature-section-second {
+    margin-top: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 16px;
+}
+
+.signature-line-second {
+    border-top: 1px solid #333;
+    width: 50%;
+    text-align: center;
+    padding-top: 1px;
+    font-size: 6px;
+    color: var(--gray);
+}
+
+.date-line {
+    text-align: center;
+    font-size: 6px;
+    color: var(--brown);
+    font-weight: bold;
+    margin-top: 1px;
+}
+
+/* Contenedor para vista previa */
+.certificate-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px;
+    margin-top: 80px;
+}
+
+@media screen and (max-width: 900px) {
+    .certificate-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ====================================
+   ESTILOS DE IMPRESIÓN
+   ==================================== */
 @media print {
     body {
         background: white;
@@ -466,7 +651,7 @@ body{
         width: 95mm;
         height: 65mm;
         margin: 0;
-        padding: 10px 15px;
+        padding: 6px 12px;
         box-shadow: none;
         border: 0.5mm solid var(--gold);
         page-break-after: always;
@@ -481,154 +666,73 @@ body{
         margin: 10mm;
     }
     
-    .parish-logo img {
-        max-width: 30px;
+    /* Ajustes primera cara impresión */
+    .parish-info h2 { 
+        font-size: 8px; 
     }
     
-    .parish-info h2 { font-size: 10px; }
-    .parish-info .address { font-size: 7px; }
-    .parish-info .phone { font-size: 6px; }
-    .record-number { font-size: 9px; }
-    .book-header h1 { font-size: 12px; }
-    .book-header .subtitle { font-size: 8px; }
-    .main-content { font-size: 10px; }
-    .highlight-name { font-size: 11px; }
-    .parent-label, .parent-names { font-size: 9px; }
-    .details { font-size: 9px; }
-    .data-field { font-size: 9px; }
-}
-
-/* Estilos para el segundo certificado (sacramentos) */
-.sacramento-section {
-    margin-bottom: 8px;
-    font-size: 10px;
-    line-height: 1.3;
-}
-
-.sacramento-title {
-    font-size: 11px;
-    font-weight: bold;
-    text-align: center;
-    margin: 4px 0;
-    color: var(--brown);
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-    border-top: 1px dashed var(--gold);
-    border-bottom: 1px dashed var(--gold);
-    padding: 2px 0;
-}
-
-.sacramento-line {
-    display: flex;
-    align-items: center;
-    margin: 2px 0;
-}
-
-.line-label {
-    min-width: 60px;
-    font-weight: bold;
-    color: var(--brown);
-    font-size: 9px;
-}
-
-.line-value {
-    flex: 1;
-    border-bottom: 1px dotted #999;
-    padding-bottom: 0;
-    margin-left: 3px;
-    font-size: 9px;
-    min-height: 12px;
-    color: #000;
-    font-weight: bold;
-}
-
-/* Estilos específicos para matrimonio */
-.matrimonio-details {
-    margin: 4px 0;
-}
-
-.conyuges-line {
-    display: flex;
-    align-items: center;
-    margin: 2px 0;
-}
-
-.conyuge-label {
-    min-width: 40px;
-    font-weight: bold;
-    color: var(--brown);
-    font-size: 9px;
-}
-
-.testigos-section {
-    margin-top: 4px;
-    padding-left: 10px;
-}
-
-.testigo-line {
-    display: flex;
-    align-items: center;
-    margin: 1px 0;
-}
-
-.testigo-label {
-    min-width: 50px;
-    font-weight: bold;
-    color: var(--brown);
-    font-size: 9px;
-}
-
-.empty-line {
-    flex: 1;
-    border-bottom: 1px dotted #999;
-    padding-bottom: 0;
-    margin-left: 3px;
-    min-height: 12px;
-}
-
-/* Firma y fecha para segundo certificado */
-.signature-section-second {
-    margin-top: 10px;
-    display: flex;
-    justify-content: center;
-}
-
-.signature-line-second {
-    border-top: 1px solid #333;
-    width: 60%;
-    text-align: center;
-    padding-top: 2px;
-    font-size: 9px;
-    color: var(--gray);
-}
-
-.date-line {
-    text-align: center;
-    font-size: 9px;
-    margin-top: 5px;
-    color: var(--brown);
-    font-weight: bold;
-}
-
-.footer {
-    text-align: center;
-    font-size: 6px;
-    margin-top: 5px;
-    color: var(--gray);
-    font-style: italic;
-}
-
-/* Para organizar múltiples certificados en vista previa */
-.certificate-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 10px;
-    margin-top: 80px;
-}
-
-@media screen and (max-width: 900px) {
-    .certificate-container {
-        grid-template-columns: 1fr;
+    .book-header h1 { 
+        font-size: 9px; 
+    }
+    
+    .highlight-name { 
+        font-size: 8px; 
+        margin: 3px 0;
+    }
+    
+    .parent-label, 
+    .parent-names, 
+    .details, 
+    .data-field { 
+        font-size: 7px; 
+    }
+    
+    .signature-section {
+        margin-top: 4px;
+    }
+    
+    .signature-line {
+        margin-top: 8px;
+    }
+    
+    /* Ajustes segunda cara impresión */
+    .certificate:last-child {
+        padding: 5px 10px;
+        height: 65mm;
+    }
+    
+    .certificate:last-child .parish-info h2 { 
+        font-size: 7px; 
+    }
+    
+    .certificate:last-child .book-header h1 { 
+        font-size: 8px; 
+    }
+    
+    .sacramento-section {
+        font-size: 6.5px;
+        padding: 1px 3px;
+    }
+    
+    .sacramento-title {
+        font-size: 7px;
+        padding: 0.5px 0;
+    }
+    
+    .line-label,
+    .conyuge-label,
+    .testigo-label {
+        font-size: 6px;
+        min-width: 40px;
+    }
+    
+    .line-value {
+        font-size: 6px;
+        min-height: 8px;
+    }
+    
+    .signature-section-second {
+        height: 14px;
     }
 }
 </style>
@@ -638,36 +742,33 @@ body{
 
 <div class="print-controls">
     <button onclick="window.print()">🖨 Imprimir Certificado</button>
-    <a href="dashboard.php" class="btn-back">
-            ← Volver 
-        </a>
+    <a href="../private/dashboard.php" class="btn-back">← Volver</a>
 </div>
 
 <!-- Contenedor para vista previa de múltiples certificados -->
 <div class="certificate-container">
 
-<!-- Primer certificado -->
+<!-- PRIMER CERTIFICADO - CÉDULA DE BAUTISMO -->
 <div class="certificate">
 
-    <!-- Logo de la parroquia en la parte superior izquierda -->
+    <!-- Logo de la parroquia -->
     <div class="parish-logo">
         <?php if (file_exists($logo_path)): ?>
             <img src="<?= $logo_path ?>" alt="Logo Parroquia" onerror="this.style.display='none'">
         <?php else: ?>
-            <!-- Logo de ejemplo si no existe el archivo -->
-            <div style="width: 35px; height: 35px; background: var(--gold); color: white; display: flex; align-items: center; justify-content: center; font-size: 8px; border-radius: 50%;">
+            <div style="width: 30px; height: 30px; background: var(--gold); color: white; display: flex; align-items: center; justify-content: center; font-size: 7px; border-radius: 50%;">
                 PARROQUIA
             </div>
         <?php endif; ?>
     </div>
 
-    <!-- Información de la parroquia al lado del logo -->
+    <!-- Información de la parroquia -->
     <div class="parish-info">
         <h2><?= htmlspecialchars($bautismo['nombre_parroquia'] ?? 'Parroquia Inmaculado Corazón de María') ?></h2>
         <p class="address"><?= htmlspecialchars($bautismo['direccion_parroquia'] ?? 'Avda de la Independencia') ?></p>
     </div>
 
-    <!-- Número de registro (en la parte superior derecha) -->
+    <!-- Número de registro -->
     <div class="record-number">
         Libro: <?= htmlspecialchars($libro) ?><br>
         Registro: <?= htmlspecialchars($bautismo['registro'] ?? 'N/A') ?><br>
@@ -676,18 +777,18 @@ body{
 
     <!-- Título del certificado -->
     <div class="book-header">
-        <h1>CERTIFICADO DE BAUTISMO</h1>
+        <h1>CÉDULA DE BAUTISMO</h1>
     </div>
 
     <!-- Contenido principal -->
     <div class="main-content">
         
-        <!-- Nombre principal destacado -->
+        <!-- Nombre del bautizado -->
         <div class="highlight-name">
             <?= htmlspecialchars($bautismo['nombre_completo']) ?>
         </div>
 
-        <!-- Información de padres -->
+        <!-- Padres -->
         <div class="parent-line">
             <div class="parent-label">Hijo/a de D.</div>
             <div class="parent-names data-field"><?= htmlspecialchars($bautismo['nombre_padre'] ?? '') ?></div>
@@ -700,7 +801,7 @@ body{
 
         <div class="small-divider"></div>
 
-        <!-- Detalles de nacimiento -->
+        <!-- Datos de nacimiento -->
         <div class="details">
             <div>
                 <strong>Nació en:</strong>
@@ -714,7 +815,7 @@ body{
 
         <div class="small-divider"></div>
 
-        <!-- Detalles de bautismo -->
+        <!-- Datos del bautismo -->
         <div class="details">
             <div>
                 <strong>Bautizado en:</strong>
@@ -732,7 +833,7 @@ body{
 
         <div class="large-divider"></div>
 
-        <!-- Padrinos (Ahora usando los campos padrino y madrina de la tabla bautismo) -->
+        <!-- Padrinos -->
         <div class="details">
             <div>
                 <strong>Padrino:</strong>
@@ -749,100 +850,73 @@ body{
             <div class="signature-box">
                 <div class="signature-line"></div>
                 <div class="ministro-name"><?= htmlspecialchars($bautismo['nombre_ministro'] ?? '') ?></div>
-                <div style="font-size: 7px;"><?= htmlspecialchars($bautismo['tipo_ministro'] ?? '') ?></div>
+                <div style="font-size: 6px;"><?= htmlspecialchars($bautismo['tipo_ministro'] ?? '') ?></div>
             </div>
             
             <div class="parish-stamp">
                 <div class="parish-name"><?= htmlspecialchars($bautismo['nombre_parroquia'] ?? 'INMACULADO CORAZÓN DE MARÍA') ?></div>
+                <div style="font-size: 6px;">Párroco</div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Segundo certificado (sacramentos) -->
+<!-- SEGUNDO CERTIFICADO - REGISTRO DE SACRAMENTOS -->
 <div class="certificate">
-   
-    <!-- Sección de Comunión -->
-    <?php if ($comunion): ?>
-    <div class="sacramento-section">
-        <div class="sacramento-title">COMUNIÓN</div>
+       <!-- Contenedor de sacramentos -->
+    <div class="sacramentos-container">
         
-        <div class="sacramento-line">
-            <span class="line-label">Comunión el</span>
-            <span class="line-value"><?= formatFechaSimple($comunion['fecha']) ?></span>
+        <!-- COMUNIÓN -->
+        <div class="sacramento-section">
+            <div class="sacramento-title">COMUNIÓN</div>
+            <div class="sacramento-line">
+                <span class="line-label">Fecha:</span>
+                <span class="line-value"><?= $comunion ? formatFechaSimple($comunion['fecha']) : '' ?></span>
+            </div>
+            <div class="sacramento-line">
+                <span class="line-label">Lugar:</span>
+                <span class="line-value"><?= $comunion ? htmlspecialchars($comunion['nombre_parroquia'] ?? '') : '' ?></span>
+            </div>
+            <div class="sacramento-line">
+                <span class="line-label">Ministro:</span>
+                <span class="line-value"><?= $comunion ? htmlspecialchars($comunion['nombre_ministro'] ?? '') : '' ?></span>
+            </div>
         </div>
         
-        <div class="sacramento-line">
-            <span class="line-label">En</span>
-            <span class="line-value"><?= htmlspecialchars($comunion['nombre_parroquia'] ?? '') ?></span>
+        <!-- CONFIRMACIÓN -->
+        <div class="sacramento-section">
+            <div class="sacramento-title">CONFIRMACIÓN</div>
+            <div class="sacramento-line">
+                <span class="line-label">Fecha:</span>
+                <span class="line-value"><?= $confirmacion ? formatFechaSimple($confirmacion['fecha']) : '' ?></span>
+            </div>
+            <div class="sacramento-line">
+                <span class="line-label">Lugar:</span>
+                <span class="line-value"><?= $confirmacion ? htmlspecialchars($confirmacion['nombre_parroquia'] ?? '') : '' ?></span>
+            </div>
+            <div class="sacramento-line">
+                <span class="line-label">Ministro:</span>
+                <span class="line-value"><?= $confirmacion ? htmlspecialchars($confirmacion['nombre_ministro'] ?? '') : '' ?></span>
+            </div>
         </div>
         
-        <div class="sacramento-line">
-            <span class="line-label">Registro</span>
-            <span class="line-value"><?= htmlspecialchars($comunion['registro'] ?? '') ?></span>
-        </div>
-        
-        <div class="sacramento-line">
-            <span class="line-label">Ministro</span>
-            <span class="line-value"><?= htmlspecialchars($comunion['nombre_ministro'] ?? '') ?></span>
-        </div>
-    </div>
-    <?php endif; ?>
-    
-    <!-- Sección de Confirmación -->
-    <?php if ($confirmacion): ?>
-    <div class="sacramento-section">
-        <div class="sacramento-title">CONFIRMACIÓN</div>
-        
-        <div class="sacramento-line">
-            <span class="line-label">Confirmación el</span>
-            <span class="line-value"><?= formatFechaSimple($confirmacion['fecha']) ?></span>
-        </div>
-        
-        <div class="sacramento-line">
-            <span class="line-label">En</span>
-            <span class="line-value"><?= htmlspecialchars($confirmacion['nombre_parroquia'] ?? '') ?></span>
-        </div>
-        
-        <div class="sacramento-line">
-            <span class="line-label">Registro</span>
-            <span class="line-value"><?= htmlspecialchars($confirmacion['registro'] ?? '') ?></span>
-        </div>
-        
-        <div class="sacramento-line">
-            <span class="line-label">Ministro</span>
-            <span class="line-value"><?= htmlspecialchars($confirmacion['nombre_ministro'] ?? '') ?></span>
-        </div>
-    </div>
-    <?php endif; ?>
-    
-    <!-- Sección de Matrimonio -->
-    <?php if ($matrimonio): ?>
-    <div class="sacramento-section">
-        <div class="sacramento-title">MATRIMONIO</div>
-        
-        <div class="sacramento-line">
-            <span class="line-label">Matrimonio el</span>
-            <span class="line-value"><?= formatFechaSimple($matrimonio['fecha']) ?></span>
-        </div>
-        
-        <div class="sacramento-line">
-            <span class="line-label">En</span>
-            <span class="line-value"><?= htmlspecialchars($matrimonio['lugar'] ?? '') ?></span>
-        </div>
-        
-        <div class="sacramento-line">
-            <span class="line-label">Registro</span>
-            <span class="line-value"><?= htmlspecialchars($matrimonio['registro'] ?? '') ?></span>
-        </div>
-        
-        <div class="matrimonio-details">
-            <?php if ($matrimonio['nombre_esposo'] && $matrimonio['nombre_esposa']): ?>
+        <!-- MATRIMONIO -->
+        <div class="sacramento-section">
+            <div class="sacramento-title">MATRIMONIO</div>
+            <div class="sacramento-line">
+                <span class="line-label">Fecha:</span>
+                <span class="line-value"><?= $matrimonio ? formatFechaSimple($matrimonio['fecha']) : '' ?></span>
+            </div>
+            <div class="sacramento-line">
+                <span class="line-label">Lugar:</span>
+                <span class="line-value"><?= $matrimonio ? htmlspecialchars($matrimonio['lugar'] ?? '') : '' ?></span>
+            </div>
+            
+            <?php if ($matrimonio && $matrimonio['nombre_esposo'] && $matrimonio['nombre_esposa']): ?>
             <div class="conyuges-line">
-                <span class="conyuge-label">Con</span>
+                <span class="conyuge-label">Cónyuge:</span>
                 <span class="line-value">
                     <?php 
-                    // Mostrar el cónyuge
                     if ($bautismo['nombre_completo'] == $matrimonio['nombre_esposo']) {
                         echo htmlspecialchars($matrimonio['nombre_esposa']);
                     } else {
@@ -851,61 +925,43 @@ body{
                     ?>
                 </span>
             </div>
+            <?php else: ?>
+            <div class="conyuges-line">
+                <span class="conyuge-label">Cónyuge:</span>
+                <span class="line-value"></span>
+            </div>
             <?php endif; ?>
             
-            <?php if (!empty($testigos)): ?>
-            <div class="testigos-section">
-                <div class="testigo-line">
-                    <span class="testigo-label">Testigos:</span>
-                    <span class="line-value">
-                        <?php 
-                        $nombres_testigos = array_map(function($t) {
-                            return $t['nombre_completo'];
-                        }, $testigos);
-                        echo htmlspecialchars(implode(' y ', $nombres_testigos));
-                        ?>
-                    </span>
-                </div>
+            <?php if ($matrimonio && !empty($testigos)): ?>
+            <div class="testigo-line">
+                <span class="testigo-label">Testigos:</span>
+                <span class="line-value">
+                    <?php 
+                    $nombres_testigos = array_map(function($t) {
+                        return $t['nombre_completo'];
+                    }, $testigos);
+                    echo htmlspecialchars(implode(' y ', array_slice($nombres_testigos, 0, 2)));
+                    ?>
+                </span>
+            </div>
+            <?php else: ?>
+            <div class="testigo-line">
+                <span class="testigo-label">Testigos:</span>
+                <span class="line-value"></span>
             </div>
             <?php endif; ?>
             
             <div class="sacramento-line">
-                <span class="line-label">Ministro</span>
-                <span class="line-value"><?= htmlspecialchars($matrimonio['nombre_ministro'] ?? '') ?></span>
+                <span class="line-label">Ministro:</span>
+                <span class="line-value"><?= $matrimonio ? htmlspecialchars($matrimonio['nombre_ministro'] ?? '') : '' ?></span>
             </div>
         </div>
-    </div>
-    <?php endif; ?>
-    
-    <?php if (!$comunion && !$confirmacion && !$matrimonio): ?>
-    <div class="sacramento-section">
-        <p style="text-align: center; color: var(--gray);">No hay otros sacramentos registrados</p>
-    </div>
-    <?php endif; ?>
-    
-    <div class="signature-section">
-        <div class="signature-box">
-            <div class="signature-line"></div>
-            <div class="ministro-name">Párroco</div>
-        </div>
         
-        <div class="parish-stamp">
-            <div class="signature-line"></div>
-            <div class="parish-name">Sello Parroquial</div>
-        </div>
     </div>
-    
-    <div class="date-line">
-        <?= date('d/m/Y') ?>
-    </div>
-    
-    <div class="footer">
-        Parroquia Inmaculado Corazón de María
-    </div>
-</div>
 
-</div> <!-- Cierre del certificate-container -->
+   </div> 
+
+</div> 
 
 </body>
 </html>
-$pdf->Output("I", "Certificado_A5_Horizontal.pdf");

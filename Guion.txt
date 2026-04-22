@@ -11,7 +11,7 @@ PROYECTO SISTEMA PARROQUIAL
 		admin:  gestiona todo -> Esta completado
 		archivista:  gestiona todo epcepto usuarios
 		secretaria:  puede ver y editar todo epcepto usuarios y no puede registrar o crear ningun modulo
-		parroco:  solo ve sacramentos, no puede registrar ni editar solo ver
+		parroco:  solo ve sacramentos, no puede registrar ni editar solo ver, 
 
 validaciones: 
 	1. catequistas

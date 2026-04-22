@@ -17,10 +17,12 @@
                 <input type="text" id="buscador" class="form-control border-0 shadow-sm" placeholder="Buscar por feligrés o concepto...">
             </div>
 
+            <?php if (($rolUsuario !== 'archivista')): ?>
             <button class="btn btn-primary shadow-sm px-4" onclick="abrirModalNuevo()">
                 <i class="bi bi-plus-lg"></i>
                 <span class="d-none d-md-inline">Nueva Ofrenda</span>
             </button>
+             <?php endif; ?>
         </div>
     </div>
 

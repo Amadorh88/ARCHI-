@@ -1,5 +1,13 @@
-
 PROYECTO SISTEMA PARROQUIAL
+
+# implementación de botones borrar-> pendiente
+# Recorrido del feligrés en el sistema desde que se da de alta:
+  
+-La secretaria registra al feligrés en el sistema (le da de alta en el sistema)para que le pueda registrar a la catequesis bautismal.
+  -Una vez confirmada la recepción de la catequesis bautismal, se le puede inscribir al sacramento de bautismo y se confirma la recepción del sacramento.
+  -el resto de sacramentos necesitarán la confirmación de recepción de la catequesis para poder hacer la inscripción al sacramento y se realizará la confirmación del sacramento, cuando el feligrés lo haya recibido.
+
+El feligrés debe poder hacer un tour por el sistema desde que se le da de alta hasta que recibe el sacramento de matrimonio, cumpliendo los requisitos de pasar por catequesis previas antes de recibir cualquier sacramento y haber recibido sacramento previo antes de recibir la catequesis del siguiente sacramento.
 
 1. Revision completa de los botones
 2. Modulo de feligres imprima las partidas dispuestas n:
@@ -16,45 +24,49 @@ PROYECTO SISTEMA PARROQUIAL
 validaciones: 
 	1. catequistas
 	2. 
+		admin:  gestiona todo (incluyendo eliminar) -> Esta completado
+		archivista: puede ver, editar todo excepto usuarios
+		secretaria: gestiona todo excepto usuarios e imprimir partida de bautismo, pero puede imprimir(lista e historial de feligrés).
+		parroco: ve, confirma el sacramento e imprime la partida de bautismo, no puede registrar ni editar.
 
 DOCUMENTACION DEL PROYECTO SISTEMA GESTION DE UNA PARRROQUIA
 
 1. PRESENTACION
-	El sistema de gestion de parroquia esta creaco bajo una arquitectura MVC 
-	el stack utilizado en tecnologias de desarrollo es:
+	El sistema de gestión de parroquia está creado bajo una arquitectura MVC 
+	el stack utilizado en tecnologías de desarrollo es:
 		a. HTML5
 		b. Bootstrap 5+
 		c. CSS nativo
-		d. vanilla Javascript (uso de fetch) -> para la interractividad con el backend
-		e. PHP 8+ -> para la logica del modelo de negocio
+		d. vanilla Javascript (uso de fetch) -> para la interactividad con el backend
+		e. PHP 8+ -> para la lógica del modelo de negocio
 		f. Mysql -> lenguaje de consulta
-		g. Fpdf -> como libreria de generacion de pdf
 
-	El dispone de una carpeta llamada APP en el cual se aloja todo el PROYECTO
+	El sistema dispone de una carpeta llamada APP en el cual se aloja todo el PROYECTO
 	en esta carpeta dispone de los archivos y capetas como:
 		A. api -> se encarga de alojar los archivos del modelo los cuales se 
 				empaquetan en carpetas por modulo
 					1. catequesis
 					2. catequistas
 					3. cursos
-					4. feligres
+					4. feligrés
 					5. ministros
-					6. ofrendas o pagos
+					6. Pagos o donaciones
 					7. parroquias
 					8. periodos
 					9. sacramentos 
 					10. usuarios 
 					11. dashboard
-				estas carpetas encieran archivos tipicos para el CRUD:
-					ver, guardar/editar, toggle, listar, obtener, etc 
+				estas carpetas encierran archivos típicos para el CRUD:
+					ver, guardar/editar, toggle, listar, obtener, etc. 
 			B. la carpeta config -> encargada de alojar:
 				1. v2.sql -> el archivo de nuestro modelo de base de datos
-				2. db.php -> archivo de conexion de la base de datos 
+				2. db.php -> archivo de conexión de la base de datos 
 			C. la carpeta private -> es la carpeta de las vistas del sistema
-			D. Report -> esta carpeta es la que se encarga de alojar la libreria fpdf y los archivos generados 
+			D. Report -> esta carpeta es la que se encarga de alojar el archivo imprimible de la partida de bautismo. 
 			E. por ultimo encontramos:
-				1.  auth.php -> archivo que valida la sacion de los usuarios por via post y redirige a la ruta private/dashboard.php
-						si todo fue exitoso, si no rederige a intex.html 
+				1.  auth.php -> archivo que valida la sesión de los usuarios por via post y redirige a la ruta private/dashboard.php
+						si todo fue exitoso, si no redirige a intex.html 
 				2. index.html -> este archivo, lleva la vista del login frontend 
 				3. index.php -> este archivo es la vista publica o portar del sistema, no requiere de permisos para acceder a él
+				
 				

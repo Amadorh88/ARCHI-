@@ -197,6 +197,12 @@
 
         const esMatrimonio = s.tipo.toLowerCase() === 'matrimonio';
 
+        const btnEliminar = puedeEditar()
+    ? `<button class="btn btn-sm btn-outline-danger ms-1"
+             onclick="eliminarSacramento(${s.id}, '${s.tipo.toLowerCase()}')">
+            <i class="bi bi-trash"></i>
+       </button>`
+    : '';
         // Badge de estado
         const badge = esMatrimonio
             ? `<span id="estado-${s.id}"
@@ -237,6 +243,7 @@
                 </button>
                 ${btnEditar}
                 ${btnToggle}
+                 ${btnEliminar}
             </td>
         </tr>`;
     });
@@ -574,6 +581,34 @@ buscador.addEventListener('input', function() {
     renderTabla(filtrados);
 });
 
+function eliminarSacramento(id, tipo) {
+    Swal.fire({
+        title: '¿Eliminar registro?',
+        text: "Se archivará el registro, no se borrará físicamente",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (!result.isConfirmed) return;
+console.log(`ID: ${id}.....tipo: ${tipo}`);
+        fetch('../api/sacramentos/eliminar.php', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            body: `id=${id}&tipo=${tipo}`
+        })
+        .then(res => res.json())
+        .then(resp => {
+            if (resp.success) {
+                Swal.fire('Eliminado', resp.message, 'success');
+                listarSacramentos();
+            } else {
+                Swal.fire('Error', resp.error, 'error');
+            }
+        });
+    });
+}
     // Iniciar
     listarSacramentos();
 </script>

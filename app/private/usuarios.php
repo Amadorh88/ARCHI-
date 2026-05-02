@@ -46,8 +46,9 @@
 
 <!-- MODAL -->
 <div class="modal fade" id="modalUsuario" tabindex="-1" aria-labelledby="modalUsuarioLabel" aria-hidden="true">
-    <div class="modal-dialog modal-md modal-dialog-centered"> <div class="modal-content border-0 shadow-lg">
-            
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg">
+
             <div class="modal-header bg-light border-bottom-0 pt-4 px-4">
                 <h5 class="modal-title fw-bold text-primary" id="modalUsuarioLabel">
                     <i class="bi bi-person-badge-fill me-2"></i>
@@ -59,21 +60,24 @@
             <form id="formUsuario" class="needs-validation" novalidate>
                 <div class="modal-body p-4">
                     <input type="hidden" name="id" id="id">
-                    
+
                     <p class="text-uppercase text-muted fw-bold small mb-3">Información Personal</p>
                     <div class="row g-3 mb-4">
                         <div class="col-12">
                             <label class="form-label small fw-semibold">Nombre Completo</label>
                             <div class="input-group">
                                 <span class="input-group-text bg-white"><i class="bi bi-person text-muted"></i></span>
-                                <input type="text" name="nombre" id="nombre" class="form-control border-start-0" placeholder="Ej. Juan Pérez" required>
+                                <input type="text" name="nombre" id="nombre" class="form-control border-start-0"
+                                    placeholder="Ej. Juan Pérez" required>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <label class="form-label small fw-semibold">DNI / Documento</label>
                             <div class="input-group">
-                                <span class="input-group-text bg-white"><i class="bi bi-card-text text-muted"></i></span>
-                                <input type="text" name="dni" id="dni" class="form-control border-start-0" placeholder="00000000" required>
+                                <span class="input-group-text bg-white"><i
+                                        class="bi bi-card-text text-muted"></i></span>
+                                <input type="text" name="dni" id="dni" class="form-control border-start-0"
+                                    placeholder="00000000" required>
                             </div>
                         </div>
                     </div>
@@ -84,14 +88,16 @@
                             <label class="form-label small fw-semibold">Nombre de Usuario</label>
                             <div class="input-group">
                                 <span class="input-group-text bg-white"><i class="bi bi-at text-muted"></i></span>
-                                <input type="text" name="usuario" id="usuario" class="form-control border-start-0" placeholder="usuario123" required>
+                                <input type="text" name="usuario" id="usuario" class="form-control border-start-0"
+                                    placeholder="usuario123" required>
                             </div>
                         </div>
-                        
+
                         <div class="col-md-6">
                             <label class="form-label small fw-semibold">Rol del Sistema</label>
                             <div class="input-group">
-                                <span class="input-group-text bg-white"><i class="bi bi-shield-lock text-muted"></i></span>
+                                <span class="input-group-text bg-white"><i
+                                        class="bi bi-shield-lock text-muted"></i></span>
                                 <select name="rol" id="rol" class="form-select border-start-0" required>
                                     <option value="" selected disabled>Elegir...</option>
                                     <option value="admin">Administrador</option>
@@ -106,7 +112,8 @@
                             <label class="form-label small fw-semibold">Contraseña</label>
                             <div class="input-group">
                                 <span class="input-group-text bg-white"><i class="bi bi-key text-muted"></i></span>
-                                <input type="password" name="contraseña" id="contraseña" class="form-control border-start-0" placeholder="••••••••">
+                                <input type="password" name="contraseña" id="contraseña"
+                                    class="form-control border-start-0" placeholder="••••••••">
                             </div>
                             <div id="passwordHelp" class="form-text mt-1">
                                 <i class="bi bi-info-circle me-1"></i> Dejar en blanco para mantener la actual.
@@ -116,7 +123,8 @@
                 </div>
 
                 <div class="modal-footer bg-light border-top-0 p-4">
-                    <button type="button" class="btn btn-outline-secondary border-0 fw-semibold" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-outline-secondary border-0 fw-semibold"
+                        data-bs-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-primary px-4 shadow-sm fw-semibold">
                         <i class="bi bi-check2-circle me-1"></i> Guardar Usuario
                     </button>
@@ -128,18 +136,18 @@
 
 <style>
     /* Efecto de foco elegante */
-    #modalUsuario .form-control:focus, 
+    #modalUsuario .form-control:focus,
     #modalUsuario .form-select:focus {
         border-color: #0d6efd;
         box-shadow: none;
         background-color: #f8fbff;
     }
-    
+
     #modalUsuario .input-group-text {
         border-right: none;
     }
-    
-    #modalUsuario .form-control, 
+
+    #modalUsuario .form-control,
     #modalUsuario .form-select {
         border-left: none;
     }
@@ -177,7 +185,7 @@
         console.log(`[USUARIOS] ${accion}`, detalle);
     }
 
-    function listarUsuarios() { 
+    function listarUsuarios() {
         mostrarToast("Cargando usuarios...", "info");
         logAccion("LISTAR_INICIO");
 
@@ -236,6 +244,9 @@
             <button class="btn btn-sm btn-outline-info" onclick="ver(${u.id})">
                 <i class="bi bi-eye"></i>
             </button>
+           <button class="btn btn-sm btn-outline-danger" onclick="eliminar(${u.id})">
+    <i class="bi bi-trash"></i>
+</button>
         </td>
     </tr>`;
         });
@@ -263,43 +274,48 @@
 
     // GUARDAR / ACTUALIZAR
     document.getElementById("formUsuario")
-        .addEventListener("submit", function (e) {
+    .addEventListener("submit", function (e) {
 
-            e.preventDefault();
+        e.preventDefault();
 
-            let formData = new FormData(this);
-            let accion = formData.get("id") ? "ACTUALIZAR" : "CREAR";
+        let formData = new FormData(this);
+        let accion = formData.get("id") ? "ACTUALIZAR" : "CREAR";
 
-            mostrarToast("Procesando solicitud...", "info");
-            logAccion(accion + "_INICIO");
+        mostrarToast("Procesando solicitud...", "info");
+        logAccion(accion + "_INICIO");
 
-            fetch('../api/usuarios/guardar.php', {
-                method: 'POST',
-                body: formData
-            })
-                .then(res => res.json())
-                .then(data => {
+        fetch('../api/usuarios/guardar.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
 
-                    if (data.error) {
-                        mostrarToast(data.error, "error");
-                        logAccion(accion + "_ERROR", data.error);
-                        return;
-                    }
+            if (data.error) {
+                mostrarToast(data.error, "error");
+                logAccion(accion + "_ERROR", data.error);
+                return;
+            }
 
-                    modal.hide();
-                    this.reset();
-                    listarUsuarios();
+            modal.hide();
+            this.reset();
 
-                    mostrarToast("Usuario guardado correctamente", "success");
-                    logAccion(accion + "_OK");
+            // limpiar backdrop residual de bootstrap
+            document.body.classList.remove('modal-open');
+            document.body.style = '';
+            
+            document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
 
-                })
-                .catch(error => {
-                    mostrarToast("Error en la operación", "error");
-                    logAccion(accion + "_ERROR", error);
-                });
+            listarUsuarios();
+
+            mostrarToast("Usuario guardado correctamente", "success");
+            logAccion(accion + "_OK");
+        })
+        .catch(error => {
+            mostrarToast("Error en la operación", "error");
+            logAccion(accion + "_ERROR", error);
         });
-
+    });
 
     function editar(id) {
 
@@ -366,6 +382,35 @@
             });
     }
 
+    function eliminar(id) {
+        Swal.fire({
+            title: '¿Eliminar usuario?',
+            text: "Esta acción no se puede deshacer",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+
+        }).then((result) => {
+            if (result.isConfirmed) {
+                mostrarToast("Eliminando usuario...", "warning");
+                logAccion("ELIMINAR_INICIO", id);
+                fetch('../api/usuarios/eliminar.php?id=' + id)
+                    .then(res => res.json())
+                    .then(data => {
+                        listarUsuarios();
+                        mostrarToast("Usuario eliminado correctamente", "success");
+                        logAccion("ELIMINAR_OK");
+                    })
+                    .catch(error => {
+                        mostrarToast("Error al eliminar usuario", "error");
+                        logAccion("ELIMINAR_ERROR", error);
+                    });
+            }
+        });
+    }
 
     listarUsuarios();
 </script>

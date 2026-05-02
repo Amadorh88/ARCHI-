@@ -1,5 +1,5 @@
-<?php 
-include 'header.php'; 
+<?php
+include 'header.php';
 
 
 ?>
@@ -20,9 +20,9 @@ include 'header.php';
             </div>
 
             <?php if ($puede_crear): ?>
-            <button class="btn btn-primary shadow-sm px-4" onclick="nuevoFeligres()">
-                <i class="bi bi-plus-circle me-1"></i> Nuevo Registro
-            </button>
+                <button class="btn btn-primary shadow-sm px-4" onclick="nuevoFeligres()">
+                    <i class="bi bi-plus-circle me-1"></i> Nuevo Registro
+                </button>
             <?php endif; ?>
         </div>
     </div>
@@ -45,49 +45,49 @@ include 'header.php';
 </div>
 
 <?php if (!$es_solo_lector): ?>
-<div class="modal fade" id="modalFeligres" tabindex="-1">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content border-0 shadow-lg">
-            <form id="formFeligres">
-                <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title">
-                        <i class="bi bi-person-lines-fill me-2"></i>Ficha del Feligrés
-                    </h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body row g-3">
-                    <input type="hidden" name="id_feligres" id="id_feligres">
-                    <div class="col-md-6">
-                        <label class="form-label fw-bold">Nombre completo</label>
-                        <input type="text" name="nombre_completo" id="nombre_completo" class="form-control" required>
+    <div class="modal fade" id="modalFeligres" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg">
+                <form id="formFeligres">
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title">
+                            <i class="bi bi-person-lines-fill me-2"></i>Ficha del Feligrés
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                     </div>
-                    <div class="col-md-6">
-                        <label class="form-label fw-bold">Fecha nacimiento</label>
-                        <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" class="form-control">
+                    <div class="modal-body row g-3">
+                        <input type="hidden" name="id_feligres" id="id_feligres">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Nombre completo</label>
+                            <input type="text" name="nombre_completo" id="nombre_completo" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Fecha nacimiento</label>
+                            <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" class="form-control">
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label fw-bold">Lugar nacimiento</label>
+                            <input type="text" name="lugar_nacimiento" id="lugar_nacimiento" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Nombre del Padre</label>
+                            <input type="text" name="nombre_padre" id="nombre_padre" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Nombre de la Madre</label>
+                            <input type="text" name="nombre_madre" id="nombre_madre" class="form-control">
+                        </div>
                     </div>
-                    <div class="col-md-12">
-                        <label class="form-label fw-bold">Lugar nacimiento</label>
-                        <input type="text" name="lugar_nacimiento" id="lugar_nacimiento" class="form-control">
+                    <div class="modal-footer bg-light">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="bi bi-save me-1"></i> Guardar Cambios
+                        </button>
                     </div>
-                    <div class="col-md-6">
-                        <label class="form-label fw-bold">Nombre del Padre</label>
-                        <input type="text" name="nombre_padre" id="nombre_padre" class="form-control">
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label fw-bold">Nombre de la Madre</label>
-                        <input type="text" name="nombre_madre" id="nombre_madre" class="form-control">
-                    </div>
-                </div>
-                <div class="modal-footer bg-light">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary px-4">
-                        <i class="bi bi-save me-1"></i> Guardar Cambios
-                    </button>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 <?php endif; ?>
 
 <div class="modal fade" id="modalPerfil" tabindex="-1">
@@ -123,7 +123,8 @@ include 'header.php';
 </div>
 
 <div class="toast-container position-fixed bottom-0 end-0 p-3">
-    <div id="toastLive" class="toast align-items-center border-0 shadow" role="alert" aria-live="assertive" aria-atomic="true">
+    <div id="toastLive" class="toast align-items-center border-0 shadow" role="alert" aria-live="assertive"
+        aria-atomic="true">
         <div class="d-flex">
             <div class="toast-body" id="toastMensaje"></div>
             <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
@@ -142,11 +143,11 @@ include 'header.php';
     const modalF = document.getElementById('modalFeligres') ? new bootstrap.Modal(document.getElementById('modalFeligres')) : null;
     const modalP = new bootstrap.Modal(document.getElementById('modalPerfil'));
     const modalH = new bootstrap.Modal(document.getElementById('modalHistorial'));
-    
+
     const toastElement = document.getElementById('toastLive');
     const toastMensaje = document.getElementById('toastMensaje');
     const toastBootstrap = new bootstrap.Toast(toastElement);
-    
+
     let listaGlobal = [];
 
     function mostrarToast(mensaje, tipo = "success") {
@@ -179,9 +180,9 @@ include 'header.php';
         } else {
             lista.forEach(f => {
                 // Generación dinámica de botones basada en ROL (Principio de Escasez - Cialdini: No todos ven todo)
-                let btnEditar = PUEDE_EDITAR ? 
+                let btnEditar = PUEDE_EDITAR ?
                     `<button class="btn btn-sm btn-outline-primary" onclick="editar(${f.id_feligres})"><i class="bi bi-pencil"></i></button>` : '';
-                
+
                 html += `
                 <tr>
                     <td><span class="badge bg-light text-dark border">#${f.id_feligres}</span></td>
@@ -194,7 +195,10 @@ include 'header.php';
                             <button class="btn btn-sm btn-outline-info" onclick="verPerfil(${f.id_feligres})"><i class="bi bi-eye"></i></button>
                             <button class="btn btn-sm btn-outline-dark" onclick="verHistorial(${f.id_feligres})"><i class="bi bi-person-vcard"></i></button>
                             <button class="btn btn-sm btn-outline-secondary" onclick="imprimir(${f.id_feligres})"><i class="bi bi-printer"></i></button>
-                        </div>
+                       <button class="btn btn-sm btn-outline-danger" onclick="eliminarFeligres(${f.id_feligres})">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                            </div>
                     </td>
                 </tr>`;
             });
@@ -223,14 +227,14 @@ include 'header.php';
             e.preventDefault();
             let formData = new FormData(this);
             fetch('../api/feligres/guardar.php', { method: 'POST', body: formData })
-            .then(res => res.json())
-            .then(data => {
-                if (data.error) throw new Error(data.error);
-                modalF.hide();
-                listarFeligres();
-                mostrarToast("Sistema actualizado correctamente");
-            })
-            .catch(err => mostrarToast(err.message, "error"));
+                .then(res => res.json())
+                .then(data => {
+                    if (data.error) throw new Error(data.error);
+                    modalF.hide();
+                    listarFeligres();
+                    mostrarToast("Sistema actualizado correctamente");
+                })
+                .catch(err => mostrarToast(err.message, "error"));
         });
     }
 
@@ -292,6 +296,41 @@ include 'header.php';
     function imprimir(id) {
         window.open('../report/imprimir_sacramentos.php?id=' + id, '_blank');
     }
+
+    function eliminarFeligres(id) {
+    Swal.fire({
+        title: '¿Eliminar feligrés?',
+        text: 'Esta acción no se puede deshacer',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+
+        if (result.isConfirmed) {
+            mostrarToast("Eliminando feligrés...", "warning");
+
+            fetch('../api/feligres/eliminar.php?id=' + id)
+                .then(res => res.json())
+                .then(data => {
+
+                    if (data.error) {
+                        mostrarToast(data.error, "error");
+                        return;
+                    }
+
+                    listarFeligres();
+                    mostrarToast(data.message, "success");
+                })
+                .catch(error => {
+                    mostrarToast("Error al eliminar feligrés", "error");
+                    console.error(error);
+                });
+        }
+    });
+}
 </script>
 
 <?php include 'footer.php'; ?>

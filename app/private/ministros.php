@@ -89,9 +89,32 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
+
+
 const tabla = document.getElementById("tablaMinistros");
-const modal = new bootstrap.Modal(document.getElementById('modalMinistro'));
+// Seleccionamos el elemento del DOM primero
+const modalElement = document.getElementById('modalMinistro');
+const modal = new bootstrap.Modal(modalElement);
 let ministrosGlobal = [];
+
+// Función para limpiar el rastro oscuro de Bootstrap
+/* function cerrarModalCorrectamente() {
+    modal.hide();
+    const backdrop = document.querySelector('.modal-backdrop');
+    if (backdrop) {
+        backdrop.remove();
+    }
+    document.body.classList.remove('modal-open');
+    document.body.style.overflow = '';
+    document.body.style.paddingRight = '';
+} */
+
+function cerrarModalCorrectamente() {
+    const modalInstance = bootstrap.Modal.getInstance(modalElement);
+    if (modalInstance) {
+        modalInstance.hide();
+    }
+}
 
 function listar(){
     fetch('../api/ministros/listar.php')
@@ -103,15 +126,9 @@ function listar(){
 }
 
 function render(lista){
-
     let html = '';
-
     if(lista.length === 0){
-        html = `<tr>
-            <td colspan="6" class="text-center text-muted">
-                No hay ministros registrados
-            </td>
-        </tr>`;
+        html = `<tr><td colspan="6" class="text-center text-muted">No hay ministros registrados</td></tr>`;
     }
 
     lista.forEach(m=>{
@@ -121,21 +138,21 @@ function render(lista){
             <td>${m.nombre_completo}</td>
             <td>${m.DIP ?? ''}</td>
             <td>${m.telefono ?? ''}</td>
-            <td> ${m.tipo} </td>
+            <td>${m.tipo}</td>
             <td class="text-end">
                 <button class="btn btn-sm btn-primary" onclick="editar(${m.id_ministro})">
                     <i class="bi bi-pencil"></i>
                 </button>
-                
+                <button class="btn btn-sm btn-danger" onclick="eliminarMinistro(${m.id_ministro})">
+                    <i class="bi bi-trash"></i>
+                </button>
             </td>
         </tr>`;
     });
-
     tabla.innerHTML = html;
 }
 
-document.getElementById("buscador")
-.addEventListener("input", function(){
+document.getElementById("buscador").addEventListener("input", function(){
     let texto = this.value.toLowerCase();
     let filtrado = ministrosGlobal.filter(m =>
         m.nombre_completo.toLowerCase().includes(texto) ||
@@ -145,21 +162,28 @@ document.getElementById("buscador")
     render(filtrado);
 });
 
-document.getElementById("formMinistro")
-.addEventListener("submit", function(e){
+// CORRECCIÓN AQUÍ: Manejo del guardado
+document.getElementById("formMinistro").addEventListener("submit", function(e){
     e.preventDefault();
-
     let formData = new FormData(this);
 
     fetch('../api/ministros/guardar.php',{
         method:'POST',
         body:formData
     })
-    .then(res=>res.json())
-    .then(data=>{
-        modal.hide();
-        this.reset();
-        listar();
+    .then(res => res.json())
+    .then(data => {
+        if(data.success || data) { // Ajusta según lo que devuelva tu API
+            cerrarModalCorrectamente(); // Limpia la opacidad
+            this.reset();
+            listar();
+        } else {
+            alert("Error al guardar: " + (data.error || "Desconocido"));
+        }
+    })
+    .catch(err => {
+        console.error(err);
+        cerrarModalCorrectamente(); // Incluso en error, liberamos la pantalla
     });
 });
 
@@ -167,23 +191,55 @@ function editar(id){
     fetch('../api/ministros/ver.php?id='+id)
     .then(res=>res.json())
     .then(m=>{
-        id_ministro.value = m.id_ministro;
-        nombre_completo.value = m.nombre_completo;
-        DIP.value = m.DIP;
-        telefono.value = m.telefono;
-        tipo.value = m.tipo;
+        document.getElementById('id_ministro').value = m.id_ministro;
+        document.getElementById('nombre_completo').value = m.nombre_completo;
+        document.getElementById('DIP').value = m.DIP;
+        document.getElementById('telefono').value = m.telefono;
+        document.getElementById('tipo').value = m.tipo;
         modal.show();
     });
 }
 
-function eliminar(id){
-    if(!confirm("¿Eliminar ministro?")) return;
-
-    fetch('../api/ministros/eliminar.php?id='+id)
-    .then(()=>listar());
+function eliminarMinistro(id) {
+    Swal.fire({
+        title: '¿Eliminar ministro?',
+        text: 'Esta acción no se puede deshacer',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch('../api/ministros/eliminar.php', { // Corregida la ruta si es necesario
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `id=${id}`
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire('Eliminado', data.message, 'success');
+                    listar(); // Mejor usar listar() que recargar toda la página
+                } else {
+                    Swal.fire('Error', data.error, 'error');
+                }
+            })
+            .catch(error => {
+                Swal.fire('Error', 'Error del servidor', 'error');
+                console.error(error);
+            });
+        }
+    });
 }
-
+modalElement.addEventListener('hidden.bs.modal', () => {
+    document.body.classList.remove('modal-open');
+    document.body.style = '';
+    document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+});
 listar();
 </script>
+
+
 <?php include 'footer.php'; ?>
  

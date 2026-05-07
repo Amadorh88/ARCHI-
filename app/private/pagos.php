@@ -14,15 +14,16 @@
                 <span class="input-group-text bg-light border-0 shadow-sm">
                     <i class="bi bi-search"></i>
                 </span>
-                <input type="text" id="buscador" class="form-control border-0 shadow-sm" placeholder="Buscar por feligrés o concepto...">
+                <input type="text" id="buscador" class="form-control border-0 shadow-sm"
+                    placeholder="Buscar por feligrés o concepto...">
             </div>
 
             <?php if (($rolUsuario !== 'archivista')): ?>
-            <button class="btn btn-primary shadow-sm px-4" onclick="abrirModalNuevo()">
-                <i class="bi bi-plus-lg"></i>
-                <span class="d-none d-md-inline">Nueva Ofrenda</span>
-            </button>
-             <?php endif; ?>
+                <button class="btn btn-primary shadow-sm px-4" onclick="abrirModalNuevo()">
+                    <i class="bi bi-plus-lg"></i>
+                    <span class="d-none d-md-inline">Nueva Ofrenda</span>
+                </button>
+            <?php endif; ?>
         </div>
     </div>
 
@@ -66,21 +67,24 @@
                 </div>
                 <div class="modal-body p-4 row g-3">
                     <input type="hidden" name="id_pago" id="id_pago">
-                    
+
                     <div class="col-md-12">
                         <label class="form-label fw-bold">Feligrés (Opcional)</label>
-                        <select name="id_feligres" id="id_feligres" class="form-select border-primary shadow-sm"></select>
+                        <select name="id_feligres" id="id_feligres"
+                            class="form-select border-primary shadow-sm"></select>
                     </div>
 
                     <div class="col-md-12">
                         <label class="form-label fw-bold">Concepto</label>
-                        <input type="text" name="concepto" id="concepto" class="form-control" required placeholder="Ej: Colecta Dominical, Diezmo...">
+                        <input type="text" name="concepto" id="concepto" class="form-control" required
+                            placeholder="Ej: Colecta Dominical, Diezmo...">
                     </div>
 
                     <div class="col-md-6">
                         <label class="form-label fw-bold">Monto Ofrenda</label>
                         <div class="input-group">
-                            <input type="number" name="cantidad" id="cantidad" class="form-control" required oninput="calcularCambio()">
+                            <input type="number" name="cantidad" id="cantidad" class="form-control" required
+                                oninput="calcularCambio()">
                             <span class="input-group-text">CFA</span>
                         </div>
                     </div>
@@ -88,13 +92,15 @@
                     <div class="col-md-6">
                         <label class="form-label fw-bold text-success">Monto Recibido</label>
                         <div class="input-group">
-                            <input type="number" name="recibido" id="recibido" class="form-control" required oninput="calcularCambio()">
+                            <input type="number" name="recibido" id="recibido" class="form-control" required
+                                oninput="calcularCambio()">
                             <span class="input-group-text">CFA</span>
                         </div>
                     </div>
 
                     <div class="col-md-12">
-                        <div class="p-3 bg-light rounded d-flex justify-content-between align-items-center border border-primary">
+                        <div
+                            class="p-3 bg-light rounded d-flex justify-content-between align-items-center border border-primary">
                             <span class="fw-bold text-muted small">CAMBIO A DEVOLVER:</span>
                             <span class="h4 mb-0 fw-bold text-primary" id="vueltoText">0 FCFA</span>
                             <input type="hidden" name="cambio" id="cambio">
@@ -156,7 +162,13 @@
                 <td class="fw-bold">${formatCFA(o.cantidad)} FCFA</td>
                 <td class="small text-muted">${o.fecha || 'N/A'}</td>
                 <td class="text-end text-nowrap">
-                    <button class="btn btn-sm btn-outline-primary me-1" onclick="editar(${o.id_pago})"><i class="bi bi-pencil"></i></button>
+                   <button class="btn btn-sm btn-outline-primary me-1" onclick="editar(${o.id_pago})">
+                            <i class="bi bi-pencil"></i>
+                        </button>
+
+                        <button class="btn btn-sm btn-outline-danger" onclick="eliminarPago(${o.id_pago})">
+                            <i class="bi bi-trash"></i>
+                        </button>
                       </td>
             </tr>`;
         });
@@ -168,7 +180,7 @@
         const rec = parseInt(document.getElementById('recibido').value) || 0;
         const cambio = rec - cant;
         const display = document.getElementById('vueltoText');
-        
+
         display.innerText = `${formatCFA(Math.max(0, cambio))} FCFA`;
         display.className = cambio < 0 ? "h4 mb-0 fw-bold text-danger" : "h4 mb-0 fw-bold text-primary";
         document.getElementById('cambio').value = Math.max(0, cambio);
@@ -184,7 +196,7 @@
 
     async function cargarFeligreses() {
         // CORRECCIÓN DE RUTA (Verifica que feligreses/listar.php exista)
-        const data = await fetchJSON('../api/feligres/listar.php'); 
+        const data = await fetchJSON('../api/feligres/listar.php');
         let options = '<option value="">-- Donación Anónima --</option>';
         if (!data.error) {
             data.forEach(f => {
@@ -196,12 +208,12 @@
 
     function editar(id) {
         fetchJSON(`../api/ofrendas/ver.php?id=${id}`).then(o => {
-            if(o.error) return;
+            if (o.error) return;
             document.getElementById("id_pago").value = o.id_pago;
             document.getElementById("concepto").value = o.concepto;
             document.getElementById("cantidad").value = Math.round(o.cantidad);
             document.getElementById("recibido").value = Math.round(o.recibido);
-            
+
             cargarFeligreses().then(() => {
                 document.getElementById("id_feligres").value = o.id_feligres || "";
                 calcularCambio();
@@ -217,13 +229,13 @@
         });
     }
 
-    document.getElementById("formOfrenda").addEventListener("submit", function(e) {
+    document.getElementById("formOfrenda").addEventListener("submit", function (e) {
         e.preventDefault();
         const formData = new FormData(this);
         fetch('../api/ofrendas/guardar.php', { method: 'POST', body: formData })
             .then(res => res.json())
             .then(data => {
-                if(data.success) {
+                if (data.success) {
                     modal.hide();
                     listarOfrendas();
                 } else {
@@ -238,14 +250,51 @@
     }
 
     // Buscador
-    document.getElementById("buscador").addEventListener("input", function() {
+    document.getElementById("buscador").addEventListener("input", function () {
         const bus = this.value.toLowerCase();
-        renderOfrendas(ofrendasGlobal.filter(o => 
-            (o.feligres_nombre && o.feligres_nombre.toLowerCase().includes(bus)) || 
+        renderOfrendas(ofrendasGlobal.filter(o =>
+            (o.feligres_nombre && o.feligres_nombre.toLowerCase().includes(bus)) ||
             o.concepto.toLowerCase().includes(bus)
         ));
     });
 
+    function eliminarPago(id) {
+        Swal.fire({
+            title: '¿Eliminar pago?',
+            text: 'Esta acción no se puede deshacer',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+
+            if (result.isConfirmed) {
+
+                fetch('../api/ofrendas/eliminar.php', { // ✅ RUTA CORRECTA
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: `id=${id}`
+                })
+                    .then(res => res.json())
+                    .then(data => {
+
+                        if (data.success) {
+                            Swal.fire('Eliminado', data.message, 'success');
+                            listarOfrendas(); // ✅ sin recargar toda la página
+                        } else {
+                            Swal.fire('Error', data.error, 'error');
+                        }
+
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        Swal.fire('Error', 'Error del servidor', 'error');
+                    });
+            }
+        });
+    }
     listarOfrendas();
 </script>
 

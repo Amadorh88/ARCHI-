@@ -237,7 +237,9 @@ modalElement.addEventListener('hidden.bs.modal', () => {
     document.body.style = '';
     document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
 });
+
 listar();
+
 </script>
 
 

@@ -33,7 +33,7 @@ $query = "
     INNER JOIN feligres f ON b.id_feligres = f.id_feligres
     LEFT JOIN ministros m ON b.id_ministro = m.id_ministro
     LEFT JOIN parroquia p ON b.id_parroquia = p.id_parroquia
-    WHERE b.id_bautismo = :id
+    WHERE b.id_feligres = :id
 ";
 
 $stmt = $db->prepare($query);

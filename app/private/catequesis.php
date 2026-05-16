@@ -246,6 +246,11 @@
         onclick="editarCatequesis(${cat.id_catequesis})">
         <i class="bi bi-pencil"></i>
     </button>
+   
+    <button class="btn btn-sm btn-outline-danger ms-1"
+             onclick="eliminarCatequesis(${cat.id_catequesis})">
+            <i class="bi bi-trash"></i>
+       </button>
 
 </td>
 
@@ -283,6 +288,11 @@
                     <td><span class="badge bg-dark">${c.especialidad || 'General'}</span></td>
                     <td class="text-end">
                         <button class="btn btn-sm btn-outline-dark" onclick="editarCatequista(${c.id_catequista})"><i class="bi bi-pencil"></i></button>
+                       
+                      <button class="btn btn-sm btn-outline-danger ms-1"
+             onclick="eliminarCatequista(${c.id_catequista})">
+            <i class="bi bi-trash"></i>
+       </button>
                           
                         </td>
                 </tr>
@@ -451,6 +461,73 @@
             })
             .catch(err => console.error("Error editarCatequesis:", err));
     }
+
+    /* ELIMINAR CATEQUESIS */
+
+function eliminarCatequista(id) {
+    Swal.fire({
+        title: '¿Eliminar registro?',
+        text: "Se archivará el registro, no se borrará físicamente",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (!result.isConfirmed) return;
+console.log(`ID: ${id}.....`);
+        fetch('../api/catequistas/eliminar.php', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            body: `id=${id}`
+        })
+        .then(res => res.json())
+        .then(resp => {
+            if (resp.success) {
+                Swal.fire('Eliminado', resp.message, 'success');
+                listarCatequistas();
+            } else {
+                Swal.fire('Error', resp.error, 'error');
+            }
+        });
+    });
+}
+
+/* ELIMINAR CATEQUESIS */
+
+function eliminarCatequesis(id) {
+    Swal.fire({
+        title: '¿Eliminar registro?',
+        text: "Se archivará el registro, no se borrará físicamente",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (!result.isConfirmed) return;
+console.log(`ID: ${id}.....`);
+        fetch('../api/catequesis/eliminar.php', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            body: `id=${id}`
+        })
+        .then(res => res.json())
+        .then(resp => {
+            if (resp.success) {
+                Swal.fire('Eliminado', resp.message, 'success');
+                listarCatequesis();
+            } else {
+                Swal.fire('Error', resp.error, 'error');
+            }
+        });
+    });
+}
+
+
+
+
+
 
     // Guardar o editar catequesis
     function guardarCatequesis() {

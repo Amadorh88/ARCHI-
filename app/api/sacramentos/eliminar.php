@@ -6,7 +6,14 @@ $conexion = (new Database())->getConnection();
 
 $id = $_POST['id'] ?? $_GET['id'] ?? null;
 $tipo = strtolower(trim($_POST['tipo'] ?? $_GET['tipo'] ?? ''));
-
+function limpiarTexto($tipo){
+    $tipo = mb_strtolower($tipo,"UTF-8");
+    $buscar = ["á", "é","í","ó","ú"];
+    $reemplazar = ["a","e","i","o","u"];
+    $tipo = str_replace($buscar,$reemplazar, $tipo);
+    return $tipo;
+}
+$tipo =  limpiarTexto($tipo);
 if (!$id || !$tipo) {
     echo json_encode([
         'success' => false,

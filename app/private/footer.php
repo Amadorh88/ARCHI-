@@ -31,7 +31,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 // Redirigir al script de limpieza de sesión
-                window.location.href = 'http://localhost/ARCHI-/app/logout.php';
+                window.location.href = 'http://localhost/TFG/app/logout.php';
 
             }
         });

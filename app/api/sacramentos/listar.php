@@ -19,7 +19,7 @@ $query = "
         f.nombre_completo AS feligres,
         b.fecha,
         b.registro,
-        'N/A' AS estado
+        b.estado 
     FROM bautismo b
     INNER JOIN feligres f ON b.id_feligres = f.id_feligres
 
@@ -31,7 +31,7 @@ $query = "
         f.nombre_completo AS feligres,
         c.fecha,
         c.registro,
-        'N/A' AS estado
+        c.estado
     FROM comunion c
     INNER JOIN feligres f ON c.id_feligres = f.id_feligres
 
@@ -43,7 +43,7 @@ $query = "
         f.nombre_completo AS feligres,
         co.fecha,
         co.registro,
-        'N/A' AS estado
+        co.estado
     FROM confirmacion co
     INNER JOIN feligres f ON co.id_feligres = f.id_feligres
 

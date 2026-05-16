@@ -183,6 +183,9 @@
     function puedeEditar() {
         return ['admin', 'archivista', 'secretaria'].includes(rolUsuario);
     }
+    function puedeActivar() {
+        return ['admin', 'Parroco'].includes(rolUsuario);
+    }
     function puedeSeparar() {
         return ['admin', 'parroco'].includes(rolUsuario);
     }
@@ -195,7 +198,7 @@
 
     lista.forEach(s => {
 
-        const esMatrimonio = s.tipo.toLowerCase() === 'matrimonio';
+        const esMatrimonio = s.tipo.toLowerCase() === 'matrimonio' || s.tipo.toLowerCase() != 'matrimonio' ;
 
         const btnEliminar = puedeEditar()
     ? `<button class="btn btn-sm btn-outline-danger ms-1"
@@ -222,7 +225,7 @@
         // Botón activar / desactivar (solo matrimonio y con permiso)
         const btnToggle = (esMatrimonio && (puedeSeparar()))
             ? `<button class="btn btn-sm btn-outline-warning ms-1"
-                    onclick="toggleMatrimonio(${s.id})"
+                    onclick="toggleMatrimonio(${s.id}, '${s.tipo}', '${s.estado}')"
                     title="Activar / Desactivar Matrimonio">
                     <i class="bi bi-arrow-repeat"></i>
                </button>`
@@ -252,10 +255,16 @@
         '<tr><td colspan="7" class="text-center">No hay datos</td></tr>';
 }
 
-function toggleMatrimonio(id) {
-    if (!confirm('¿Deseas cambiar el estado del matrimonio?')) return;
+function toggleMatrimonio(id, tipo, estado) {
+    let data = {
+        tipo: tipo.toLowerCase(),
+        id: id,
+        estado: estado
+    }
+    console.log(data)
+    if (!confirm(`Deseas cambiar el estado del ${tipo}?`)) return;
 
-    fetch(`../api/sacramentos/toggle.php?id=${id}`)
+    fetch(`../api/sacramentos/toggle.php?tipo=${tipo}&id=${id}`)
         .then(res => res.json())
         .then(resp => {
             if (!resp.success) {
@@ -529,7 +538,7 @@ function toggleMatrimonio(id) {
                         <p class="mb-1"><strong>Nombre:</strong> ${d.feligres_nombre || 'Ver Participantes'}</p>
                         ${d.nombre_padre ? `<p class="mb-1 text-secondary">Padre: ${d.nombre_padre}</p>` : ''}
                         ${d.nombre_madre ? `<p class="mb-1 text-secondary">Madre: ${d.nombre_madre}</p>` : ''}
-                        <p class="mb-1 text-secondary">Origen: ${d.lugar_nacimiento || 'N/A'}</p>
+                        <p class="mb-1 text-secondary">Origen: ${d.lugar_nacimiento || 'Inactivo'}</p>
                     </div>
 
                     <div class="col-md-6">
@@ -552,8 +561,8 @@ function toggleMatrimonio(id) {
                 });
             } else if (tipo === 'bautismo') {
                 html += `
-                <div class="col-md-6"><strong>Padrino:</strong> ${d.padrino || 'N/A'}</div>
-                <div class="col-md-6"><strong>Madrina:</strong> ${d.madrina || 'N/A'}</div>
+                <div class="col-md-6"><strong>Padrino:</strong> ${d.padrino || 'Inactivo'}</div>
+                <div class="col-md-6"><strong>Madrina:</strong> ${d.madrina || 'Inactivo'}</div>
             `;
             } else {
                 html += `<div class="col-12 text-muted italic">Registro sacramental validado bajo actas parroquiales.</div>`;

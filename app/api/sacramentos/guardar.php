@@ -1,7 +1,13 @@
 <?php
 require '../../config/db.php';
 header('Content-Type: application/json');
-
+function limpiarTexto($tipo){
+    $tipo = mb_strtolower($tipo,"UTF-8");
+    $buscar = ["á", "é","í","ó","ú"];
+    $reemplazar = ["a","e","i","o","u"];
+    $tipo = str_replace($buscar,$reemplazar, $tipo);
+    return $tipo;
+}
 $db = (new Database())->getConnection();
 $id_editar = $_POST['id_editar'] ?? null;
 try {
@@ -12,12 +18,11 @@ try {
     $fecha = $_POST['fecha'];
     $id_ministro = $_POST['id_ministro'];
     $id_parroquia = $_POST['id_parroquia'] ?? null;
-
+    $tipo = limpiarTexto($tipo);
     // --- REGLA 1: VALIDACIÓN PARA SACRAMENTOS ÚNICOS ---
-    if (in_array($tipo, ['bautismo', 'comunion', 'confirmacion'])) {
+     if (in_array($tipo, ['bautismo', 'comunion', 'confirmacion'])) {
         $id_feligres = $_POST['id_feligres'];
-        $tabla = ($tipo === 'comunion') ? 'comunion' : $tipo;
-
+        $tabla = ($tipo === 'comunion') ? 'comunion' : $tipo;  
         $check = $db->prepare("SELECT COUNT(*) FROM $tabla WHERE id_feligres = ?");
         $check->execute([$id_feligres]);
         if ($check->fetchColumn() > 0) {
@@ -26,10 +31,10 @@ try {
 
         // Inserción específica
         if ($tipo === 'bautismo') {
-            $stmt = $db->prepare("INSERT INTO bautismo (registro, id_feligres, fecha, padrino, madrina, id_ministro, id_parroquia) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            $stmt = $db->prepare("INSERT INTO bautismo (registro, id_feligres, fecha, padrino, madrina, id_ministro, id_parroquia, estado) VALUES (?, ?, ?, ?, ?, ?, ?,0)");
             $stmt->execute([$registro, $id_feligres, $fecha, $_POST['padrino'], $_POST['madrina'], $id_ministro, $id_parroquia]);
         } else {
-            $stmt = $db->prepare("INSERT INTO $tabla (registro, id_feligres, fecha, id_ministro, id_parroquia) VALUES (?, ?, ?, ?, ?)");
+            $stmt = $db->prepare("INSERT INTO $tabla (registro, id_feligres, fecha, id_ministro, id_parroquia, estado) VALUES (?, ?, ?, ?, ?,0)");
             $stmt->execute([$registro, $id_feligres, $fecha, $id_ministro, $id_parroquia]);
         }
     }

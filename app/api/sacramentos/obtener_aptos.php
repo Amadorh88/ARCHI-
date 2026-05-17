@@ -18,16 +18,31 @@ try {
             $sql = "SELECT * FROM feligres f
                     WHERE NOT EXISTS (SELECT 1 FROM bautismo b WHERE b.id_feligres = f.id_feligres)";
             break;
-        case 'comunion':
-            $sql = "SELECT * FROM feligres f
-                    WHERE NOT EXISTS (SELECT 1 FROM comunion c WHERE c.id_feligres = f.id_feligres)";
+        case 'comunion':           
+             $sql = "SELECT f.* 
+                    FROM feligres f
+                    INNER JOIN bautismo b ON f.id_feligres = b.id_feligres
+                    LEFT JOIN comunion c ON f.id_feligres = c.id_feligres
+                    WHERE b.estado = 1 
+                    AND (c.estado = 0 OR c.id_feligres IS NULL);";
             break;
         case 'confirmacion':
-            $sql = "SELECT * FROM feligres f
-                    WHERE NOT EXISTS (SELECT 1 FROM confirmacion cf WHERE cf.id_feligres = f.id_feligres)";
+              $sql = " SELECT f.* 
+                     FROM feligres f
+                     INNER JOIN comunion c ON f.id_feligres = c.id_feligres
+                     LEFT JOIN confirmacion co ON f.id_feligres = co.id_feligres
+                     WHERE c.estado = 1 
+                     AND (co.estado = 0 OR co.id_feligres IS NULL);
+       ";
             break;
         case 'matrimonio':
-            $sql = "SELECT * FROM feligres"; // Todos, se filtra en JS al seleccionar esposo/esposa
+             $sql = "SELECT f.* 
+                    FROM feligres f
+                    INNER JOIN confirmacion co ON f.id_feligres = co.id_feligres
+                    INNER JOIN matrimonio_feligres mf ON f.id_feligres = mf.id_feligres
+                    LEFT JOIN matrimonio m ON mf.id_matrimonio = m.id_matrimonio
+                    WHERE co.estado = 1 
+                    AND (m.estado = 0 OR m.id_matrimonio IS NULL);";        
             break;
         default:
             $sql = "SELECT * FROM feligres LIMIT 0"; // Ninguno

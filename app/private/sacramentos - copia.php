@@ -208,8 +208,7 @@
             const esActivo = s.estado === 'activo' || s.estado == 1 || s.estado === 'Activo';
             const estadoTexto = esActivo ? 'activo' : 'inactivo';
 
-            // CAMBIO AQUÍ: El ID del badge ahora incluye el tipo de sacramento para ser único
-            const badge = `<span id="estado-${tipoClean}-${s.id}" class="badge ${esActivo ? 'bg-success' : 'bg-secondary'}">${estadoTexto}</span>`;
+            const badge = `<span id="estado-${s.id}" class="badge ${esActivo ? 'bg-success' : 'bg-secondary'}">${estadoTexto}</span>`;
 
             const btnEditar = puedeEditar()
                 ? `<button class="btn btn-sm btn-outline-primary ms-1" onclick="editarSacramento(${s.id}, '${s.tipo}')"><i class="bi bi-pencil"></i></button>`
@@ -220,9 +219,8 @@
                 ? `<button class="btn btn-sm btn-outline-warning ms-1" onclick="toggleEstado(${s.id}, '${tipoClean}', '${estadoTexto}')" title="Activar / Desactivar Registro"><i class="bi bi-arrow-repeat"></i></button>`
                 : '';
 
-            // CAMBIO AQUÍ: El ID de la fila también incluye el tipo de sacramento
             html += `
-            <tr id="fila-${tipoClean}-${s.id}">
+            <tr id="fila-${s.id}">
                 <td>${s.id}</td>
                 <td><strong>${s.tipo}</strong></td>
                 <td>${s.feligres}</td>
@@ -242,59 +240,40 @@
     }
 
     /* ==========================================
-   TOGGLE / ACTIVAR Y DESACTIVAR (PARA TODOS)
-   ========================================== */
-function toggleEstado(id, tipo, estadoActual) {
-    if (!confirm(`¿Deseas cambiar el estado de este registro de ${tipo}?`)) return;
+       TOGGLE / ACTIVAR Y DESACTIVAR (PARA TODOS)
+       ========================================== */
+    function toggleEstado(id, tipo, estadoActual) {
+        if (!confirm(`¿Deseas cambiar el estado de este registro de ${tipo}?`)) return;
 
-    fetch(`../api/sacramentos/toggle.php?tipo=${tipo}&id=${id}`)
-        .then(res => res.json())
-        .then(resp => {
-            if (!resp.success) {
-                mostrarToast(resp.error || 'Error al cambiar estado', 'error');
-                return;
-            }
-
-            // 1. Determinar el nuevo estado devuelto por el servidor o alternar el actual
-            let nuevoEstado = resp.nuevo_estado !== undefined ? resp.nuevo_estado : (estadoActual === 'activo' ? 'inactivo' : 'activo');
-            
-            // 2. Normalizar el estado a string ('activo' / 'inactivo')
-            const esActivo = nuevoEstado === 'activo' || nuevoEstado == 1 || nuevoEstado === 'Activo';
-            const textoFinal = esActivo ? 'activo' : 'inactivo';
-
-            // 3. Modificar el Badge en tiempo real usando el nuevo identificador compuesto único
-            const badge = document.getElementById(`estado-${tipo}-${id}`);
-            if (badge) {
-                badge.textContent = textoFinal;
-                badge.className = `badge ${esActivo ? 'bg-success' : 'bg-secondary'}`;
-            }
-
-            // 4. Sincronizar de forma segura la actualización en el arreglo global filtrando por ID Y TIPO
-            const item = registrosGlobal.find(r => {
-                const tipoRegistroClean = r.tipo.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-                return r.id == id && tipoRegistroClean === tipo;
-            });
-            
-            if (item) {
-                item.estado = resp.nuevo_estado !== undefined ? resp.nuevo_estado : textoFinal;
-            }
-
-            // 5. Actualizar el atributo 'onclick' de la fila específica usando el ID compuesto
-            const fila = document.getElementById(`fila-${tipo}-${id}`);
-            if (fila) {
-                const btnToggle = fila.querySelector('button[title*="Activar / Desactivar"]');
-                if (btnToggle) {
-                    btnToggle.setAttribute('onclick', `toggleEstado(${id}, '${tipo}', '${textoFinal}')`);
+        fetch(`../api/sacramentos/toggle.php?tipo=${tipo}&id=${id}`)
+            .then(res => res.json())
+            .then(resp => {
+                if (!resp.success) {
+                    mostrarToast(resp.error || 'Error al cambiar estado', 'error');
+                    return;
                 }
-            }
 
-            mostrarToast(`Estado cambiado a ${textoFinal}`, 'success');
-        })
-        .catch((err) => {
-            console.error(err);
-            mostrarToast('Error de conexión', 'error');
-        });
-}
+                // Determinar el nuevo estado devuelto por el servidor o alternar el actual en fallback
+                const nuevoEstado = resp.nuevo_estado || (estadoActual === 'activo' ? 'inactivo' : 'activo');
+                const esActivo = nuevoEstado === 'activo' || nuevoEstado == 1 || nuevoEstado === 'Activo';
+                const textoFinal = esActivo ? 'activo' : 'inactivo';
+
+                // Modificar el Badge en tiempo real en la vista
+                const badge = document.getElementById(`estado-${id}`);
+                if (badge) {
+                    badge.textContent = textoFinal;
+                    badge.classList.remove('bg-success', 'bg-secondary');
+                    badge.classList.add(esActivo ? 'bg-success' : 'bg-secondary');
+                }
+
+                // Sincronizar actualización en el arreglo de datos local
+                const item = window.registrosGlobal.find(r => r.id == id);
+                if (item) item.estado = textoFinal;
+
+                mostrarToast(`Estado cambiado a ${textoFinal}`, 'success');
+            })
+            .catch(() => mostrarToast('Error de conexión', 'error'));
+    }
 
     /* ==========================================
        ACCIONES MODAL

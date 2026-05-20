@@ -149,11 +149,12 @@
     let feligresesAptosCargados = [];
 
     const mapaCatequesis = {
-        'bautismo': 'Bautismo',
-        'comunion': 'Comunión',
-        'confirmacion': 'Confirmación',
-        'matrimonio': 'Matrimonio'
-    };
+    'bautismo': 'Bautismo',
+    'comunion': 'Comunión',
+    'confirmacion': 'Confirmación',
+    'matrimonio': 'Matrimonio'
+};
+
 
     function mostrarToast(mensaje, tipo = "success") {
         const el = document.getElementById('toastLive');
@@ -174,12 +175,11 @@
             .then(res => res.json())
             .then(data => {
                 registrosGlobal = data.data;
-                rolUsuario = data.rol;
+                rolUsuario = data.rol; // 👈 rol desde backend
                 renderTabla(registrosGlobal);
             })
             .catch(() => mostrarToast("Error de conexión", "error"));
     }
-
     function puedeEditar() {
         return ['admin', 'archivista', 'secretaria'].includes(rolUsuario);
     }
@@ -189,63 +189,85 @@
     function puedeSeparar() {
         return ['admin', 'parroco'].includes(rolUsuario);
     }
+
     function soloVer() {
         return rolUsuario === 'parroco';
     }
-
     function renderTabla(lista) {
-        let html = '';
+    let html = '';
 
-        lista.forEach(s => {
-            // Limpieza segura del tipo (Quita acentos como 'Comunión' -> 'comunion')
-            const tipoClean = s.tipo.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    lista.forEach(s => {
 
-            const btnEliminar = puedeEditar()
-                ? `<button class="btn btn-sm btn-outline-danger ms-1" onclick="eliminarSacramento(${s.id}, '${tipoClean}')"><i class="bi bi-trash"></i></button>`
-                : '';
+        const esMatrimonio = s.tipo.toLowerCase() === 'matrimonio' || s.tipo.toLowerCase() != 'matrimonio' ;
 
-            // Comprobar estado de forma tolerante a string ('activo') o numérico (1)
-            const esActivo = s.estado === 'activo' || s.estado == 1 || s.estado === 'Activo';
-            const estadoTexto = esActivo ? 'activo' : 'inactivo';
+        const btnEliminar = puedeEditar()
+    ? `<button class="btn btn-sm btn-outline-danger ms-1"
+             onclick="eliminarSacramento(${s.id}, '${s.tipo.toLowerCase()}')">
+            <i class="bi bi-trash"></i>
+       </button>`
+    : '';
+        // Badge de estado
+        console.log(esMatrimonio)
+        const badge = esMatrimonio
+            ? `<span id="estado-${s.id}"
+                    class="badge ${s.estado === 'activo' ? 'bg-success' : 'bg-secondary'}">
+                    ${s.estado}
+               </span>`
+            :            
+             `<span id="estado-${s.id}"
+                    class="badge ${s.estado === 1 ? 'bg-success' : 'bg-secondary'}">
+                    inactivos
+               </span>`;
 
-            // CAMBIO AQUÍ: El ID del badge ahora incluye el tipo de sacramento para ser único
-            const badge = `<span id="estado-${tipoClean}-${s.id}" class="badge ${esActivo ? 'bg-success' : 'bg-secondary'}">${estadoTexto}</span>`;
+        // Botón editar
+        const btnEditar = puedeEditar()
+            ? `<button class="btn btn-sm btn-outline-primary ms-1"
+                    onclick="editarSacramento(${s.id}, '${s.tipo}')">
+                    <i class="bi bi-pencil"></i>
+               </button>`
+            : '';
 
-            const btnEditar = puedeEditar()
-                ? `<button class="btn btn-sm btn-outline-primary ms-1" onclick="editarSacramento(${s.id}, '${s.tipo}')"><i class="bi bi-pencil"></i></button>`
-                : '';
+        // Botón activar / desactivar (solo matrimonio y con permiso)
+        const btnToggle = (esMatrimonio && (puedeSeparar()))
+            ? `<button class="btn btn-sm btn-outline-warning ms-1"
+                    onclick="toggleMatrimonio(${s.id}, '${s.tipo}', '${s.estado}')"
+                    title="Activar / Desactivar Matrimonio">
+                    <i class="bi bi-arrow-repeat"></i>
+               </button>`
+            : '';
 
-            // Habilitado el Botón Toggle para TODOS los sacramentos si tiene rol autorizado
-            const btnToggle = puedeSeparar()
-                ? `<button class="btn btn-sm btn-outline-warning ms-1" onclick="toggleEstado(${s.id}, '${tipoClean}', '${estadoTexto}')" title="Activar / Desactivar Registro"><i class="bi bi-arrow-repeat"></i></button>`
-                : '';
+        html += `
+        <tr id="fila-${s.id}">
+            <td>${s.id}</td>
+            <td><strong>${s.tipo}</strong></td>
+            <td>${s.feligres}</td>
+            <td>${s.fecha}</td>
+            <td><code>${s.registro}</code></td>
+            <td>${badge}</td>
+            <td class="text-end">
+                <button class="btn btn-sm btn-outline-info shadow-sm"
+                        onclick="verSacramento('${s.tipo.toLowerCase()}', ${s.id})">
+                    <i class="bi bi-eye-fill me-1"></i> Ver
+                </button>
+                ${btnEditar}
+                ${btnToggle}
+                 ${btnEliminar}
+            </td>
+        </tr>`;
+    });
 
-            // CAMBIO AQUÍ: El ID de la fila también incluye el tipo de sacramento
-            html += `
-            <tr id="fila-${tipoClean}-${s.id}">
-                <td>${s.id}</td>
-                <td><strong>${s.tipo}</strong></td>
-                <td>${s.feligres}</td>
-                <td>${s.fecha}</td>
-                <td><code>${s.registro}</code></td>
-                <td>${badge}</td>
-                <td class="text-end">
-                    <button class="btn btn-sm btn-outline-info shadow-sm" onclick="verSacramento('${tipoClean}', ${s.id})"><i class="bi bi-eye-fill me-1"></i> Ver</button>
-                    ${btnEditar}
-                    ${btnToggle}
-                    ${btnEliminar}
-                </td>
-            </tr>`;
-        });
+    tabla.innerHTML = html ||
+        '<tr><td colspan="7" class="text-center">No hay datos</td></tr>';
+}
 
-        tabla.innerHTML = html || '<tr><td colspan="7" class="text-center">No hay datos</td></tr>';
+function toggleMatrimonio(id, tipo, estado) {
+    let data = {
+        tipo: tipo.toLowerCase(),
+        id: id,
+        estado: estado
     }
-
-    /* ==========================================
-   TOGGLE / ACTIVAR Y DESACTIVAR (PARA TODOS)
-   ========================================== */
-function toggleEstado(id, tipo, estadoActual) {
-    if (!confirm(`¿Deseas cambiar el estado de este registro de ${tipo}?`)) return;
+    console.log(data)
+    if (!confirm(`Deseas cambiar el estado del ${tipo}?`)) return;
 
     fetch(`../api/sacramentos/toggle.php?tipo=${tipo}&id=${id}`)
         .then(res => res.json())
@@ -255,55 +277,31 @@ function toggleEstado(id, tipo, estadoActual) {
                 return;
             }
 
-            // 1. Determinar el nuevo estado devuelto por el servidor o alternar el actual
-            let nuevoEstado = resp.nuevo_estado !== undefined ? resp.nuevo_estado : (estadoActual === 'activo' ? 'inactivo' : 'activo');
-            
-            // 2. Normalizar el estado a string ('activo' / 'inactivo')
-            const esActivo = nuevoEstado === 'activo' || nuevoEstado == 1 || nuevoEstado === 'Activo';
-            const textoFinal = esActivo ? 'activo' : 'inactivo';
+            // Actualizar badge
+            const badge = document.getElementById(`estado-${id}`);
+            badge.textContent = resp.nuevo_estado;
+            badge.classList.remove('bg-success', 'bg-secondary');
+            badge.classList.add(
+                resp.nuevo_estado === 'activo' ? 'bg-success' : 'bg-secondary'
+            );
 
-            // 3. Modificar el Badge en tiempo real usando el nuevo identificador compuesto único
-            const badge = document.getElementById(`estado-${tipo}-${id}`);
-            if (badge) {
-                badge.textContent = textoFinal;
-                badge.className = `badge ${esActivo ? 'bg-success' : 'bg-secondary'}`;
-            }
+            // Actualizar también el array en memoria
+            const item = window.registrosGlobal.find(r => r.id == id);
+            if (item) item.estado = resp.nuevo_estado;
 
-            // 4. Sincronizar de forma segura la actualización en el arreglo global filtrando por ID Y TIPO
-            const item = registrosGlobal.find(r => {
-                const tipoRegistroClean = r.tipo.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-                return r.id == id && tipoRegistroClean === tipo;
-            });
-            
-            if (item) {
-                item.estado = resp.nuevo_estado !== undefined ? resp.nuevo_estado : textoFinal;
-            }
-
-            // 5. Actualizar el atributo 'onclick' de la fila específica usando el ID compuesto
-            const fila = document.getElementById(`fila-${tipo}-${id}`);
-            if (fila) {
-                const btnToggle = fila.querySelector('button[title*="Activar / Desactivar"]');
-                if (btnToggle) {
-                    btnToggle.setAttribute('onclick', `toggleEstado(${id}, '${tipo}', '${textoFinal}')`);
-                }
-            }
-
-            mostrarToast(`Estado cambiado a ${textoFinal}`, 'success');
+            mostrarToast(`Estado cambiado a ${resp.nuevo_estado}`, 'success');
         })
-        .catch((err) => {
-            console.error(err);
-            mostrarToast('Error de conexión', 'error');
-        });
+        .catch(() => mostrarToast('Error de conexión', 'error'));
 }
 
-    /* ==========================================
+
+ /* ==========================================
        ACCIONES MODAL
        ========================================== */
     function abrirModalNuevo() {
         form.reset();
         document.getElementById('id_editar').value = '';
         document.getElementById('modalTitulo').innerHTML = '<i class="bi bi-plus-circle"></i> Nuevo Registro';
-        selectorSacramento.disabled = false;
         limpiarFormularioIntermedio();
         modalBS.show();
     }
@@ -329,73 +327,127 @@ function toggleEstado(id, tipo, estadoActual) {
         cargarAuxiliares();
     });
 
+
     function renderizarCamposDinamicos(tipo, lista) {
-        const optionVacia = `<option value="">-- Seleccione --</option>`;
-        const opcionesEsposa = optionVacia + lista.map(f => (f.genero == "m") ? `<option value="${f.id_feligres}">${f.nombre_completo}</option>` : "" ).join('');
-        const opcionesEsposo = optionVacia + lista.map(f => (f.genero == "h") ? `<option value="${f.id_feligres}">${f.nombre_completo}</option>` : "").join('');
-        const opciones = optionVacia + lista.map(f => `<option value="${f.id_feligres}">${f.nombre_completo}</option>` ).join('');
+    // Añadimos una opción vacía al inicio para que no seleccione a nadie por defecto si no se desea
+    const optionVacia = `<option value="">-- Seleccione --</option>`;
+    
+    const opcionesEsposa = optionVacia + lista.map(f => (f.genero == "m") ? `<option value="${f.id_feligres}">${f.nombre_completo}</option>` : "" ).join('');
+    const opcionesEsposo = optionVacia + lista.map(f => (f.genero == "h") ? `<option value="${f.id_feligres}">${f.nombre_completo}</option>` : "").join('');
+    const opciones = optionVacia + lista.map(f => `<option value="${f.id_feligres}">${f.nombre_completo}</option>` ).join('');
+    let html = '';
+
+    if (tipo === 'matrimonio') {
+        html = `
+        <div class="col-md-6"><label class="form-label">Esposo</label><select name="id_esposo" class="form-select select-feligres">${opcionesEsposo}</select></div>
+        <div class="col-md-6"><label class="form-label">Esposa</label><select name="id_esposa" class="form-select select-feligres">${opcionesEsposa}</select></div>
+        <div class="col-12"><label class="form-label fw-bold border-bottom w-100">Testigos</label></div>
+        <div id="listaTestigos" class="col-12 row g-2">
+            <div class="col-md-12 d-flex gap-2">
+                <select name="testigos[]" class="form-select select-feligres">${opciones}</select>
+                <button type="button" class="btn btn-primary" onclick="agregarTestigo()"><i class="bi bi-plus"></i></button>
+            </div>
+        </div>`;
+    } else {
+        html = `<div class="col-md-12"><label class="form-label">Feligrés</label><select name="id_feligres" class="form-select select-feligres">${opciones}</select></div>`;
+        if (tipo === 'bautismo') html += `<div class="col-md-6"><label>Padrino</label><input name="padrino" class="form-control"></div><div class="col-md-6"><label>Madrina</label><input name="madrina" class="form-control"></div>`;
+    }
+    contenedor.innerHTML = html;
+    document.getElementById('btnGuardar').disabled = false;
+
+    // Escuchar cambios en el contenedor para actualizar las opciones inmediatamente
+    contenedor.addEventListener('change', actualizarSelectsDisponibles);
+}
+
+
+
+    /* 
+    function renderizarCamposDinamicos(tipo, lista) {
+       
+        const opcionesEsposa = lista.map(f => (f.genero == "m") ? `<option value="${f.id_feligres}">${f.nombre_completo}</option>` : "" ).join('');
+        const opcionesEsposo = lista.map(f => (f.genero == "h") ?  `<option value="${f.id_feligres}">${f.nombre_completo}</option>` : "").join('');
+        const opciones = lista.map(f => `<option value="${f.id_feligres}">${f.nombre_completo}</option>` ).join('');
         let html = '';
 
         if (tipo === 'matrimonio') {
             html = `
-            <div class="col-md-6"><label class="form-label">Esposo</label><select name="id_esposo" class="form-select select-feligres">${opcionesEsposo}</select></div>
-            <div class="col-md-6"><label class="form-label">Esposa</label><select name="id_esposa" class="form-select select-feligres">${opcionesEsposa}</select></div>
+            <div class="col-md-6"><label class="form-label">Esposo</label><select name="id_esposo" class="form-select">${opcionesEsposo}</select></div>
+            <div class="col-md-6"><label class="form-label">Esposa</label><select name="id_esposa" class="form-select">${opcionesEsposa}</select></div>
             <div class="col-12"><label class="form-label fw-bold border-bottom w-100">Testigos</label></div>
             <div id="listaTestigos" class="col-12 row g-2">
-                <div class="col-md-12 d-flex gap-2">
-                    <select name="testigos[]" class="form-select select-feligres">${opciones}</select>
-                    <button type="button" class="btn btn-primary" onclick="agregarTestigo()"><i class="bi bi-plus"></i></button>
-                </div>
+                <div class="col-md-10"><select name="testigos[]" class="form-select">${opciones}</select></div>
+                <div class="col-md-2"><button type="button" class="btn btn-primary w-100" onclick="agregarTestigo()"><i class="bi bi-plus"></i></button></div>
             </div>`;
         } else {
-            html = `<div class="col-md-12"><label class="form-label">Feligrés</label><select name="id_feligres" class="form-select select-feligres">${opciones}</select></div>`;
-            if (tipo === 'bautismo') {
-                html += `<div class="col-md-6"><label>Padrino</label><input name="padrino" class="form-control"></div><div class="col-md-6"><label>Madrina</label><input name="madrina" class="form-control"></div>`;
-            }
+            html = `<div class="col-md-12"><label class="form-label">Feligrés</label><select name="id_feligres" class="form-select">${opciones}</select></div>`;
+            if (tipo === 'bautismo') html += `<div class="col-md-6"><label>Padrino</label><input name="padrino" class="form-control"></div><div class="col-md-6"><label>Madrina</label><input name="madrina" class="form-control"></div>`;
         }
         contenedor.innerHTML = html;
         document.getElementById('btnGuardar').disabled = false;
-
-        contenedor.addEventListener('change', actualizarSelectsDisponibles);
     }
+    
+     */
 
-    function agregarTestigo(idPreseleccionado = "") {
-        const optionVacia = `<option value="">-- Seleccione --</option>`;
-        const opciones = optionVacia + feligresesAptosCargados.map(f => 
-            `<option value="${f.id_feligres}" ${f.id_feligres == idPreseleccionado ? 'selected' : ''}>${f.nombre_completo}</option>`
-        ).join('');
-        
-        const div = document.createElement('div');
-        div.className = 'col-md-12 mt-2 d-flex gap-2';
-        div.innerHTML = `
-            <select name="testigos[]" class="form-select select-feligres">${opciones}</select>
-            <button type="button" class="btn btn-outline-danger" onclick="this.parentElement.remove(); actualizarSelectsDisponibles();"><i class="bi bi-trash"></i></button>`;
-        
-        document.getElementById('listaTestigos').appendChild(div);
-        actualizarSelectsDisponibles();
-    }
 
-    function actualizarSelectsDisponibles() {
-        const todosLosSelects = contenedor.querySelectorAll('.select-feligres');
-        const idsSeleccionados = Array.from(todosLosSelects).map(select => select.value).filter(id => id !== "");
 
-        todosLosSelects.forEach(selectActual => {
-            const valorActual = selectActual.value;
-            const opciones = selectActual.querySelectorAll('option');
+/* function agregarTestigo() {
+    const opciones = feligresesAptosCargados.map(f => `<option value="${f.id_feligres}">${f.nombre_completo}</option>`).join('');
+    const div = document.createElement('div');
+    div.className = 'col-md-10 mt-2 d-flex gap-2';
+    div.innerHTML = `<select name="testigos[]" class="form-select">${opciones}</select>
+                 <button type="button" class="btn btn-outline-danger" onclick="this.parentElement.remove()"><i class="bi bi-trash"></i></button>`;
+    document.getElementById('listaTestigos').appendChild(div);
+} */
 
-            opciones.forEach(opcion => {
-                if (opcion.value === "") return;
-                if (idsSeleccionados.includes(opcion.value) && opcion.value !== valorActual) {
-                    opcion.style.display = 'none';
-                } else {
-                    opcion.style.display = 'block';
-                }
-            });
+
+    function agregarTestigo() {
+    const optionVacia = `<option value="">-- Seleccione --</option>`;
+    const opciones = optionVacia + feligresesAptosCargados.map(f => `<option value="${f.id_feligres}">${f.nombre_completo}</option>`).join('');
+    const div = document.createElement('div');
+    div.className = 'col-md-12 mt-2 d-flex gap-2';
+    div.innerHTML = `
+        <select name="testigos[]" class="form-select select-feligres">${opciones}</select>
+        <button type="button" class="btn btn-outline-danger" onclick="this.parentElement.remove(); actualizarSelectsDisponibles();"><i class="bi bi-trash"></i></button>`;
+    
+    document.getElementById('listaTestigos').appendChild(div);
+    
+    // Forzamos la actualización para que el nuevo select no muestre los ya elegidos
+    actualizarSelectsDisponibles();
+}
+
+
+function actualizarSelectsDisponibles() {
+    // 1. Capturamos todos los selects activos en el contenedor dinámico
+    const todosLosSelects = contenedor.querySelectorAll('.select-feligres');
+    
+    // 2. Almacenamos los IDs que ya han sido seleccionados (ignorando los vacíos)
+    const idsSeleccionados = Array.from(todosLosSelects)
+        .map(select => select.value)
+        .filter(id => id !== "");
+
+    // 3. Iteramos cada select para ocultar/mostrar las opciones de forma inteligente
+    todosLosSelects.forEach(selectActual => {
+        const valorActual = selectActual.value;
+        const opciones = selectActual.querySelectorAll('option');
+
+        opciones.forEach(opcion => {
+            if (opcion.value === "") return; // No ocultamos la opción por defecto
+
+            // Si el ID de esta opción está seleccionado en OTRO select, lo ocultamos
+            if (idsSeleccionados.includes(opcion.value) && opcion.value !== valorActual) {
+                opcion.style.display = 'none';
+            } else {
+                // Si se libera el feligrés, lo volvemos a mostrar
+                opcion.style.display = 'block';
+            }
         });
-    }
+    });
+}
+
 
     async function cargarAuxiliares() {
         try {
+            // CAMBIO AQUÍ: Usar listar.php en lugar de ver.php
             const [rMin, rPar] = await Promise.all([
                 fetch('../api/ministros/listar.php'),
                 fetch('../api/parroquias/listar.php')
@@ -427,6 +479,14 @@ function toggleEstado(id, tipo, estadoActual) {
             });
     };
 
+   /*  function toggleMatrimonio(id) {
+        fetch(`../api/matrimonio/toggle.php?id=${id}`).then(() => listarSacramentos());
+    } */
+
+    /* function editarSacramento(id, tipo) {
+        mostrarToast("Función de edición en desarrollo para tipo: " + tipo, "info");
+    }
+     */
     function generarCodigoAuto(tipo) {
         document.getElementById('registro').value = `${tipo.substring(0, 3).toUpperCase()}-${Math.floor(1000 + Math.random() * 9000)}`;
     }
@@ -438,45 +498,50 @@ function toggleEstado(id, tipo, estadoActual) {
     }
 
     /* ==========================================
-       FUNCIÓN EDITAR
+       FUNCIÓN EDITAR (ACTUALIZADA)
        ========================================== */
     async function editarSacramento(id, tipoDisplay) {
-        let tipo = tipoDisplay.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-        
-        if (tipo.includes("comunion")) tipo = "comunion";
-        if (tipo.includes("confirmacion")) tipo = "confirmacion";
+        const tipo = tipoDisplay.toLowerCase().replace("primera comunión", "comunion").replace("confirmación", "confirmacion");
 
         mostrarToast("Cargando datos del registro...", "info");
 
         try {
+            // 1. Obtener los datos actuales del registro
             const res = await fetch(`../api/sacramentos/obtener.php?id=${id}&tipo=${tipo}`);
             const datos = await res.json();
 
             if (!datos) throw new Error("No se encontraron datos");
 
+            // 2. Preparar el modal
             form.reset();
             document.getElementById('id_editar').value = id;
             document.getElementById('modalTitulo').innerHTML = `<i class="bi bi-pencil-square"></i> Editar ${tipoDisplay}`;
 
+            // Bloquear el cambio de tipo de sacramento en edición para evitar inconsistencias
             selectorSacramento.value = tipo;
             selectorSacramento.disabled = true;
 
+            // 3. Cargar feligreses aptos para ese tipo (para llenar los selects)
             const resAptos = await fetch(`../api/sacramentos/obtener_aptos.php?tipo=${mapaCatequesis[tipo]}`);
             feligresesAptosCargados = await resAptos.json();
 
+            // 4. Renderizar los campos dinámicos
             renderizarCamposDinamicos(tipo, feligresesAptosCargados);
 
+            // 5. Rellenar campos comunes
             document.getElementById('registro').value = datos.registro;
             document.getElementById('fecha').value = datos.fecha;
             document.getElementById('fecha').disabled = false;
             document.querySelectorAll('.campos-ocultos').forEach(el => el.style.display = 'block');
             contenedor.style.display = 'flex';
 
-            await cargarAuxiliares(); 
+            // 6. Rellenar campos específicos
+            await cargarAuxiliares(); // Asegurar que ministros y parroquias estén cargados
             document.getElementById('id_ministro').value = datos.id_ministro;
             document.getElementById('id_parroquia').value = datos.id_parroquia || "";
 
             if (tipo === 'matrimonio') {
+                // Lógica para Matrimonio (tabla relacional)
                 const esposo = datos.participantes.find(p => p.rol === 'esposo');
                 const esposa = datos.participantes.find(p => p.rol === 'esposa');
                 const testigos = datos.participantes.filter(p => p.rol === 'testigo');
@@ -484,30 +549,57 @@ function toggleEstado(id, tipo, estadoActual) {
                 if (esposo) form.id_esposo.value = esposo.id_feligres;
                 if (esposa) form.id_esposa.value = esposa.id_feligres;
 
+                // Limpiar testigos por defecto y agregar los reales
                 document.getElementById('listaTestigos').innerHTML = '';
-                if(testigos.length > 0) {
-                    testigos.forEach((t) => {
+                testigos.forEach((t, index) => {
+                    if (index === 0) {
+                        // El primero va en el contenedor base
+                        const div = document.createElement('div');
+                        div.className = 'col-md-10';
+                        div.innerHTML = generarSelectTestigo(t.id_feligres);
+                        const btnAdd = document.createElement('div');
+                        btnAdd.className = 'col-md-2';
+                        btnAdd.innerHTML = `<button type="button" class="btn btn-primary w-100" onclick="agregarTestigo()"><i class="bi bi-plus"></i></button>`;
+                        document.getElementById('listaTestigos').appendChild(div);
+                        document.getElementById('listaTestigos').appendChild(btnAdd);
+                    } else {
                         agregarTestigo(t.id_feligres);
-                    });
-                } else {
-                    agregarTestigo();
-                }
+                    }
+                });
             } else {
-                if(form.id_feligres) form.id_feligres.value = datos.id_feligres;
-                
+                // Lógica para Bautismo, Comunion, Confirmación
+                form.id_feligres.value = datos.id_feligres;
                 if (tipo === 'bautismo') {
-                    if(form.padrino) form.padrino.value = datos.padrino || "";
-                    if(form.madrina) form.madrina.value = datos.madrina || "";
+                    form.padrino.value = datos.padrino || "";
+                    form.madrina.value = datos.madrina || "";
                 }
             }
 
-            actualizarSelectsDisponibles();
             modalBS.show();
 
         } catch (error) {
             console.error(error);
             mostrarToast("Error al cargar la edición", "error");
         }
+    }
+
+    // Función auxiliar para generar el HTML del select de testigo
+    function generarSelectTestigo(idSeleccionado = "") {
+        const opciones = feligresesAptosCargados.map(f =>
+            `<option value="${f.id_feligres}" ${f.id_feligres == idSeleccionado ? 'selected' : ''}>${f.nombre_completo}</option>`
+        ).join('');
+        return `<select name="testigos[]" class="form-select">${opciones}</select>`;
+    }
+
+    // Actualizar la función agregarTestigo para que acepte un ID preseleccionado
+    function agregarTestigo(idPreseleccionado = "") {
+        const div = document.createElement('div');
+        div.className = 'col-md-10 mt-2 d-flex gap-2';
+        div.innerHTML = `
+        ${generarSelectTestigo(idPreseleccionado)}
+        <button type="button" class="btn btn-outline-danger" onclick="this.parentElement.remove()"><i class="bi bi-trash"></i></button>
+    `;
+        document.getElementById('listaTestigos').appendChild(div);
     }
 
     /* ======= VER DETALLES =========== */
@@ -519,6 +611,7 @@ function toggleEstado(id, tipo, estadoActual) {
             const modal = new bootstrap.Modal(document.getElementById('modalVerSacramento'));
             const container = document.getElementById('detalleContenido');
 
+            // Diseño Elegante (Kiyosaki: La información es el activo más valioso)
             let html = `
             <div class="p-4 bg-white border-bottom d-flex justify-content-between align-items-center">
                 <div>
@@ -576,46 +669,48 @@ function toggleEstado(id, tipo, estadoActual) {
             mostrarToast("No se pudo auditar el registro seleccionado", "error");
         }
     }
-
     const buscador = document.getElementById('buscador');
-    buscador.addEventListener('input', function() {
-        const texto = this.value.toLowerCase();
-        const filtrados = registrosGlobal.filter(r => {
-            const feligres = (r.feligres || '').toLowerCase();
-            const sacramento = (r.tipo || '').toLowerCase();
-            return feligres.includes(texto) || sacramento.includes(texto);
-        });
-        renderTabla(filtrados);
+
+buscador.addEventListener('input', function() {
+    const texto = this.value.toLowerCase();
+
+    const filtrados = registrosGlobal.filter(r => {
+        const feligres = (r.feligres || '').toLowerCase();
+        const sacramento = (r.tipo || '').toLowerCase();
+        return feligres.includes(texto) || sacramento.includes(texto);
     });
 
-    function eliminarSacramento(id, tipo) {
-        Swal.fire({
-            title: '¿Eliminar registro?',
-            text: "Se archivará el registro, no se borrará físicamente",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            confirmButtonText: 'Sí, eliminar',
-            cancelButtonText: 'Cancelar'
-        }).then((result) => {
-            if (!result.isConfirmed) return;
-            fetch('../api/sacramentos/eliminar.php', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                body: `id=${id}&tipo=${tipo}`
-            })
-            .then(res => res.json())
-            .then(resp => {
-                if (resp.success) {
-                    Swal.fire('Eliminado', resp.message, 'success');
-                    listarSacramentos();
-                } else {
-                    Swal.fire('Error', resp.error, 'error');
-                }
-            });
-        });
-    }
+    renderTabla(filtrados);
+});
 
+function eliminarSacramento(id, tipo) {
+    Swal.fire({
+        title: '¿Eliminar registro?',
+        text: "Se archivará el registro, no se borrará físicamente",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (!result.isConfirmed) return;
+console.log(`ID: ${id}.....tipo: ${tipo}`);
+        fetch('../api/sacramentos/eliminar.php', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            body: `id=${id}&tipo=${tipo}`
+        })
+        .then(res => res.json())
+        .then(resp => {
+            if (resp.success) {
+                Swal.fire('Eliminado', resp.message, 'success');
+                listarSacramentos();
+            } else {
+                Swal.fire('Error', resp.error, 'error');
+            }
+        });
+    });
+}
     // Iniciar
     listarSacramentos();
 </script>

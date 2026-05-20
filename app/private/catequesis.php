@@ -45,7 +45,7 @@
                         <tr>
                             <th>feligres</th>
                             <th>Catequesis</th>
-                            <th>Curso / Mentor</th>
+                            <th>Curso / Catequista</th>
                             <th>Periodo</th>
                             <th class="text-end">Acciones</th>
                         </tr>
@@ -94,7 +94,7 @@
                     onkeyup="filtrarTabla('tablaCatequistas', this.value)">
                     <?php if (($rolUsuario !== 'archivista')): ?>
                 <button class="btn btn-dark" onclick="nuevoCatequista()">
-                    <i class="bi bi-person-plus"></i> Nuevo Mentor
+                    <i class="bi bi-person-plus"></i> Nuevo Catequista
                 </button>
                  <?php endif; ?>
             </div>

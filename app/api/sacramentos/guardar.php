@@ -1,14 +1,18 @@
 <?php
 require '../../config/db.php';
-header('Content-Type: application/json');
+header('Content-Type: application/json; charset=utf-8'); // Forzar UTF-8 en la respuesta JSON
+
 function limpiarTexto($tipo){
-    $tipo = mb_strtolower($tipo,"UTF-8");
-    $buscar = ["á", "é","í","ó","ú"];
-    $reemplazar = ["a","e","i","o","u"];
-    $tipo = str_replace($buscar,$reemplazar, $tipo);
-    return $tipo;
+    // Quitamos espacios extras y convertimos a minúsculas de forma segura para UTF-8 (mantiene tildes)
+    return mb_strtolower(trim($tipo), "UTF-8");
 }
-$db = (new Database())->getConnection();
+
+$database = new Database();
+$db = $database->getConnection();
+
+// ASEGURAR CONEXIÓN UTF-8 (Evita problemas de tildes al insertar en la base de datos)
+$db->exec("SET NAMES utf8mb4"); 
+
 $id_editar = $_POST['id_editar'] ?? null;
 try {
     $db->beginTransaction();
@@ -18,23 +22,30 @@ try {
     $fecha = $_POST['fecha'];
     $id_ministro = $_POST['id_ministro'];
     $id_parroquia = $_POST['id_parroquia'] ?? null;
+    
+    // Ahora $tipo mantendrá caracteres como "comunión" o "confirmación" de forma segura si vienen así
     $tipo = limpiarTexto($tipo);
-    // --- REGLA 1: VALIDACIÓN PARA SACRAMENTOS ÚNICOS ---
-     if (in_array($tipo, ['bautismo', 'comunion', 'confirmacion'])) {
+
+    // Ajuste de mapeo tolerante a tildes para las consultas dinámicas
+    if (in_array($tipo, ['bautismo', 'comunion', 'comunión', 'confirmacion', 'confirmación'])) {
         $id_feligres = $_POST['id_feligres'];
-        $tabla = ($tipo === 'comunion') ? 'comunion' : $tipo;  
+        
+        // Normalizamos el nombre de la tabla destino
+        $tabla = ($tipo === 'comunion' || $tipo === 'comunión') ? 'comunion' : 
+                 (($tipo === 'confirmacion' || $tipo === 'confirmación') ? 'confirmacion' : 'bautismo');  
+        
         $check = $db->prepare("SELECT COUNT(*) FROM $tabla WHERE id_feligres = ?");
         $check->execute([$id_feligres]);
         if ($check->fetchColumn() > 0) {
-            throw new Exception("El feligrés ya cuenta con un registro de " . ucfirst($tipo));
+            throw new Exception("El feligrés ya cuenta con un registro de " . ucfirst($tabla));
         }
 
         // Inserción específica
-        if ($tipo === 'bautismo') {
-            $stmt = $db->prepare("INSERT INTO bautismo (registro, id_feligres, fecha, padrino, madrina, id_ministro, id_parroquia, estado) VALUES (?, ?, ?, ?, ?, ?, ?,0)");
+        if ($tabla === 'bautismo') {
+            $stmt = $db->prepare("INSERT INTO bautismo (registro, id_feligres, fecha, padrino, madrina, id_ministro, id_parroquia, estado) VALUES (?, ?, ?, ?, ?, ?, ?, 0)");
             $stmt->execute([$registro, $id_feligres, $fecha, $_POST['padrino'], $_POST['madrina'], $id_ministro, $id_parroquia]);
         } else {
-            $stmt = $db->prepare("INSERT INTO $tabla (registro, id_feligres, fecha, id_ministro, id_parroquia, estado) VALUES (?, ?, ?, ?, ?,0)");
+            $stmt = $db->prepare("INSERT INTO $tabla (registro, id_feligres, fecha, id_ministro, id_parroquia, estado) VALUES (?, ?, ?, ?, ?, 0)");
             $stmt->execute([$registro, $id_feligres, $fecha, $id_ministro, $id_parroquia]);
         }
     }

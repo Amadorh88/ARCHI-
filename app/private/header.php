@@ -126,7 +126,7 @@ $es_solo_lector = ($rol === 'parroco');
 
             <ul class="nav nav-pills flex-column small">
                 <li class="nav-item">
-                    <a class="nav-link active" href="dashboard.php"><i class="bi bi-speedometer2 me-2"></i>IInicio</a>
+                    <a class="nav-link active" href="dashboard.php"><i class="bi bi-speedometer2 me-2"></i>Inicio</a>
                 </li>
 
 

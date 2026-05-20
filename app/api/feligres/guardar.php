@@ -1,11 +1,10 @@
 <?php
 require '../../config/db.php';
-
 header('Content-Type: application/json; charset=utf-8');
 
 try {
     $db = (new Database())->getConnection();
-
+    $db->exec("SET NAMES utf8mb4");
     // Captura y saneamiento (Hill: El control de los detalles define el éxito)
     $id = !empty($_POST['id_feligres']) ? intval($_POST['id_feligres']) : null;
     $nombre = strtoupper(trim($_POST['nombre_completo'] ?? ''));

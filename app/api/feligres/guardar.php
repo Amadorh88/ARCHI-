@@ -5,13 +5,14 @@ header('Content-Type: application/json; charset=utf-8');
 try {
     $db = (new Database())->getConnection();
     $db->exec("SET NAMES utf8mb4");
-    // Captura y saneamiento (Hill: El control de los detalles define el éxito)
+    
+    // Captura y saneamiento (Se elimina strtoupper para respetar mayúsculas, minúsculas y tildes)
     $id = !empty($_POST['id_feligres']) ? intval($_POST['id_feligres']) : null;
-    $nombre = strtoupper(trim($_POST['nombre_completo'] ?? ''));
+    $nombre = trim($_POST['nombre_completo'] ?? '');
     $fecha_nac = $_POST['fecha_nacimiento'] ?? null;
     $lugar = trim($_POST['lugar_nacimiento'] ?? '');
-    $padre = strtoupper(trim($_POST['nombre_padre'] ?? ''));
-    $madre = strtoupper(trim($_POST['nombre_madre'] ?? ''));
+    $padre = trim($_POST['nombre_padre'] ?? '');
+    $madre = trim($_POST['nombre_madre'] ?? '');
 
     /* ============================================================
        1. VALIDACIONES DE LÓGICA (Hill: Pensamiento Preciso)

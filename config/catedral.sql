@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-06-2026 a las 05:14:37
+-- Tiempo de generación: 24-06-2026 a las 13:21:49
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -44,14 +44,10 @@ INSERT INTO `actividades` (`id_actividad`, `id_usuario`, `accion`, `modulo`, `fe
 (2, 1, 'Inició sesión en el sistema', 'Login', '2025-11-19 14:09:51'),
 (3, 1, 'Cerró sesión en el sistema', 'Login', '2025-11-19 14:10:47'),
 (4, 1, 'Inició sesión en el sistema', 'Login', '2025-11-19 14:11:19'),
-(5, 1, 'Cerró sesión en el sistema', 'Login', '2025-11-19 14:13:59'),
 (6, 1, 'Inició sesión en el sistema', 'Login', '2025-11-19 14:14:11'),
 (7, 1, 'Inició sesión en el sistema', 'Login', '2025-11-19 19:21:57'),
 (8, 1, 'Inició sesión en el sistema', 'Login', '2025-11-19 19:22:07'),
-(9, 1, 'Inició sesión en el sistema', 'Login', '2025-11-19 19:25:00'),
-(10, 1, 'Inició sesión en el sistema', 'Login', '2025-11-19 19:26:16'),
-(11, 1, 'Inició sesión en el sistema', 'Login', '2025-11-19 19:49:35'),
-(12, 1, 'Inició sesión en el sistema', 'Login', '2025-11-19 19:50:57');
+(9, 1, 'Inició sesión en el sistema', 'Login', '2025-11-19 19:25:00');
 
 -- --------------------------------------------------------
 
@@ -70,23 +66,25 @@ CREATE TABLE `bautismo` (
   `madrina` varchar(150) DEFAULT NULL,
   `id_ministro` int(11) DEFAULT NULL,
   `id_parroquia` int(11) DEFAULT NULL,
-  `estado` tinyint(1) NOT NULL DEFAULT 1
+  `estado` tinyint(1) NOT NULL DEFAULT 1,
+  `id_pago` int(11) DEFAULT NULL,
+  `monto_pago` decimal(12,2) DEFAULT 0.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `bautismo`
 --
 
-INSERT INTO `bautismo` (`id_bautismo`, `libro`, `registro`, `folio`, `id_feligres`, `fecha`, `padrino`, `madrina`, `id_ministro`, `id_parroquia`, `estado`) VALUES
-(25, '', 'BAU-1933', 0, 1, '1999-12-06', 'Metodio LOLA BATAPA', 'Clara MAY MASA', 4, 4, 1),
-(26, '', 'BAU-3221', NULL, 25, '2020-09-12', 'Mateo ESTRADA ESONO', 'Guillermina KING NCHANA', 11, 1, 1),
-(27, '', 'BAU-2477', NULL, 8, '2021-11-22', 'Rubén Esono ABESO NCHAMA', 'Honorina Akumu ABESO ASANGONO', 1, 8, 1),
-(28, '', 'BAU-1606', NULL, 6, '2022-06-11', 'Eugeni Esono NDONG OYANA', 'Petra OKOCHA CAMARERO', 9, 4, 1),
-(29, '', 'BAU-1270', NULL, 17, '1999-02-02', 'Mateo ESTRADA ESONO', 'Honorina Akumu ABESO ASANGONO', 11, 3, 1),
-(30, '', 'BAU-4675', NULL, 7, '2022-03-05', 'Juan Antonio Ona ESONO ADA', 'Alba Bikie ESONO AVOMO', 9, 2, 1),
-(31, '', 'BAU-6996', NULL, 20, '2025-05-12', 'Mateo ESTRADA ESONO', 'Paulina IDJABE BATAPA', 10, 2, 1),
-(32, '', 'BAU-5660', NULL, 23, '2001-06-12', 'Martín Eko EWORO ADA', 'Anita Nchama ABESO MBASOGO', 7, 7, 1),
-(33, '', 'BAU-3096', NULL, 12, '2009-01-01', 'Pepito SANCHEZ BLANCO', 'Pepa FERNANDEZ CÁCERES', 4, 8, 1);
+INSERT INTO `bautismo` (`id_bautismo`, `libro`, `registro`, `folio`, `id_feligres`, `fecha`, `padrino`, `madrina`, `id_ministro`, `id_parroquia`, `estado`, `id_pago`, `monto_pago`) VALUES
+(25, '', 'BAU-1933', 0, 1, '1999-12-05', 'Metodio LOLA BATAPA', 'Clara MAY MASA', 4, 4, 1, NULL, 0.00),
+(26, '', 'BAU-3221', NULL, 25, '2020-09-12', 'Mateo ESTRADA ESONO', 'Guillermina KING NCHANA', 11, 6, 1, NULL, 0.00),
+(27, '', 'BAU-2477', NULL, 8, '2021-11-22', 'Rubén Esono ABESO NCHAMA', 'Honorina Akumu ABESO ASANGONO', 1, 8, 1, NULL, 0.00),
+(28, '', 'BAU-1606', NULL, 6, '2022-06-11', 'Eugeni Esono NDONG OYANA', 'Petra OKOCHA CAMARERO', 9, 4, 1, NULL, 0.00),
+(29, '', 'BAU-1270', NULL, 17, '1999-02-02', 'Mateo ESTRADA ESONO', 'Honorina Akumu ABESO ASANGONO', 11, 3, 1, NULL, 0.00),
+(30, '', 'BAU-4675', NULL, 7, '2022-03-05', 'Juan Antonio Ona ESONO ADA', 'Alba Bikie ESONO AVOMO', 9, 2, 1, NULL, 0.00),
+(31, '', 'BAU-6996', NULL, 20, '2025-05-12', 'Mateo ESTRADA ESONO', 'Paulina IDJABE BATAPA', 10, 2, 1, NULL, 0.00),
+(32, '', 'BAU-5660', NULL, 23, '2001-06-12', 'Martín Eko EWORO ADA', 'Anita Nchama ABESO MBASOGO', 7, 7, 1, NULL, 0.00),
+(35, '', 'BAU1006', NULL, 30, '2020-05-17', 'Rubén Esono ABESO NCHAMA', '', 12, 1, 1, NULL, 0.00);
 
 -- --------------------------------------------------------
 
@@ -101,17 +99,30 @@ CREATE TABLE `catequesis` (
   `id_curso` int(11) DEFAULT NULL,
   `id_parroquia` int(11) DEFAULT NULL,
   `id_periodo` int(11) DEFAULT NULL,
-  `tipo` enum('Bautismal','Primera comunión','Confirmación','Matrimonial') NOT NULL
+  `tipo` enum('Bautismal','Primera comunión','Confirmación','Matrimonial') NOT NULL,
+  `id_pago` int(11) DEFAULT NULL,
+  `monto_pago` decimal(12,2) DEFAULT 0.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `catequesis`
 --
 
-INSERT INTO `catequesis` (`id_catequesis`, `id_feligres`, `estado`, `id_curso`, `id_parroquia`, `id_periodo`, `tipo`) VALUES
-(10, 7, 0, 1, 1, 24, 'Primera comunión'),
-(16, 8, 0, 1, 1, 16, 'Primera comunión'),
-(17, 8, 0, 13, 1, 16, 'Confirmación');
+INSERT INTO `catequesis` (`id_catequesis`, `id_feligres`, `estado`, `id_curso`, `id_parroquia`, `id_periodo`, `tipo`, `id_pago`, `monto_pago`) VALUES
+(10, 7, 0, 1, 1, 24, 'Primera comunión', NULL, 0.00),
+(16, 8, 0, 1, 1, 16, 'Primera comunión', NULL, 0.00),
+(17, 8, 0, 13, 1, 16, 'Confirmación', NULL, 0.00),
+(20, 30, 1, 3, 8, 16, 'Bautismal', NULL, 0.00),
+(21, 1, 1, 3, 8, 16, 'Bautismal', NULL, 0.00),
+(22, 17, 1, 3, 1, 16, 'Bautismal', 24, 3000.00),
+(23, 23, 1, 3, 1, 16, 'Bautismal', NULL, 5000.00),
+(24, 6, 1, 3, 1, 16, 'Bautismal', NULL, 5000.00),
+(25, 20, 1, 3, 1, 16, 'Bautismal', NULL, 5000.00),
+(26, 7, 1, 3, 1, 16, 'Bautismal', NULL, 0.00),
+(27, 25, 1, 3, 1, 16, 'Bautismal', NULL, 0.00),
+(28, 8, 1, 3, 1, 16, 'Bautismal', NULL, 0.00),
+(29, 1, 1, 1, 1, 16, 'Primera comunión', NULL, 0.00),
+(30, 30, 1, 1, 1, 16, 'Primera comunión', NULL, 0.00);
 
 -- --------------------------------------------------------
 
@@ -150,23 +161,24 @@ CREATE TABLE `comunion` (
   `fecha` date DEFAULT NULL,
   `id_ministro` int(11) DEFAULT NULL,
   `id_parroquia` int(11) DEFAULT NULL,
-  `estado` tinyint(1) NOT NULL DEFAULT 1
+  `estado` tinyint(1) NOT NULL DEFAULT 1,
+  `id_pago` int(11) DEFAULT NULL,
+  `monto_pago` decimal(12,2) DEFAULT 0.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `comunion`
 --
 
-INSERT INTO `comunion` (`id_comunion`, `registro`, `id_feligres`, `fecha`, `id_ministro`, `id_parroquia`, `estado`) VALUES
-(1, 'C001', 1, '2009-05-20', 1, 1, 1),
-(4, 'COM-9943', 8, '2005-01-18', 5, 1, 1),
-(5, 'COM-9292', 6, '2002-02-21', 7, 1, 1),
-(6, 'COM-8039', 7, '2003-02-18', 8, 1, 1),
-(7, 'COM-8208', 12, '2009-12-05', 11, 1, 1),
-(8, 'COM-9907', 17, '2025-11-09', 6, 1, 1),
-(10, 'COM-7419', 23, '2022-06-16', 6, 1, 1),
-(11, 'COM-4808', 25, '2009-05-11', 9, 4, 1),
-(12, 'COM-8975', 20, '2025-07-12', 11, 2, 1);
+INSERT INTO `comunion` (`id_comunion`, `registro`, `id_feligres`, `fecha`, `id_ministro`, `id_parroquia`, `estado`, `id_pago`, `monto_pago`) VALUES
+(1, 'C001', 1, '2009-05-20', 1, 1, 1, NULL, 0.00),
+(4, 'COM-9943', 8, '2005-01-18', 5, 1, 1, NULL, 0.00),
+(5, 'COM-9292', 6, '2002-02-21', 7, 1, 1, NULL, 0.00),
+(6, 'COM-8039', 7, '2003-02-18', 8, 1, 1, NULL, 0.00),
+(8, 'COM-9907', 17, '2025-11-09', 6, 1, 1, NULL, 0.00),
+(10, 'COM-7419', 23, '2022-06-16', 6, 1, 1, NULL, 0.00),
+(11, 'COM-4808', 25, '2009-05-11', 9, 4, 1, NULL, 0.00),
+(12, 'COM-8975', 20, '2025-07-12', 11, 2, 1, NULL, 0.00);
 
 -- --------------------------------------------------------
 
@@ -181,21 +193,22 @@ CREATE TABLE `confirmacion` (
   `fecha` date DEFAULT NULL,
   `id_ministro` int(11) DEFAULT NULL,
   `id_parroquia` int(11) DEFAULT NULL,
-  `estado` tinyint(1) NOT NULL DEFAULT 1
+  `estado` tinyint(1) NOT NULL DEFAULT 1,
+  `id_pago` int(11) DEFAULT NULL,
+  `monto_pago` decimal(12,2) DEFAULT 0.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `confirmacion`
 --
 
-INSERT INTO `confirmacion` (`id_confirmacion`, `registro`, `id_feligres`, `fecha`, `id_ministro`, `id_parroquia`, `estado`) VALUES
-(4, 'CON-4276', 8, '2022-12-22', 9, 1, 1),
-(5, 'CON-5109', 1, '2023-05-12', 5, 1, 1),
-(6, 'CON-7782', 6, '2006-10-12', 10, 1, 1),
-(7, 'CON-1350', 7, '2009-09-22', 9, 1, 1),
-(8, 'CON-5219', 12, '2010-12-02', 6, 1, 1),
-(9, 'CON-3272', 17, '2022-10-12', 6, 1, 1),
-(11, 'CON-5795', 23, '2024-07-30', 6, 1, 1);
+INSERT INTO `confirmacion` (`id_confirmacion`, `registro`, `id_feligres`, `fecha`, `id_ministro`, `id_parroquia`, `estado`, `id_pago`, `monto_pago`) VALUES
+(4, 'CON-4276', 8, '2022-12-22', 9, 1, 1, NULL, 0.00),
+(5, 'CON-5109', 1, '2023-05-12', 5, 1, 1, NULL, 0.00),
+(6, 'CON-7782', 6, '2006-10-12', 10, 1, 1, NULL, 0.00),
+(7, 'CON-1350', 7, '2009-09-22', 9, 1, 1, NULL, 0.00),
+(9, 'CON-3272', 17, '2022-10-12', 6, 1, 1, NULL, 0.00),
+(11, 'CON-5795', 23, '2024-07-30', 6, 1, 1, NULL, 0.00);
 
 -- --------------------------------------------------------
 
@@ -221,7 +234,10 @@ INSERT INTO `curso` (`id_curso`, `nombre`, `duracion`, `id_catequista`) VALUES
 (4, 'Confirmación', '9 meses', 4),
 (5, 'Primera Comunión II', '9 meses', 4),
 (13, 'confirmación 1', '9 meses', 4),
-(16, 'Matrimonio', '3 meses', 7);
+(16, 'Matrimonio', '3 meses', 7),
+(21, 'Bautismal', '3 días', 2),
+(22, 'Bautismal', '3 días', 2),
+(23, 'cuso a', '6 dias', 4);
 
 -- --------------------------------------------------------
 
@@ -248,11 +264,11 @@ INSERT INTO `feligres` (`id_feligres`, `nombre_completo`, `genero`, `nombre_padr
 (6, 'Jaime EPATA EKO', 'Masculino', 'Martin ESAPA ELO', 'Claudia EKO LOPELO', '2001-06-09', 'Malabo'),
 (7, 'Pepe BARRIL MOSO', 'Masculino', 'Martín BARRIL METE', 'Marta MOSO NCHASO', '2026-01-26', 'Malabo'),
 (8, 'Rufina BECHIRO BATAPA', 'Femenino', 'Félix BECHIRO BUELE', 'Secundina BATAPA FAMBOY', '2004-12-31', 'Malabo'),
-(12, 'Pepito Perez', 'Masculino', 'PEPO Perez', 'Perez', '2003-03-04', 'Mongomo'),
 (17, 'Eva BLANCO CASTILLO', 'Femenino', 'Martín BLANCO TOMÉ', 'Martina CASTILLO MEDIANO', '2010-11-12', 'Malabo'),
 (20, 'Marcos KING BATAPA', 'Masculino', 'Omar KING', 'Rosa BATAPA', '2015-05-05', 'Malabo'),
 (23, 'Manuela Andeme ABESO NCHAMA', 'Femenino', 'Manuel Abeso ESONO NNANG', 'Faustina NCHAMA EYÍ ASANGONO', '2000-12-22', 'Bata'),
-(25, 'Priscila TORRES BARRIL', 'Femenino', 'Andrés TORRES CASTILLO', 'Ana BARRIL TOMÉ', '2000-04-18', 'Malabo');
+(25, 'Priscila TORRES BARRIL', 'Femenino', 'Andrés TORRES CASTILLO', 'Ana BARRIL TOMÉ', '2000-04-18', 'Malabo'),
+(30, 'Argeo EBULABATÉ BUILA', 'Masculino', 'Argeo EBULABATÉ MOCHE', 'Mercedes BUILA NCHANA', '1995-09-22', 'Rebola');
 
 -- --------------------------------------------------------
 
@@ -266,16 +282,18 @@ CREATE TABLE `matrimonio` (
   `fecha` date DEFAULT NULL,
   `id_ministro` int(11) DEFAULT NULL,
   `lugar` varchar(150) DEFAULT NULL,
-  `estado` enum('activo','inactivo') NOT NULL DEFAULT 'activo'
+  `estado` enum('activo','inactivo') NOT NULL DEFAULT 'activo',
+  `id_pago` int(11) DEFAULT NULL,
+  `monto_pago` decimal(12,2) DEFAULT 0.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `matrimonio`
 --
 
-INSERT INTO `matrimonio` (`id_matrimonio`, `registro`, `fecha`, `id_ministro`, `lugar`, `estado`) VALUES
-(9, 'MAT-8309', '2025-02-14', 6, 'Parroquia Local', 'activo'),
-(11, 'MAT-3590', '2023-02-14', 6, 'Parroquia Local', 'activo');
+INSERT INTO `matrimonio` (`id_matrimonio`, `registro`, `fecha`, `id_ministro`, `lugar`, `estado`, `id_pago`, `monto_pago`) VALUES
+(9, 'MAT-8309', '2025-02-14', 6, 'Parroquia Local', 'activo', NULL, 0.00),
+(11, 'MAT-3590', '2023-02-14', 6, 'Parroquia Local', 'activo', NULL, 0.00);
 
 -- --------------------------------------------------------
 
@@ -357,7 +375,12 @@ CREATE TABLE `pago` (
 INSERT INTO `pago` (`id_pago`, `concepto`, `cantidad`, `recibido`, `cambio`, `id_feligres`, `fecha`) VALUES
 (1, 'Matrícula catequesis', 4000.00, 4000.00, 0.00, 1, '2026-02-10 11:09:10'),
 (4, 'Inscripción catequesis', 4000.00, 4000.00, 0.00, 7, '2026-02-10 11:15:50'),
-(6, 'Matrícula catequesis', 4000.00, 4000.00, 0.00, 20, '2026-06-02 16:17:10');
+(6, 'Matrícula catequesis', 4000.00, 4000.00, 0.00, 20, '2026-06-02 16:17:10'),
+(7, 'Catequesis bautismal', 2500.00, 2500.00, 0.00, 1, '2026-06-18 09:08:42'),
+(12, 'Sacramento - Bautismo', 32.00, 22.00, 0.00, 30, '2026-06-19 19:52:49'),
+(24, 'Estipendio Catequesis Bautismal', 3000.00, 3000.00, 0.00, 17, '2026-06-19 22:06:05'),
+(32, 'Sacramento - Bautismo', 138.00, 172.00, 0.00, 30, '2026-06-20 08:18:40'),
+(33, 'Estipendio - Catequesis Primera comunión', 5000.00, 500.00, 0.00, 30, '2026-06-22 12:33:05');
 
 -- --------------------------------------------------------
 
@@ -459,7 +482,8 @@ ALTER TABLE `bautismo`
   ADD PRIMARY KEY (`id_bautismo`),
   ADD KEY `id_feligres` (`id_feligres`),
   ADD KEY `id_ministro` (`id_ministro`),
-  ADD KEY `id_parroquia` (`id_parroquia`);
+  ADD KEY `id_parroquia` (`id_parroquia`),
+  ADD KEY `id_pago` (`id_pago`);
 
 --
 -- Indices de la tabla `catequesis`
@@ -469,7 +493,8 @@ ALTER TABLE `catequesis`
   ADD KEY `id_feligres` (`id_feligres`),
   ADD KEY `id_curso` (`id_curso`),
   ADD KEY `id_parroquia` (`id_parroquia`),
-  ADD KEY `catequesis_ibfk_4` (`id_periodo`);
+  ADD KEY `catequesis_ibfk_4` (`id_periodo`),
+  ADD KEY `id_pago` (`id_pago`);
 
 --
 -- Indices de la tabla `catequista`
@@ -484,7 +509,8 @@ ALTER TABLE `comunion`
   ADD PRIMARY KEY (`id_comunion`),
   ADD KEY `id_feligres` (`id_feligres`),
   ADD KEY `id_ministro` (`id_ministro`),
-  ADD KEY `id_parroquia` (`id_parroquia`);
+  ADD KEY `id_parroquia` (`id_parroquia`),
+  ADD KEY `id_pago` (`id_pago`);
 
 --
 -- Indices de la tabla `confirmacion`
@@ -493,7 +519,8 @@ ALTER TABLE `confirmacion`
   ADD PRIMARY KEY (`id_confirmacion`),
   ADD KEY `id_feligres` (`id_feligres`),
   ADD KEY `id_ministro` (`id_ministro`),
-  ADD KEY `id_parroquia` (`id_parroquia`);
+  ADD KEY `id_parroquia` (`id_parroquia`),
+  ADD KEY `id_pago` (`id_pago`);
 
 --
 -- Indices de la tabla `curso`
@@ -513,7 +540,8 @@ ALTER TABLE `feligres`
 --
 ALTER TABLE `matrimonio`
   ADD PRIMARY KEY (`id_matrimonio`),
-  ADD KEY `id_ministro` (`id_ministro`);
+  ADD KEY `id_ministro` (`id_ministro`),
+  ADD KEY `id_pago` (`id_pago`);
 
 --
 -- Indices de la tabla `matrimonio_feligres`
@@ -573,19 +601,19 @@ ALTER TABLE `actividades`
 -- AUTO_INCREMENT de la tabla `bautismo`
 --
 ALTER TABLE `bautismo`
-  MODIFY `id_bautismo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id_bautismo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT de la tabla `catequesis`
 --
 ALTER TABLE `catequesis`
-  MODIFY `id_catequesis` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id_catequesis` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT de la tabla `catequista`
 --
 ALTER TABLE `catequista`
-  MODIFY `id_catequista` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_catequista` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `comunion`
@@ -597,19 +625,19 @@ ALTER TABLE `comunion`
 -- AUTO_INCREMENT de la tabla `confirmacion`
 --
 ALTER TABLE `confirmacion`
-  MODIFY `id_confirmacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_confirmacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `curso`
 --
 ALTER TABLE `curso`
-  MODIFY `id_curso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id_curso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT de la tabla `feligres`
 --
 ALTER TABLE `feligres`
-  MODIFY `id_feligres` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id_feligres` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT de la tabla `matrimonio`
@@ -633,7 +661,7 @@ ALTER TABLE `ministros`
 -- AUTO_INCREMENT de la tabla `pago`
 --
 ALTER TABLE `pago`
-  MODIFY `id_pago` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_pago` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT de la tabla `parroquia`
@@ -669,7 +697,8 @@ ALTER TABLE `actividades`
 ALTER TABLE `bautismo`
   ADD CONSTRAINT `bautismo_ibfk_1` FOREIGN KEY (`id_feligres`) REFERENCES `feligres` (`id_feligres`),
   ADD CONSTRAINT `bautismo_ibfk_2` FOREIGN KEY (`id_ministro`) REFERENCES `ministros` (`id_ministro`),
-  ADD CONSTRAINT `bautismo_ibfk_3` FOREIGN KEY (`id_parroquia`) REFERENCES `parroquia` (`id_parroquia`);
+  ADD CONSTRAINT `bautismo_ibfk_3` FOREIGN KEY (`id_parroquia`) REFERENCES `parroquia` (`id_parroquia`),
+  ADD CONSTRAINT `bautismo_ibfk_4` FOREIGN KEY (`id_pago`) REFERENCES `pago` (`id_pago`) ON DELETE SET NULL;
 
 --
 -- Filtros para la tabla `catequesis`
@@ -678,7 +707,8 @@ ALTER TABLE `catequesis`
   ADD CONSTRAINT `catequesis_ibfk_1` FOREIGN KEY (`id_feligres`) REFERENCES `feligres` (`id_feligres`),
   ADD CONSTRAINT `catequesis_ibfk_2` FOREIGN KEY (`id_curso`) REFERENCES `curso` (`id_curso`),
   ADD CONSTRAINT `catequesis_ibfk_3` FOREIGN KEY (`id_parroquia`) REFERENCES `parroquia` (`id_parroquia`),
-  ADD CONSTRAINT `catequesis_ibfk_4` FOREIGN KEY (`id_periodo`) REFERENCES `periodo` (`id_periodo`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `catequesis_ibfk_4` FOREIGN KEY (`id_periodo`) REFERENCES `periodo` (`id_periodo`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `catequesis_ibfk_5` FOREIGN KEY (`id_pago`) REFERENCES `pago` (`id_pago`) ON DELETE SET NULL;
 
 --
 -- Filtros para la tabla `comunion`
@@ -686,7 +716,8 @@ ALTER TABLE `catequesis`
 ALTER TABLE `comunion`
   ADD CONSTRAINT `comunion_ibfk_1` FOREIGN KEY (`id_feligres`) REFERENCES `feligres` (`id_feligres`),
   ADD CONSTRAINT `comunion_ibfk_2` FOREIGN KEY (`id_ministro`) REFERENCES `ministros` (`id_ministro`),
-  ADD CONSTRAINT `comunion_ibfk_3` FOREIGN KEY (`id_parroquia`) REFERENCES `parroquia` (`id_parroquia`);
+  ADD CONSTRAINT `comunion_ibfk_3` FOREIGN KEY (`id_parroquia`) REFERENCES `parroquia` (`id_parroquia`),
+  ADD CONSTRAINT `comunion_ibfk_4` FOREIGN KEY (`id_pago`) REFERENCES `pago` (`id_pago`) ON DELETE SET NULL;
 
 --
 -- Filtros para la tabla `confirmacion`
@@ -694,7 +725,8 @@ ALTER TABLE `comunion`
 ALTER TABLE `confirmacion`
   ADD CONSTRAINT `confirmacion_ibfk_1` FOREIGN KEY (`id_feligres`) REFERENCES `feligres` (`id_feligres`),
   ADD CONSTRAINT `confirmacion_ibfk_2` FOREIGN KEY (`id_ministro`) REFERENCES `ministros` (`id_ministro`),
-  ADD CONSTRAINT `confirmacion_ibfk_3` FOREIGN KEY (`id_parroquia`) REFERENCES `parroquia` (`id_parroquia`);
+  ADD CONSTRAINT `confirmacion_ibfk_3` FOREIGN KEY (`id_parroquia`) REFERENCES `parroquia` (`id_parroquia`),
+  ADD CONSTRAINT `confirmacion_ibfk_4` FOREIGN KEY (`id_pago`) REFERENCES `pago` (`id_pago`) ON DELETE SET NULL;
 
 --
 -- Filtros para la tabla `curso`
@@ -706,7 +738,8 @@ ALTER TABLE `curso`
 -- Filtros para la tabla `matrimonio`
 --
 ALTER TABLE `matrimonio`
-  ADD CONSTRAINT `matrimonio_ibfk_2` FOREIGN KEY (`id_ministro`) REFERENCES `ministros` (`id_ministro`);
+  ADD CONSTRAINT `matrimonio_ibfk_2` FOREIGN KEY (`id_ministro`) REFERENCES `ministros` (`id_ministro`),
+  ADD CONSTRAINT `matrimonio_ibfk_3` FOREIGN KEY (`id_pago`) REFERENCES `pago` (`id_pago`) ON DELETE SET NULL;
 
 --
 -- Filtros para la tabla `matrimonio_feligres`
